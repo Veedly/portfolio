@@ -48,8 +48,13 @@ export function Navigation({
           <span className="mono-label" style={{ color: "var(--color-accent-success)" }}>
             {availabilityStatus}
           </span>
-          <Link className="mono-label" href={alternateHref || `/${nextLocale}`}>
-            RU / EN
+          <Link
+            className="language-toggle"
+            href={alternateHref || `/${nextLocale}`}
+            aria-label={`Switch language to ${nextLocale.toUpperCase()}`}
+          >
+            <span className={locale === "ru" ? "active" : undefined}>RU</span>
+            <span className={locale === "en" ? "active" : undefined}>EN</span>
           </Link>
         </div>
       </nav>

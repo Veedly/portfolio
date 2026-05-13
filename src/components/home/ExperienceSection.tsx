@@ -6,23 +6,24 @@ export function ExperienceSection({ items }: { items: Experience[] }) {
   return (
     <section className="container" style={{ padding: "120px 0" }}>
       <p className="mono-label">EXPERIENCE & IMPACT</p>
-      <h2
-        style={{
-          fontFamily: "var(--font-hero)",
-          fontSize: "clamp(48px, 6vw, 80px)",
-          lineHeight: 1.1,
-          fontWeight: 400,
-          maxWidth: 750,
-          margin: "18px auto 0",
-        }}
-      >
-        2020–2026: product design for complex interfaces
-      </h2>
-      <p style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 607, margin: "36px auto 0" }}>
-        Worked across fintech, B2B, CRM, internal tools, and design systems: from early structure and prototypes to UI,
-        tokens, and development handoff.
-      </p>
-      <div style={{ maxWidth: 740, margin: "56px auto 0" }}>
+      <div className="experience-content" style={{ maxWidth: 750, marginLeft: 260 }}>
+        <h2
+          style={{
+            fontFamily: "var(--font-hero)",
+            fontSize: "clamp(48px, 6vw, 80px)",
+            lineHeight: 1.1,
+            fontWeight: 400,
+            margin: "-14px 0 0",
+          }}
+        >
+          2020–2026: product design for complex interfaces
+        </h2>
+        <p style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 607, margin: "36px 0 0" }}>
+          Worked across fintech, B2B, CRM, internal tools, and design systems: from early structure and prototypes to UI,
+          tokens, and development handoff.
+        </p>
+      </div>
+      <div className="experience-content" style={{ maxWidth: 740, margin: "56px 0 0 260px" }}>
         {items.map((item) => (
           <div
             key={`${item.company}-${item.period}`}

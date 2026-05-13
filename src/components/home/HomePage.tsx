@@ -26,9 +26,9 @@ export function HomePage({ locale, settings, featuredCases, featuredShots, exper
       <main>
         <section
           className="container hero-section"
-          style={{ minHeight: 720, display: "grid", placeItems: "center", textAlign: "center" }}
+          style={{ minHeight: 744, display: "grid", justifyItems: "center", alignItems: "start", textAlign: "center" }}
         >
-          <div>
+          <div style={{ paddingTop: 88 }}>
             <div
               aria-hidden
               style={{
@@ -36,16 +36,16 @@ export function HomePage({ locale, settings, featuredCases, featuredShots, exper
                 height: 150,
                 borderRadius: 32,
                 background: "#d9d9d9",
-                margin: "0 auto 34px",
+                margin: "0 auto 42px",
               }}
             />
-            <p className="mono-label" style={{ color: "var(--color-text-primary)" }}>
-              {settings.role}
-            </p>
-            <h1 className="hero-display" style={{ margin: "20px 0" }}>
+            <h1 className="hero-display" style={{ margin: 0 }}>
               {settings.name}
             </h1>
-            <p style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 420, margin: "0 auto" }}>
+            <p className="mono-label hero-role" style={{ color: "var(--color-text-primary)", margin: "16px 0 0" }}>
+              {settings.role}
+            </p>
+            <p style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 420, margin: "21px auto 0" }}>
               {settings.intro}
             </p>
           </div>
