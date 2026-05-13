@@ -82,4 +82,63 @@ button {
   .container {
     width: calc(100vw - 24px);
   }
+
+  header nav,
+  header nav > div,
+  header nav > div > div {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  header nav {
+    flex-direction: column;
+  }
+
+  .hero-section {
+    min-height: 560px !important;
+    padding: 48px 0 72px;
+  }
+
+  .project-row-meta,
+  .about-focus,
+  .case-section,
+  .case-context > div,
+  .case-meta-grid,
+  .metric-row,
+  .solution-copy,
+  .experience-row,
+  .focus-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .shots-strip > div:last-child {
+    grid-template-columns: repeat(4, minmax(260px, 1fr)) !important;
+    justify-content: start !important;
+    margin-left: 12px !important;
+    margin-right: 12px !important;
+    overflow-x: auto;
+  }
+
+  [style*="grid-template-columns: repeat(4"],
+  [style*="grid-template-columns: repeat(3"],
+  [style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [style*="height: 655px"],
+  [style*="height: 400px"],
+  [style*="height: 368px"] {
+    height: auto !important;
+    min-height: 260px;
+  }
+
+  footer [style*="display: grid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  footer [style*="justify-content: space-between"] {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+  }
 }
