@@ -1,0 +1,22 @@
+import { defineField, defineType } from "sanity";
+import { localizedString, localizedText } from "./localized";
+
+export const siteSettingsType = defineType({
+  name: "siteSettings",
+  title: "Site settings",
+  type: "document",
+  fields: [
+    localizedString("name", "Name"),
+    localizedString("role", "Role"),
+    localizedText("intro", "Intro"),
+    localizedString("availabilityStatus", "Availability status"),
+    defineField({ name: "telegram", type: "string" }),
+    defineField({ name: "email", type: "string" }),
+    defineField({ name: "behance", type: "url" }),
+    defineField({ name: "cvFile", type: "file" }),
+    localizedString("footerNote", "Footer note"),
+  ],
+  preview: {
+    prepare: () => ({ title: "Site settings" }),
+  },
+});
