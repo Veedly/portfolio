@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build the approved product designer portfolio with Next.js, Sanity CMS, Figma-matched pages, typed case blocks, and a `/shots` gallery.
+**Goal:** Build the approved bilingual product designer portfolio with Next.js, Sanity CMS, Figma-matched pages, typed case blocks, and a locale-prefixed `/shots` gallery.
 
-**Architecture:** The public site uses Next.js App Router with typed React components and Sanity as the hosted content source. Sanity schemas define `case`, typed case blocks, `shot`, `siteSettings`, `experience`, and `focusItem`; frontend routes fetch published content through GROQ queries and render dedicated components for each page section.
+**Architecture:** The public site uses Next.js App Router with `ru` and `en` locale-prefixed routes and Sanity as the hosted content source. Sanity stores Russian and English fields in the same document via localized objects, and frontend routes resolve localized values before rendering dedicated React components.
 
 **Tech Stack:** Next.js, React, TypeScript, Sanity, `next-sanity`, `@sanity/image-url`, Vitest, Testing Library, CSS Modules/global CSS tokens, Vercel-ready environment variables.
 
@@ -28,9 +28,10 @@ Create or modify these paths:
 - `vitest.config.ts`: test config using `jsdom`.
 - `.env.example`: documented Sanity environment keys.
 - `src/app/layout.tsx`: root layout, font variables, metadata, global shell.
-- `src/app/page.tsx`: homepage route.
-- `src/app/work/[slug]/page.tsx`: case detail route.
-- `src/app/shots/page.tsx`: shots gallery route.
+- `src/app/page.tsx`: redirects root to `/ru`.
+- `src/app/[locale]/page.tsx`: localized homepage route.
+- `src/app/[locale]/work/[slug]/page.tsx`: localized case detail route.
+- `src/app/[locale]/shots/page.tsx`: localized shots gallery route.
 - `src/app/studio/[[...tool]]/page.tsx`: embedded Sanity Studio route.
 - `src/app/not-found.tsx`: shared 404 page.
 - `src/app/globals.css`: design tokens, reset, responsive primitives.
@@ -48,6 +49,8 @@ Create or modify these paths:
 - `src/sanity/structure.ts`: Studio sidebar structure.
 - `sanity.config.ts`: Sanity Studio config.
 - `src/types/content.ts`: frontend content types.
+- `src/i18n/config.ts`: locale constants and validation.
+- `src/i18n/localize.ts`: helpers for resolving localized Sanity fields.
 - `src/lib/format.ts`: small formatting helpers.
 - `src/components/layout/Navigation.tsx`: top nav.
 - `src/components/layout/Footer.tsx`: contact footer.
@@ -73,6 +76,7 @@ Create or modify these paths:
 - Create: `tsconfig.json`
 - Create: `src/app/layout.tsx`
 - Create: `src/app/page.tsx`
+- Create: `src/app/[locale]/page.tsx`
 - Create: `src/app/globals.css`
 - Modify: `.gitignore`
 
@@ -309,9 +313,14 @@ import Link from "next/link";
 
 type NavigationProps = {
   availabilityStatus?: string;
+  locale?: "ru" | "en";
+  alternateHref?: string;
 };
 
-export function Navigation({ availabilityStatus = "OPEN FOR PROJECTS" }: NavigationProps) {
+export function Navigation({ availabilityStatus = "OPEN FOR PROJECTS", locale = "ru", alternateHref }: NavigationProps) {
+  const nextLocale = locale === "ru" ? "en" : "ru";
+  const baseHref = `/${locale}`;
+
   return (
     <header className="container" style={{ padding: "18px 0" }}>
       <nav style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 24 }}>
@@ -321,15 +330,15 @@ export function Navigation({ availabilityStatus = "OPEN FOR PROJECTS" }: Navigat
             <span className="mono-label" style={{ color: "var(--color-text-secondary)" }}>DD</span>
           </Link>
           <div style={{ display: "flex", gap: 16 }}>
-            <Link className="mono-label" href="/#work">Work</Link>
-            <Link className="mono-label" href="/#about">Обо мне</Link>
-            <Link className="mono-label" href="/shots">Shots</Link>
-            <Link className="mono-label" href="/#contacts">Контакты</Link>
+            <Link className="mono-label" href={`${baseHref}#work`}>Work</Link>
+            <Link className="mono-label" href={`${baseHref}#about`}>Обо мне</Link>
+            <Link className="mono-label" href={`${baseHref}/shots`}>Shots</Link>
+            <Link className="mono-label" href={`${baseHref}#contacts`}>Контакты</Link>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span className="mono-label" style={{ color: "var(--color-accent-success)" }}>{availabilityStatus}</span>
-          <span className="mono-label">RU / EN</span>
+          <Link className="mono-label" href={alternateHref || `/${nextLocale}`}>RU / EN</Link>
         </div>
       </nav>
     </header>
@@ -489,6 +498,39 @@ Create `src/sanity/schemaTypes/caseBlocks.ts` with schema objects named:
 ```ts
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const localizedString = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "string" }),
+      defineField({ name: "en", title: "English", type: "string" }),
+    ],
+  });
+
+const localizedText = (name: string, title: string, rows = 3) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "text", rows }),
+      defineField({ name: "en", title: "English", type: "text", rows }),
+    ],
+  });
+
+const localizedBlocks = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "array", of: [{ type: "block" }] }),
+      defineField({ name: "en", title: "English", type: "array", of: [{ type: "block" }] }),
+    ],
+  });
+
 export const contextGrid = defineType({
   name: "contextGrid",
   title: "Context grid",
@@ -502,8 +544,8 @@ export const contextGrid = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "text", type: "text", rows: 3, validation: (Rule) => Rule.required() }),
+            localizedString("title", "Title"),
+            localizedText("text", "Text"),
           ],
         }),
       ],
@@ -517,8 +559,8 @@ export const richTextSection = defineType({
   title: "Rich text section",
   type: "object",
   fields: [
-    defineField({ name: "label", type: "string", validation: (Rule) => Rule.required() }),
-    defineField({ name: "body", type: "array", of: [{ type: "block" }], validation: (Rule) => Rule.required() }),
+    localizedString("label", "Label"),
+    localizedBlocks("body", "Body"),
   ],
 });
 
@@ -527,7 +569,7 @@ export const goalMetrics = defineType({
   title: "Goal and metrics",
   type: "object",
   fields: [
-    defineField({ name: "goal", type: "text", rows: 3, validation: (Rule) => Rule.required() }),
+    localizedText("goal", "Goal"),
     defineField({
       name: "metrics",
       type: "array",
@@ -535,8 +577,8 @@ export const goalMetrics = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "key", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "value", type: "text", rows: 2, validation: (Rule) => Rule.required() }),
+            localizedString("key", "Key"),
+            localizedText("value", "Value", 2),
           ],
         }),
       ],
@@ -549,8 +591,8 @@ export const callout = defineType({
   title: "Callout",
   type: "object",
   fields: [
-    defineField({ name: "label", type: "string", validation: (Rule) => Rule.required() }),
-    defineField({ name: "text", type: "text", rows: 3, validation: (Rule) => Rule.required() }),
+    localizedString("label", "Label"),
+    localizedText("text", "Text"),
   ],
 });
 
@@ -566,8 +608,8 @@ export const solutions = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "text", type: "text", rows: 4, validation: (Rule) => Rule.required() }),
+            localizedString("title", "Title"),
+            localizedText("text", "Text", 4),
             defineField({ name: "images", type: "array", of: [{ type: "image", options: { hotspot: true } }] }),
           ],
         }),
@@ -581,11 +623,11 @@ export const featureGrid = defineType({
   title: "Feature grid",
   type: "object",
   fields: [
-    defineField({ name: "intro", type: "text", rows: 2 }),
+    localizedText("intro", "Intro", 2),
     defineField({
       name: "items",
       type: "array",
-      of: [defineArrayMember({ type: "object", fields: [defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() })] })],
+      of: [defineArrayMember({ type: "object", fields: [localizedString("title", "Title")] })],
     }),
   ],
 });
@@ -595,8 +637,8 @@ export const resultBullets = defineType({
   title: "Result bullets",
   type: "object",
   fields: [
-    defineField({ name: "intro", type: "text", rows: 2 }),
-    defineField({ name: "bullets", type: "array", of: [{ type: "string" }], validation: (Rule) => Rule.min(1) }),
+    localizedText("intro", "Intro", 2),
+    defineField({ name: "bullets", type: "array", of: [defineArrayMember({ type: "object", fields: [localizedString("text", "Text")] })], validation: (Rule) => Rule.min(1) }),
   ],
 });
 
@@ -612,8 +654,8 @@ export const comparisonCards = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "label", type: "string" }),
-            defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
+            localizedString("label", "Label"),
+            localizedString("title", "Title"),
             defineField({ name: "success", type: "string" }),
             defineField({ name: "giveup", type: "string" }),
             defineField({ name: "time", type: "string" }),
@@ -621,7 +663,7 @@ export const comparisonCards = defineType({
         }),
       ],
     }),
-    defineField({ name: "note", type: "text", rows: 2 }),
+    localizedText("note", "Note", 2),
   ],
 });
 
@@ -637,8 +679,8 @@ export const takeaways = defineType({
         defineArrayMember({
           type: "object",
           fields: [
-            defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "body", type: "text", rows: 4, validation: (Rule) => Rule.required() }),
+            localizedString("title", "Title"),
+            localizedText("body", "Body", 4),
           ],
         }),
       ],
@@ -654,20 +696,53 @@ Create `src/sanity/schemaTypes/case.ts`:
 ```ts
 import { defineArrayMember, defineField, defineType } from "sanity";
 
+const localizedString = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "string" }),
+      defineField({ name: "en", title: "English", type: "string" }),
+    ],
+  });
+
+const localizedText = (name: string, title: string, rows = 2) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "text", rows }),
+      defineField({ name: "en", title: "English", type: "text", rows }),
+    ],
+  });
+
+const localizedStringArray = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "array", of: [{ type: "string" }] }),
+      defineField({ name: "en", title: "English", type: "array", of: [{ type: "string" }] }),
+    ],
+  });
+
 export const caseType = defineType({
   name: "case",
   title: "Case",
   type: "document",
   fields: [
-    defineField({ name: "title", type: "string", validation: (Rule) => Rule.required() }),
+    localizedString("title", "Title"),
     defineField({ name: "slug", type: "slug", options: { source: "title" }, validation: (Rule) => Rule.required() }),
-    defineField({ name: "subtitle", type: "text", rows: 2 }),
+    localizedText("subtitle", "Subtitle"),
     defineField({ name: "coverImage", type: "image", options: { hotspot: true } }),
     defineField({ name: "year", type: "string" }),
-    defineField({ name: "role", type: "string" }),
-    defineField({ name: "client", type: "string" }),
-    defineField({ name: "scope", type: "string" }),
-    defineField({ name: "tags", type: "array", of: [{ type: "string" }] }),
+    localizedString("role", "Role"),
+    localizedString("client", "Client"),
+    localizedString("scope", "Scope"),
+    localizedStringArray("tags", "Tags"),
     defineField({ name: "featured", type: "boolean", initialValue: false }),
     defineField({ name: "featuredOrder", type: "number", initialValue: 0 }),
     defineField({
@@ -694,14 +769,36 @@ Create `src/sanity/schemaTypes/shot.ts`:
 ```ts
 import { defineField, defineType } from "sanity";
 
+const localizedString = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "string" }),
+      defineField({ name: "en", title: "English", type: "string" }),
+    ],
+  });
+
+const localizedStringArray = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "array", of: [{ type: "string" }] }),
+      defineField({ name: "en", title: "English", type: "array", of: [{ type: "string" }] }),
+    ],
+  });
+
 export const shotType = defineType({
   name: "shot",
   title: "Shot",
   type: "document",
   fields: [
     defineField({ name: "image", type: "image", options: { hotspot: true }, validation: (Rule) => Rule.required() }),
-    defineField({ name: "title", type: "string" }),
-    defineField({ name: "tags", type: "array", of: [{ type: "string" }] }),
+    localizedString("title", "Title"),
+    localizedStringArray("tags", "Tags"),
     defineField({ name: "year", type: "string" }),
     defineField({ name: "relatedCase", type: "reference", to: [{ type: "case" }] }),
     defineField({ name: "featured", type: "boolean", initialValue: false }),
@@ -716,20 +813,42 @@ Create `src/sanity/schemaTypes/siteSettings.ts`:
 ```ts
 import { defineField, defineType } from "sanity";
 
+const localizedString = (name: string, title: string) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "string" }),
+      defineField({ name: "en", title: "English", type: "string" }),
+    ],
+  });
+
+const localizedText = (name: string, title: string, rows = 3) =>
+  defineField({
+    name,
+    title,
+    type: "object",
+    fields: [
+      defineField({ name: "ru", title: "Russian", type: "text", rows }),
+      defineField({ name: "en", title: "English", type: "text", rows }),
+    ],
+  });
+
 export const siteSettingsType = defineType({
   name: "siteSettings",
   title: "Site settings",
   type: "document",
   fields: [
-    defineField({ name: "name", type: "string", validation: (Rule) => Rule.required() }),
-    defineField({ name: "role", type: "string", validation: (Rule) => Rule.required() }),
-    defineField({ name: "intro", type: "text", rows: 3, validation: (Rule) => Rule.required() }),
-    defineField({ name: "availabilityStatus", type: "string" }),
+    localizedString("name", "Name"),
+    localizedString("role", "Role"),
+    localizedText("intro", "Intro"),
+    localizedString("availabilityStatus", "Availability status"),
     defineField({ name: "telegram", type: "string" }),
     defineField({ name: "email", type: "string" }),
     defineField({ name: "behance", type: "url" }),
     defineField({ name: "cvFile", type: "file" }),
-    defineField({ name: "footerNote", type: "string" }),
+    localizedString("footerNote", "Footer note"),
   ],
 });
 ```
@@ -865,16 +984,56 @@ git commit -m "feat: add sanity cms setup"
 ## Task 4: Add Content Types, Queries, And Query Tests
 
 **Files:**
+- Create: `src/i18n/config.ts`
+- Create: `src/i18n/localize.ts`
 - Create: `src/types/content.ts`
 - Create: `src/sanity/queries.ts`
 - Create: `vitest.config.ts`
 - Create: `src/sanity/queries.test.ts`
+
+- [ ] **Step 0: Add locale helpers**
+
+Create `src/i18n/config.ts`:
+
+```ts
+export const locales = ["ru", "en"] as const;
+
+export type Locale = (typeof locales)[number];
+
+export const defaultLocale: Locale = "ru";
+
+export function isLocale(value: string): value is Locale {
+  return locales.includes(value as Locale);
+}
+```
+
+Create `src/i18n/localize.ts`:
+
+```ts
+import { defaultLocale, type Locale } from "./config";
+
+export type Localized<T> = Partial<Record<Locale, T>>;
+
+export function localize<T>(value: Localized<T> | T | null | undefined, locale: Locale): T | undefined {
+  if (!value) return undefined;
+  if (typeof value !== "object" || Array.isArray(value)) return value as T;
+
+  const localized = value as Localized<T>;
+  return localized[locale] ?? localized[defaultLocale];
+}
+
+export function localizeRequired<T>(value: Localized<T> | T | null | undefined, locale: Locale, fallback: T): T {
+  return localize(value, locale) ?? fallback;
+}
+```
 
 - [ ] **Step 1: Add frontend content types**
 
 Create `src/types/content.ts` with exported types:
 
 ```ts
+import type { Localized } from "@/i18n/localize";
+
 export type SanityImage = {
   asset?: { _ref?: string; url?: string };
   alt?: string;
@@ -934,6 +1093,16 @@ export type CaseDetail = CaseSummary & {
   scope?: string;
   blocks: CaseBlock[];
 };
+
+export type RawLocalizedCase = Omit<CaseDetail, "title" | "subtitle" | "role" | "client" | "scope" | "tags" | "blocks"> & {
+  title: Localized<string>;
+  subtitle?: Localized<string>;
+  role?: Localized<string>;
+  client?: Localized<string>;
+  scope?: Localized<string>;
+  tags?: Localized<string[]>;
+  blocks: unknown[];
+};
 ```
 
 - [ ] **Step 2: Add GROQ queries**
@@ -989,6 +1158,10 @@ export const shotsQuery = `*[_type == "shot" && published == true] | order(order
   year
 }`;
 ```
+
+These queries intentionally return localized objects such as `title.ru` and
+`title.en`. Route code resolves them with `localize(...)` after fetching because
+the same query payload can serve both locales.
 
 - [ ] **Step 3: Add Vitest config**
 
@@ -1056,6 +1229,7 @@ git commit -m "feat: add sanity queries and content types"
 
 **Files:**
 - Modify: `src/app/page.tsx`
+- Create: `src/app/[locale]/page.tsx`
 - Create: `src/components/home/HomePage.tsx`
 - Create: `src/components/home/FeaturedWork.tsx`
 - Create: `src/components/home/ShotsStrip.tsx`
@@ -1076,6 +1250,7 @@ import { FeaturedWork } from "./FeaturedWork";
 import { ShotsStrip } from "./ShotsStrip";
 
 type HomePageProps = {
+  locale: "ru" | "en";
   settings: SiteSettings;
   featuredCases: CaseSummary[];
   featuredShots: Shot[];
@@ -1083,10 +1258,10 @@ type HomePageProps = {
   focus: FocusItem[];
 };
 
-export function HomePage({ settings, featuredCases, featuredShots, experience, focus }: HomePageProps) {
+export function HomePage({ locale, settings, featuredCases, featuredShots, experience, focus }: HomePageProps) {
   return (
     <>
-      <Navigation availabilityStatus={settings.availabilityStatus} />
+      <Navigation locale={locale} alternateHref={`/${locale === "ru" ? "en" : "ru"}`} availabilityStatus={settings.availabilityStatus} />
       <main>
         <section className="container" style={{ minHeight: 720, display: "grid", placeItems: "center", textAlign: "center" }}>
           <div>
@@ -1230,12 +1405,28 @@ export function AboutFocus({ focus }: { focus: FocusItem[] }) {
 }
 ```
 
-- [ ] **Step 4: Fetch homepage data in route**
+- [ ] **Step 4: Add root redirect**
 
 Replace `src/app/page.tsx` with:
 
 ```tsx
+import { redirect } from "next/navigation";
+import { defaultLocale } from "@/i18n/config";
+
+export default function RootPage() {
+  redirect(`/${defaultLocale}`);
+}
+```
+
+- [ ] **Step 5: Fetch homepage data in localized route**
+
+Create `src/app/[locale]/page.tsx`:
+
+```tsx
+import { notFound } from "next/navigation";
 import { HomePage } from "@/components/home/HomePage";
+import { isLocale, type Locale } from "@/i18n/config";
+import { localizeRequired } from "@/i18n/localize";
 import { sanityFetch } from "@/sanity/client";
 import { homeQuery } from "@/sanity/queries";
 import type { CaseSummary, Experience, FocusItem, Shot, SiteSettings } from "@/types/content";
@@ -1255,7 +1446,13 @@ const fallbackSettings: SiteSettings = {
   availabilityStatus: "OPEN FOR PROJECTS",
 };
 
-export default async function Page() {
+type Params = { locale: string };
+
+export default async function Page({ params }: { params: Promise<Params> }) {
+  const { locale: localeParam } = await params;
+  if (!isLocale(localeParam)) notFound();
+  const locale: Locale = localeParam;
+
   const data = await sanityFetch<HomePayload>(homeQuery).catch(() => ({
     settings: fallbackSettings,
     featuredCases: [],
@@ -1264,19 +1461,56 @@ export default async function Page() {
     focus: [],
   }));
 
+  const settings = data.settings
+    ? {
+        ...data.settings,
+        name: localizeRequired(data.settings.name, locale, fallbackSettings.name),
+        role: localizeRequired(data.settings.role, locale, fallbackSettings.role),
+        intro: localizeRequired(data.settings.intro, locale, fallbackSettings.intro),
+        availabilityStatus: localizeRequired(data.settings.availabilityStatus, locale, fallbackSettings.availabilityStatus || ""),
+        footerNote: localizeRequired(data.settings.footerNote, locale, ""),
+      }
+    : fallbackSettings;
+
+  const featuredCases = data.featuredCases.map((item) => ({
+    ...item,
+    title: localizeRequired(item.title, locale, item.slug),
+    subtitle: localizeRequired(item.subtitle, locale, ""),
+    tags: localizeRequired(item.tags, locale, []),
+  }));
+
+  const featuredShots = data.featuredShots.map((item) => ({
+    ...item,
+    title: localizeRequired(item.title, locale, ""),
+    tags: localizeRequired(item.tags, locale, []),
+  }));
+
+  const experience = data.experience.map((item) => ({
+    ...item,
+    company: localizeRequired(item.company, locale, ""),
+    role: localizeRequired(item.role, locale, ""),
+    period: localizeRequired(item.period, locale, ""),
+  }));
+
+  const focus = data.focus.map((item) => ({
+    ...item,
+    title: localizeRequired(item.title, locale, ""),
+  }));
+
   return (
     <HomePage
-      settings={data.settings || fallbackSettings}
-      featuredCases={data.featuredCases}
-      featuredShots={data.featuredShots}
-      experience={data.experience}
-      focus={data.focus}
+      settings={settings}
+      locale={locale}
+      featuredCases={featuredCases}
+      featuredShots={featuredShots}
+      experience={experience}
+      focus={focus}
     />
   );
 }
 ```
 
-- [ ] **Step 5: Verify homepage**
+- [ ] **Step 6: Verify homepage**
 
 Run:
 
@@ -1287,12 +1521,12 @@ npm run build
 
 Expected: homepage route compiles.
 
-- [ ] **Step 6: Commit homepage**
+- [ ] **Step 7: Commit homepage**
 
 Run:
 
 ```powershell
-git add src/app/page.tsx src/components/home
+git add src/app/page.tsx src/app/[locale]/page.tsx src/components/home src/i18n
 git commit -m "feat: build cms driven homepage"
 ```
 
@@ -1312,7 +1546,7 @@ git commit -m "feat: build cms driven homepage"
 - Create: `src/components/case/blocks/TakeawaysBlock.tsx`
 - Create: `src/components/case/CaseBlockRenderer.test.tsx`
 - Create: `src/test/fixtures/content.ts`
-- Modify: `src/app/work/[slug]/page.tsx`
+- Create: `src/app/[locale]/work/[slug]/page.tsx`
 
 - [ ] **Step 1: Write renderer test first**
 
@@ -1513,31 +1747,45 @@ Create the remaining block components with these exact render contracts:
 
 - [ ] **Step 5: Add case page route**
 
-Create `src/app/work/[slug]/page.tsx`:
+Create `src/app/[locale]/work/[slug]/page.tsx`:
 
 ```tsx
 import { notFound } from "next/navigation";
 import { CasePage } from "@/components/case/CasePage";
+import { isLocale, type Locale } from "@/i18n/config";
+import { localizeRequired } from "@/i18n/localize";
 import { sanityFetch } from "@/sanity/client";
 import { caseBySlugQuery, caseSlugsQuery } from "@/sanity/queries";
 import type { CaseDetail } from "@/types/content";
 
-type Params = { slug: string };
+type Params = { locale: string; slug: string };
 
 export async function generateStaticParams() {
   const slugs = await sanityFetch<{ slug: string }[]>(caseSlugsQuery).catch(() => []);
-  return slugs.map((item) => ({ slug: item.slug }));
+  return ["ru", "en"].flatMap((locale) => slugs.map((item) => ({ locale, slug: item.slug })));
 }
 
 export default async function WorkCasePage({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
+  const { locale: localeParam, slug } = await params;
+  if (!isLocale(localeParam)) notFound();
+  const locale: Locale = localeParam;
   const item = await sanityFetch<CaseDetail | null>(caseBySlugQuery, { slug }).catch(() => null);
 
   if (!item) {
     notFound();
   }
 
-  return <CasePage item={item} />;
+  const localizedItem = {
+    ...item,
+    title: localizeRequired(item.title, locale, item.slug),
+    subtitle: localizeRequired(item.subtitle, locale, ""),
+    role: localizeRequired(item.role, locale, ""),
+    client: localizeRequired(item.client, locale, ""),
+    scope: localizeRequired(item.scope, locale, ""),
+    tags: localizeRequired(item.tags, locale, []),
+  };
+
+  return <CasePage item={localizedItem} locale={locale} />;
 }
 ```
 
@@ -1552,10 +1800,12 @@ import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { CaseBlockRenderer } from "./CaseBlockRenderer";
 
-export function CasePage({ item }: { item: CaseDetail }) {
+export function CasePage({ item, locale }: { item: CaseDetail; locale: "ru" | "en" }) {
+  const nextLocale = locale === "ru" ? "en" : "ru";
+
   return (
     <>
-      <Navigation />
+      <Navigation locale={locale} alternateHref={`/${nextLocale}/work/${item.slug}`} />
       <main>
         <section className="container" style={{ padding: "48px 0 40px" }}>
           <div className="mono-label" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -1608,14 +1858,14 @@ Expected: tests, typecheck, and build pass.
 Run:
 
 ```powershell
-git add src/app/work src/components/case src/test
+git add src/app/[locale]/work src/components/case src/test
 git commit -m "feat: build typed case pages"
 ```
 
 ## Task 7: Build Shots Gallery Page
 
 **Files:**
-- Create: `src/app/shots/page.tsx`
+- Create: `src/app/[locale]/shots/page.tsx`
 - Create: `src/components/shots/ShotsPage.tsx`
 - Create: `src/components/shots/ShotLightbox.tsx`
 
@@ -1667,12 +1917,13 @@ import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { ShotLightbox } from "./ShotLightbox";
 
-export function ShotsPage({ shots }: { shots: Shot[] }) {
+export function ShotsPage({ shots, locale }: { shots: Shot[]; locale: "ru" | "en" }) {
+  const nextLocale = locale === "ru" ? "en" : "ru";
   const tags = Array.from(new Set(shots.flatMap((shot) => shot.tags || [])));
 
   return (
     <>
-      <Navigation />
+      <Navigation locale={locale} alternateHref={`/${nextLocale}/shots`} />
       <main className="container" style={{ padding: "96px 0 0" }}>
         <p className="mono-label">VISUAL NOTES</p>
         <h1 style={{ fontFamily: "var(--font-hero)", fontSize: "clamp(64px, 8vw, 112px)", lineHeight: 1, fontWeight: 400, margin: "24px 0" }}>
@@ -1691,19 +1942,33 @@ export function ShotsPage({ shots }: { shots: Shot[] }) {
 }
 ```
 
-- [ ] **Step 3: Add `/shots` route**
+- [ ] **Step 3: Add locale-prefixed shots route**
 
-Create `src/app/shots/page.tsx`:
+Create `src/app/[locale]/shots/page.tsx`:
 
 ```tsx
+import { notFound } from "next/navigation";
 import { ShotsPage } from "@/components/shots/ShotsPage";
+import { isLocale, type Locale } from "@/i18n/config";
+import { localizeRequired } from "@/i18n/localize";
 import { sanityFetch } from "@/sanity/client";
 import { shotsQuery } from "@/sanity/queries";
 import type { Shot } from "@/types/content";
 
-export default async function ShotsRoute() {
+type Params = { locale: string };
+
+export default async function ShotsRoute({ params }: { params: Promise<Params> }) {
+  const { locale: localeParam } = await params;
+  if (!isLocale(localeParam)) notFound();
+  const locale: Locale = localeParam;
   const shots = await sanityFetch<Shot[]>(shotsQuery).catch(() => []);
-  return <ShotsPage shots={shots} />;
+  const localizedShots = shots.map((shot) => ({
+    ...shot,
+    title: localizeRequired(shot.title, locale, ""),
+    tags: localizeRequired(shot.tags, locale, []),
+  }));
+
+  return <ShotsPage shots={localizedShots} locale={locale} />;
 }
 ```
 
@@ -1716,14 +1981,14 @@ npm run typecheck
 npm run build
 ```
 
-Expected: `/shots` compiles.
+Expected: `/[locale]/shots` compiles.
 
 - [ ] **Step 5: Commit shots page**
 
 Run:
 
 ```powershell
-git add src/app/shots src/components/shots
+git add src/app/[locale]/shots src/components/shots
 git commit -m "feat: add shots gallery"
 ```
 
@@ -1824,16 +2089,21 @@ Open these routes in the in-app browser:
 
 ```text
 http://localhost:3000/
-http://localhost:3000/shots
-http://localhost:3000/work/trillions
+http://localhost:3000/ru
+http://localhost:3000/en
+http://localhost:3000/ru/shots
+http://localhost:3000/en/shots
+http://localhost:3000/ru/work/trillions
+http://localhost:3000/en/work/trillions
 http://localhost:3000/studio
 ```
 
 Expected:
 
-- `/` renders without overlap at desktop width.
-- `/shots` renders a gallery and lightbox opens on click.
-- `/work/trillions` renders 404 until Sanity has a `trillions` case, or renders the case if content exists.
+- `/` redirects to `/ru`.
+- `/ru` and `/en` render without overlap at desktop width.
+- `/ru/shots` and `/en/shots` render a gallery and lightbox opens on click.
+- `/ru/work/trillions` and `/en/work/trillions` render 404 until Sanity has a `trillions` case, or render the case if content exists.
 - `/studio` loads the Sanity Studio shell when environment variables are valid.
 
 - [ ] **Step 6: Commit final polish**
@@ -1861,7 +2131,7 @@ Spec coverage:
 Plan checks:
 
 - No unsupported multi-user role work is included.
-- No full localization workflow is included.
+- Full public RU/EN localization is included with locale-prefixed routes.
 - Case builder is typed by block schemas and renderer components.
-- Shots are a separate `shot` collection and `/shots` page.
+- Shots are a separate `shot` collection and locale-prefixed `/[locale]/shots` page.
 - The plan accounts for the existing non-empty repository by generating the Next.js app in `.next-template` first.

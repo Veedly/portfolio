@@ -7,6 +7,7 @@ Date: 2026-05-13
 Build a portfolio website for a product designer with a CMS-managed case system.
 The site should match the provided Figma design and allow the owner to publish
 full case studies plus a separate Dribbble-style gallery for smaller visual work.
+All public content must be available in Russian and English.
 
 ## Approved Stack
 
@@ -14,13 +15,14 @@ full case studies plus a separate Dribbble-style gallery for smaller visual work
 - CMS: Sanity as a hosted CMS service.
 - Hosting: Vercel for the public site.
 - CMS route: embedded or connected Sanity Studio at `/studio`.
+- Internationalization: locale-prefixed public routes with `ru` as the default language.
 
 This stack keeps maintenance low while preserving full control over the public
 portfolio design.
 
 ## Pages
 
-### Home: `/`
+### Home: `/ru` and `/en`
 
 The homepage follows the Figma frame `Claude Portfolio / Home recreated`.
 It contains:
@@ -33,7 +35,7 @@ It contains:
 - About and focus section.
 - Contact footer.
 
-### Case Detail: `/work/[slug]`
+### Case Detail: `/ru/work/[slug]` and `/en/work/[slug]`
 
 The case page follows the Figma frame `Claude Portfolio / Trillions case recreated`.
 It is a structured case study page, not a free-form article.
@@ -53,7 +55,7 @@ The page contains:
 - Takeaways.
 - Shared contact footer.
 
-### Shots Gallery: `/shots`
+### Shots Gallery: `/ru/shots` and `/en/shots`
 
 The shots page is a Dribbble-style gallery for visual work that does not need a
 full case study.
@@ -67,10 +69,58 @@ It contains:
 
 The homepage gallery can reuse shots marked as featured.
 
+### Root Redirect: `/`
+
+The root route redirects to `/ru`.
+
 ### Sanity Studio: `/studio`
 
 Sanity Studio is used by one owner. No multi-user role system is required in the
 first version.
+
+## Internationalization
+
+The public site supports two locales:
+
+- `ru`: default locale.
+- `en`: secondary locale.
+
+Public URLs use a locale prefix. The language switcher should keep the visitor
+on the equivalent page when possible:
+
+- `/ru` switches to `/en`.
+- `/ru/work/trillions` switches to `/en/work/trillions`.
+- `/ru/shots` switches to `/en/shots`.
+
+Sanity should store Russian and English content in one document instead of
+duplicating documents per language. This keeps a case, shot, experience row, or
+settings record linked across languages.
+
+Use localized object fields for public text:
+
+```ts
+{
+  ru: "Русский текст",
+  en: "English text"
+}
+```
+
+For rich text, use localized portable text arrays:
+
+```ts
+{
+  ru: [{ _type: "block", children: [...] }],
+  en: [{ _type: "block", children: [...] }]
+}
+```
+
+Fallback behavior:
+
+- The site should prefer the requested locale.
+- If a localized optional field is missing, it can fall back to Russian.
+- A case should not be considered ready for the English version until its core
+  English fields are filled: title, subtitle, hero metadata, and case blocks.
+- The build should not crash because an optional localized field is missing.
 
 ## CMS Model
 
@@ -92,6 +142,16 @@ Fields:
 - `featured`: whether the case appears on the homepage.
 - `featuredOrder`: ordering for homepage featured work.
 - `blocks`: typed content blocks for the case detail page.
+
+Localized fields:
+
+- `title`
+- `subtitle`
+- `role`
+- `client`
+- `scope`
+- `tags`
+- all text fields inside `blocks`
 
 ### Case Blocks
 
@@ -117,8 +177,8 @@ Represents a standalone visual item for the `/shots` page and homepage gallery.
 Fields:
 
 - `image`: main visual.
-- `title`: optional short caption.
-- `tags`: categories for filtering.
+- `title`: optional localized short caption.
+- `tags`: localized categories for filtering.
 - `year`: optional year.
 - `relatedCase`: optional reference to a case.
 - `featured`: whether it appears in the homepage gallery.
@@ -141,6 +201,8 @@ Fields:
 - `cvFile`: downloadable CV.
 - `footerNote`: small footer text.
 
+All public text in `siteSettings` is localized.
+
 ### `experience`
 
 Represents experience rows on the homepage.
@@ -152,6 +214,8 @@ Fields:
 - `period`
 - `order`
 
+`company`, `role`, and `period` are localized.
+
 ### `focusItem`
 
 Represents focus rows on the homepage.
@@ -161,13 +225,16 @@ Fields:
 - `title`
 - `order`
 
+`title` is localized.
+
 ## Content Flow
 
 1. The owner creates or edits content in Sanity Studio.
 2. Next.js fetches published content from Sanity.
-3. The homepage renders featured cases and featured shots.
-4. Case pages render typed case blocks through dedicated React components.
-5. The shots page renders published shots in a responsive gallery with lightbox.
+3. The route locale determines which localized content is selected.
+4. The homepage renders featured cases and featured shots in the active locale.
+5. Case pages render typed case blocks through dedicated React components.
+6. The shots page renders published shots in a responsive gallery with lightbox.
 
 ## Design System
 
@@ -189,6 +256,7 @@ recreate the visual structure with responsive layout primitives.
 - Missing case slug should render a 404.
 - Missing optional shot metadata should not block rendering.
 - Unpublished cases and shots should not appear on the public site.
+- Unsupported locale should render a 404 or redirect to `/ru`.
 - Empty CMS lists should render clean fallback states in development and avoid
 broken sections in production.
 
@@ -199,7 +267,8 @@ Minimum verification:
 - TypeScript check.
 - Lint check.
 - Build check.
-- Manual browser verification for `/`, `/work/[slug]`, `/shots`, and `/studio`.
+- Manual browser verification for `/ru`, `/en`, `/ru/work/[slug]`,
+  `/en/work/[slug]`, `/ru/shots`, `/en/shots`, and `/studio`.
 - Responsive checks for desktop and mobile widths.
 
 Visual verification should compare the homepage and case page against the Figma
@@ -211,6 +280,7 @@ In scope for the first build:
 
 - Next.js project setup.
 - Sanity schema setup.
+- Locale routing and language switcher.
 - Homepage from Figma.
 - Case detail page from Figma.
 - Shots gallery page.
@@ -220,7 +290,6 @@ In scope for the first build:
 Out of scope for the first build:
 
 - Multi-user roles.
-- Full localization workflow.
 - Analytics dashboard.
 - Comments or public user accounts.
 - Advanced animation beyond simple interaction and hover states.
