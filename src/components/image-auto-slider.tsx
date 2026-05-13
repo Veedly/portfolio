@@ -30,19 +30,19 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
         .image-auto-slider-root {
           position: relative;
           display: flex;
-          min-height: 430px;
+          min-height: 368px;
           width: 100%;
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          background: #000;
+          background: transparent;
         }
 
         .image-auto-slider-bg {
           position: absolute;
           inset: 0;
           z-index: 0;
-          background: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.9), #000);
+          background: transparent;
         }
 
         .image-auto-slider-stage {
@@ -52,12 +52,12 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
           width: 100%;
           align-items: center;
           justify-content: center;
-          padding: 32px 0;
+          padding: 0;
         }
 
         .image-auto-slider-scroll-container {
           width: 100%;
-          max-width: 1152px;
+          max-width: none;
           mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
           -webkit-mask: linear-gradient(90deg, transparent 0%, black 10%, black 90%, transparent 100%);
         }
@@ -74,18 +74,20 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
         }
 
         .image-auto-slider-item {
-          width: 320px;
-          height: 320px;
+          width: 490px;
+          height: 368px;
           flex-shrink: 0;
           overflow: hidden;
-          border-radius: 12px;
-          box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+          border: 1px solid var(--color-bg-surface-raised);
+          border-radius: 0;
+          background: var(--color-bg-surface);
+          box-shadow: none;
           transition: transform 0.3s ease, filter 0.3s ease;
         }
 
         .image-auto-slider-item:hover {
-          transform: scale(1.05);
-          filter: brightness(1.1);
+          transform: translateY(-8px);
+          filter: brightness(1.06);
         }
 
         .image-auto-slider-item img {
@@ -100,21 +102,20 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
           bottom: 0;
           left: 0;
           z-index: 2;
-          height: 96px;
-          background: linear-gradient(to top, #000, transparent);
+          height: 0;
+          background: transparent;
         }
 
         @media (max-width: 720px) {
-          .image-auto-slider-root { min-height: 330px; }
+          .image-auto-slider-root { min-height: 300px; }
           .image-auto-slider-item {
-            width: 220px;
-            height: 220px;
+            width: 360px;
+            height: 300px;
           }
         }
       `}</style>
 
       <div className="image-auto-slider-root">
-        <div className="image-auto-slider-bg" />
         <div className="image-auto-slider-stage">
           <div className="image-auto-slider-scroll-container">
             <div className="image-auto-slider-infinite-scroll">
@@ -127,7 +128,6 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
             </div>
           </div>
         </div>
-        <div className="image-auto-slider-bottom-gradient" />
       </div>
     </>
   );

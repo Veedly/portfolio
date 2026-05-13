@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { Component as ImageAutoSlider } from "@/components/image-auto-slider";
 import type { Shot } from "@/types/content";
 import { urlFor } from "@/sanity/image";
@@ -13,7 +13,7 @@ export function ShotsStrip({ shots, locale }: { shots: Shot[]; locale: "ru" | "e
       <div className="container mono-label" style={{ display: "flex", justifyContent: "space-between", marginBottom: 32 }}>
         <span>GALLERY</span>
         <span style={{ display: "flex", gap: 24 }}>
-          <span>HOVER — PAUSES</span>
+          <span>HOVER - PAUSES</span>
           <Link href={`/${locale}/shots`}>VIEW ALL</Link>
         </span>
       </div>
