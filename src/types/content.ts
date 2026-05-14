@@ -8,6 +8,14 @@ export type SanityImage = {
   alt?: string;
 };
 
+export type SanityFile = {
+  asset?: {
+    _ref?: string;
+    url?: string;
+    mimeType?: string;
+  };
+};
+
 export type SiteSettings = {
   name: string;
   role: string;
@@ -43,7 +51,9 @@ export type CaseSummary = {
 
 export type Shot = {
   title?: string;
+  mediaType?: "image" | "video";
   image?: SanityImage;
+  videoFile?: SanityFile;
   tags?: string[];
   year?: string;
 };

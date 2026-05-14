@@ -34,7 +34,12 @@ export const homeQuery = `{
   },
   "featuredShots": *[_type == "shot" && published == true && featured == true] | order(order asc) {
     title,
+    mediaType,
     image{
+      ...,
+      asset->
+    },
+    videoFile{
       ...,
       asset->
     },
@@ -91,7 +96,12 @@ export const featuredCaseSuggestionsQuery = `*[_type == "case" && featured == tr
 
 export const shotsQuery = `*[_type == "shot" && published == true] | order(order asc) {
   title,
+  mediaType,
   image{
+    ...,
+    asset->
+  },
+  videoFile{
     ...,
     asset->
   },

@@ -25,16 +25,18 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
 
       <FlipReveal keys={[activeTag]} className="shots-grid" showClass="shot-card--visible" hideClass="shot-card--hidden">
         {shots.map((shot, index) => {
-          const imageUrl = getShotImageUrl(shot);
+          const media = getShotMedia(shot);
           const flipKey = shot.tags?.length ? shot.tags.join("|") : "uncategorized";
 
           return (
             <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card">
               <button type="button" onClick={() => setActive(shot)} className="shot-card-button">
                 <div className="shot-card-media">
-                  {imageUrl ? (
+                  {media?.type === "video" ? (
+                    <video src={media.src} poster={media.poster} muted loop playsInline autoPlay preload="metadata" />
+                  ) : media?.src ? (
                     // eslint-disable-next-line @next/next/no-img-element
-                    <img src={imageUrl} alt={shot.title || "Shot"} loading="lazy" />
+                    <img src={media.src} alt={shot.title || "Shot"} loading="lazy" />
                   ) : null}
                 </div>
                 <div className="shot-card-meta">
@@ -50,9 +52,11 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
       {active ? (
         <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
           <div className="shot-lightbox-panel">
-            {getShotImageUrl(active) ? (
+            {getShotMedia(active)?.type === "video" ? (
+              <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
+            ) : getShotMedia(active)?.src ? (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={getShotImageUrl(active)} alt={active.title || "Shot"} />
+              <img src={getShotMedia(active)?.src} alt={active.title || "Shot"} />
             ) : null}
             {active.title ? <p className="mono-label">{active.title}</p> : null}
           </div>
@@ -68,6 +72,18 @@ function FilterButton({ active, children, onClick }: { active: boolean; children
       {children}
     </button>
   );
+}
+
+function getShotMedia(shot: Shot) {
+  const imageUrl = getShotImageUrl(shot);
+  const videoUrl = shot.videoFile?.asset?.url || "";
+
+  if (shot.mediaType === "video" && videoUrl) {
+    return { type: "video" as const, src: videoUrl, poster: imageUrl };
+  }
+
+  if (!imageUrl) return null;
+  return { type: "image" as const, src: imageUrl };
 }
 
 function getShotImageUrl(shot: Shot) {

@@ -1,7 +1,17 @@
 import React from "react";
 
+export type SliderMediaItem =
+  | string
+  | {
+      type?: "image" | "video";
+      src: string;
+      poster?: string;
+      alt?: string;
+    };
+
 type ImageAutoSliderProps = {
   images?: string[];
+  items?: SliderMediaItem[];
 };
 
 const defaultImages = [
@@ -15,9 +25,9 @@ const defaultImages = [
   "https://images.unsplash.com/photo-1524799526615-766a9833dec0?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 
-export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
-  const sourceImages = images.length ? images : defaultImages;
-  const duplicatedImages = [...sourceImages, ...sourceImages];
+export const Component = ({ images = defaultImages, items }: ImageAutoSliderProps) => {
+  const sourceItems = normalizeItems(items?.length ? items : images.length ? images : defaultImages);
+  const duplicatedItems = [...sourceItems, ...sourceItems];
 
   return (
     <>
@@ -90,7 +100,9 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
           filter: brightness(1.06);
         }
 
-        .image-auto-slider-item img {
+        .image-auto-slider-item img,
+        .image-auto-slider-item video {
+          display: block;
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -119,10 +131,14 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
         <div className="image-auto-slider-stage">
           <div className="image-auto-slider-scroll-container">
             <div className="image-auto-slider-infinite-scroll">
-              {duplicatedImages.map((image, index) => (
-                <div key={`${image}-${index}`} className="image-auto-slider-item">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={image} alt={`Gallery image ${(index % sourceImages.length) + 1}`} loading="lazy" />
+              {duplicatedItems.map((item, index) => (
+                <div key={`${item.src}-${index}`} className="image-auto-slider-item">
+                  {item.type === "video" ? (
+                    <video src={item.src} poster={item.poster} muted loop playsInline autoPlay preload="metadata" />
+                  ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={item.src} alt={item.alt || `Gallery image ${(index % sourceItems.length) + 1}`} loading="lazy" />
+                  )}
                 </div>
               ))}
             </div>
@@ -132,3 +148,9 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
     </>
   );
 };
+
+function normalizeItems(items: SliderMediaItem[]) {
+  return items
+    .map((item) => (typeof item === "string" ? { type: "image" as const, src: item } : item))
+    .filter((item) => item.src);
+}

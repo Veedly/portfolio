@@ -32,3 +32,25 @@ test("renders shot category filters and marks the selected filter", () => {
   expect(screen.getByRole("button", { name: "CRM" }).classList.contains("is-active")).toBe(true);
   expect(screen.getByRole("button", { name: "ALL" }).classList.contains("is-active")).toBe(false);
 });
+
+test("renders video shots as video media", () => {
+  const { container } = render(
+    <ShotLightbox
+      shots={[
+        {
+          title: "Motion shot",
+          mediaType: "video",
+          tags: ["Motion"],
+          image: { asset: { url: "/poster.jpg" } },
+          videoFile: { asset: { url: "/motion.mp4", mimeType: "video/mp4" } },
+        },
+      ]}
+    />,
+  );
+
+  const video = container.querySelector("video");
+
+  expect(video).toBeTruthy();
+  expect(video?.getAttribute("src")).toBe("/motion.mp4");
+  expect(video?.getAttribute("poster")).toBe("/poster.jpg");
+});

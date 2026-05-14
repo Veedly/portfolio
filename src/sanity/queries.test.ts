@@ -21,5 +21,8 @@ describe("Sanity queries", () => {
 
   it("filters shots to published entries", () => {
     expect(shotsQuery).toContain("published == true");
+    expect(shotsQuery).toContain("mediaType");
+    expect(shotsQuery).toContain("videoFile");
+    expect(homeQuery).toContain("videoFile");
   });
 });

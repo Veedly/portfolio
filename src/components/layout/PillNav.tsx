@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 
@@ -21,6 +21,7 @@ type PillNavProps = {
 
 export function PillNav({ items, logoHref, logoLabel = "DD", ease = "power3.out" }: PillNavProps) {
   const pathname = usePathname();
+  const isClient = useClientReady();
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const timelineRefs = useRef<Array<gsap.core.Timeline | null>>([]);
   const activeTweenRefs = useRef<Array<gsap.core.Tween | null>>([]);
@@ -151,9 +152,17 @@ export function PillNav({ items, logoHref, logoLabel = "DD", ease = "power3.out"
     </div>
   );
 
-  if (typeof document === "undefined") return null;
+  if (!isClient) return null;
 
   return createPortal(nav, document.body);
+}
+
+function useClientReady() {
+  return useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
 }
 
 function isActiveHref(pathname: string | null, href: string) {
