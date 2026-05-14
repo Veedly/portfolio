@@ -14,7 +14,7 @@ export function BGPattern({
   variant = "dots",
   mask = "none",
   size = 24,
-  fill = "rgba(242, 242, 242, 0.12)",
+  fill = "var(--hero-pattern-dot)",
   className = "",
   style,
   ...props
