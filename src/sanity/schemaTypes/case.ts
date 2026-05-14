@@ -30,6 +30,7 @@ export const caseType = defineType({
       type: "array",
       of: [
         defineArrayMember({ type: "contextGrid" }),
+        defineArrayMember({ type: "problemSection" }),
         defineArrayMember({ type: "richTextSection" }),
         defineArrayMember({ type: "goalMetrics" }),
         defineArrayMember({ type: "callout" }),

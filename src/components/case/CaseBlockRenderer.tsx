@@ -4,6 +4,7 @@ import { ComparisonCardsBlock } from "./blocks/ComparisonCardsBlock";
 import { ContextGridBlock } from "./blocks/ContextGridBlock";
 import { FeatureGridBlock } from "./blocks/FeatureGridBlock";
 import { GoalMetricsBlock } from "./blocks/GoalMetricsBlock";
+import { ProblemSectionBlock } from "./blocks/ProblemSectionBlock";
 import { ResultBulletsBlock } from "./blocks/ResultBulletsBlock";
 import { RichTextSectionBlock } from "./blocks/RichTextSectionBlock";
 import { SolutionsBlock } from "./blocks/SolutionsBlock";
@@ -16,6 +17,8 @@ export function CaseBlockRenderer({ blocks }: { blocks: CaseBlock[] }) {
         switch (block._type) {
           case "contextGrid":
             return <ContextGridBlock key={index} block={block} />;
+          case "problemSection":
+            return <ProblemSectionBlock key={index} block={block} />;
           case "richTextSection":
             return <RichTextSectionBlock key={index} block={block} />;
           case "goalMetrics":

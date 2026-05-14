@@ -50,6 +50,13 @@ export type Shot = {
 
 export type CaseBlock =
   | { _type: "contextGrid"; items: { title: string; text: string }[] }
+  | {
+      _type: "problemSection";
+      label?: string;
+      title: string;
+      description?: string;
+      items?: { title: string; text: string }[];
+    }
   | { _type: "richTextSection"; label: string; body: unknown[] }
   | { _type: "goalMetrics"; goal: string; metrics: { key: string; value: string }[] }
   | { _type: "callout"; label: string; text: string }

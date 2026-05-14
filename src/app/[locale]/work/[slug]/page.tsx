@@ -207,6 +207,17 @@ function localizeCaseBlock(block: RawBlock, locale: Locale): CaseBlock | null {
         label: text(block.label, locale),
         body: localizeRequired(block.body as Localized<unknown[]> | unknown[], locale, []),
       };
+    case "problemSection":
+      return {
+        _type: "problemSection",
+        label: text(block.label, locale),
+        title: text(block.title, locale),
+        description: text(block.description, locale),
+        items: localizeArray<RawBlock>(block.items).map((item) => ({
+          title: text(item.title, locale),
+          text: text(item.text, locale),
+        })),
+      };
     case "goalMetrics":
       return {
         _type: "goalMetrics",

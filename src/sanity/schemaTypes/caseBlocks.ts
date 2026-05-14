@@ -28,6 +28,29 @@ export const richTextSection = defineType({
   fields: [localizedString("label", "Label"), localizedBlocks("body", "Body")],
 });
 
+export const problemSection = defineType({
+  name: "problemSection",
+  title: "Problem section",
+  type: "object",
+  fields: [
+    localizedString("label", "Label"),
+    localizedText("title", "Title", 3),
+    localizedText("description", "Description", 6),
+    defineField({
+      name: "items",
+      title: "List items",
+      description: "Optional structured list below the main problem text.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          fields: [localizedString("title", "Title"), localizedText("text", "Text", 2)],
+        }),
+      ],
+    }),
+  ],
+});
+
 export const goalMetrics = defineType({
   name: "goalMetrics",
   title: "Goal and metrics",

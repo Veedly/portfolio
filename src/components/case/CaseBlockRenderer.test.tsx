@@ -8,6 +8,8 @@ describe("CaseBlockRenderer", () => {
     render(<CaseBlockRenderer blocks={caseFixture.blocks} />);
 
     expect(screen.getByText("Product")).toBeTruthy();
+    expect(screen.getByText("Mobile flows did not fit the web context.")).toBeTruthy();
+    expect(screen.getByText("Flow length")).toBeTruthy();
     expect(screen.getByText("Гипотеза")).toBeTruthy();
     expect(screen.getByText("Simplified navigation")).toBeTruthy();
   });
