@@ -1,5 +1,6 @@
 import type { CaseSummary, Experience, FocusItem, Shot, SiteSettings } from "@/types/content";
 import { urlFor } from "@/sanity/image";
+import { BGPattern } from "@/components/bg-pattern";
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
 import { AboutFocus } from "./AboutFocus";
@@ -29,11 +30,9 @@ export function HomePage({ locale, settings, featuredCases, featuredShots, exper
         availabilityStatus={settings.availabilityStatus}
       />
       <main>
-        <section
-          className="container hero-section"
-          style={{ minHeight: 744, display: "grid", justifyItems: "center", alignItems: "start", textAlign: "center" }}
-        >
-          <div style={{ paddingTop: 88 }}>
+        <section className="hero-section">
+          <BGPattern variant="dots" mask="fade-center" size={22} className="hero-bg-pattern" aria-hidden="true" />
+          <div className="container hero-section-inner">
             {hasHeroImage ? (
               <div className="hero-photo-stack motion-reveal">
                 {darkHeroImageUrl ? (
