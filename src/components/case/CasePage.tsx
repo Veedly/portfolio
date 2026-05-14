@@ -1,23 +1,28 @@
 import Link from "next/link";
-import type { CaseDetail } from "@/types/content";
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
+import { ProjectShowcase, type ShowcaseProject } from "@/components/project-showcase";
+import { urlFor } from "@/sanity/image";
+import type { CaseDetail, CaseSummary } from "@/types/content";
 import { CaseBlockRenderer } from "./CaseBlockRenderer";
 
-export function CasePage({ item, locale }: { item: CaseDetail; locale: "ru" | "en" }) {
+export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail; locale: "ru" | "en"; relatedCases?: CaseSummary[] }) {
   const nextLocale = locale === "ru" ? "en" : "ru";
+  const coverUrl = getCaseCoverUrl(item);
+  const showcaseProjects = relatedCases.map((relatedCase) => toShowcaseProject(relatedCase, locale));
 
   return (
     <>
       <Navigation locale={locale} alternateHref={`/${nextLocale}/work/${item.slug}`} />
       <main>
         <section className="container" style={{ padding: "48px 0 40px" }}>
-          <div className="mono-label" style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="mono-label motion-reveal" style={{ display: "flex", justifyContent: "space-between" }}>
             <Link href={`/${locale}#work`}>← Назад ко всем работам</Link>
             <span>{item.year}</span>
           </div>
           <div style={{ textAlign: "center", marginTop: 38 }}>
             <h1
+              className="motion-reveal motion-delay-1"
               style={{
                 fontFamily: "var(--font-hero)",
                 fontSize: "clamp(64px, 8vw, 88px)",
@@ -28,10 +33,15 @@ export function CasePage({ item, locale }: { item: CaseDetail; locale: "ru" | "e
             >
               {item.title}
             </h1>
-            <p style={{ fontSize: 18, lineHeight: "28px", color: "var(--color-text-secondary)" }}>{item.subtitle}</p>
+            <p
+              className="motion-reveal motion-delay-2"
+              style={{ fontSize: 18, lineHeight: "28px", color: "var(--color-text-secondary)" }}
+            >
+              {item.subtitle}
+            </p>
           </div>
           <div
-            className="case-meta-grid"
+            className="case-meta-grid motion-reveal motion-delay-3"
             style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 20, marginTop: 52 }}
           >
             <Meta label="Год" value={item.year} />
@@ -40,8 +50,26 @@ export function CasePage({ item, locale }: { item: CaseDetail; locale: "ru" | "e
             <Meta label="Скоуп" value={item.scope} />
           </div>
         </section>
-        <div className="container" style={{ height: 655, borderRadius: 4, background: "var(--color-bg-surface-raised)" }} />
+        <div className="container motion-reveal motion-delay-4">
+          {coverUrl ? (
+            <div className="case-cover-media case-cover-media--detail">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={coverUrl} alt={item.coverImage?.alt || item.title} loading="eager" />
+            </div>
+          ) : (
+            <div className="case-cover-placeholder" aria-label={item.title}>
+              <span className="mono-label">{item.year}</span>
+              <strong>{item.title}</strong>
+            </div>
+          )}
+        </div>
         <CaseBlockRenderer blocks={item.blocks || []} />
+        <div className="container">
+          <ProjectShowcase
+            eyebrow={locale === "ru" ? "Другие кейсы" : "More cases"}
+            projects={showcaseProjects}
+          />
+        </div>
       </main>
       <Footer />
     </>
@@ -55,4 +83,27 @@ function Meta({ label, value }: { label: string; value?: string }) {
       <p style={{ margin: "8px 0 0" }}>{value || "—"}</p>
     </div>
   );
+}
+
+function getCaseCoverUrl(item: CaseDetail) {
+  if (item.coverImage?.asset?.url) return item.coverImage.asset.url;
+  if (!item.coverImage?.asset?._ref || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return "";
+  return urlFor(item.coverImage).width(1400).height(917).fit("crop").url();
+}
+
+function toShowcaseProject(item: CaseSummary, locale: "ru" | "en"): ShowcaseProject {
+  return {
+    title: item.title,
+    description: item.subtitle,
+    year: item.year,
+    link: `/${locale}/work/${item.slug}`,
+    image: getShowcasePreviewUrl(item),
+  };
+}
+
+function getShowcasePreviewUrl(item: CaseSummary) {
+  const previewImage = item.showcasePreviewImage || item.coverImage;
+  if (previewImage?.asset?.url) return previewImage.asset.url;
+  if (!previewImage?.asset?._ref || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return "";
+  return urlFor(previewImage).width(600).height(392).fit("crop").url();
 }

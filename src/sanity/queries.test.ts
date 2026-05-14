@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseBySlugQuery, homeQuery, shotsQuery } from "./queries";
+import { caseBySlugQuery, featuredCaseSuggestionsQuery, homeQuery, shotsQuery } from "./queries";
 
 describe("Sanity queries", () => {
   it("selects homepage content groups", () => {
@@ -12,6 +12,11 @@ describe("Sanity queries", () => {
 
   it("filters case pages by slug parameter", () => {
     expect(caseBySlugQuery).toContain("slug.current == $slug");
+    expect(caseBySlugQuery).toContain("showcasePreviewImage");
+  });
+
+  it("selects showcase preview images for related cases", () => {
+    expect(featuredCaseSuggestionsQuery).toContain("showcasePreviewImage");
   });
 
   it("filters shots to published entries", () => {

@@ -1,3 +1,5 @@
+import ThermodynamicGrid from "@/components/interactive-thermodynamic-grid";
+
 type FooterProps = {
   telegram?: string;
   email?: string;
@@ -12,42 +14,28 @@ export function Footer({
   footerNote = "© 2026 / Данил Деев",
 }: FooterProps) {
   return (
-    <footer
-      id="contacts"
-      style={{ borderTop: "1px solid var(--color-border-subtle)", marginTop: 120, paddingTop: 80 }}
-    >
-      <div className="container" style={{ textAlign: "center" }}>
+    <footer id="contacts" className="site-footer motion-reveal">
+      <ThermodynamicGrid
+        data-testid="footer-thermodynamic-grid"
+        className="site-footer-grid"
+        resolution={12}
+        coolingFactor={0.975}
+        aria-hidden="true"
+      />
+      <div className="site-footer-vignette" aria-hidden="true" />
+      <div className="container site-footer-content">
         <p className="mono-label">КОНТАКТЫ</p>
-        <h2
-          style={{
-            fontFamily: "var(--font-hero)",
-            fontSize: "clamp(56px, 7vw, 88px)",
-            lineHeight: 1,
-            fontWeight: 400,
-            margin: "24px 0 88px",
-          }}
-        >
+        <h2 className="site-footer-title">
           Let&apos;s discuss
           <br />a project
         </h2>
-        <div
-          style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 24, textAlign: "left" }}
-        >
+        <div className="site-footer-contacts">
           <ContactItem label="Telegram" value={telegram} />
           <ContactItem label="Email" value={email} />
           <ContactItem label="Behance" value={behance} />
           <ContactItem label="CV" value="Download CV" />
         </div>
-        <div
-          className="mono-label"
-          style={{
-            borderTop: "1px solid var(--color-border-subtle)",
-            marginTop: 80,
-            padding: "20px 0",
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
+        <div className="mono-label site-footer-bottom">
           <span>{footerNote}</span>
           <span>Made with care</span>
         </div>

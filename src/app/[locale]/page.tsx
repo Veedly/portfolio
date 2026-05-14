@@ -15,6 +15,11 @@ import type {
 
 type Params = { locale: string };
 
+const trillionsCoverImage = {
+  alt: "Trillions crypto banking dashboard on a laptop",
+  asset: { url: "/images/trillions-cover.jpg" },
+};
+
 const fallbackSettings: SiteSettings = {
   name: "Danil Deev",
   role: "PRODUCT DESIGNER",
@@ -33,6 +38,7 @@ const fallbackCases: CaseSummary[] = [
     subtitle: "Web version of a crypto bank",
     year: "2025",
     tags: ["FINTECH", "WEB", "DESIGN SYSTEM"],
+    coverImage: trillionsCoverImage,
   },
   {
     title: "Nibble Invest",
@@ -95,6 +101,8 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
         name: localizeRequired(data.settings.name, locale, fallbackSettings.name),
         role: localizeRequired(data.settings.role, locale, fallbackSettings.role),
         intro: localizeRequired(data.settings.intro, locale, fallbackSettings.intro),
+        heroImageDark: data.settings.heroImageDark,
+        heroImageLight: data.settings.heroImageLight,
         availabilityStatus: localizeRequired(
           data.settings.availabilityStatus,
           locale,
@@ -104,11 +112,13 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
       }
     : fallbackSettings;
 
-  const featuredCases = (data.featuredCases?.length ? data.featuredCases : fallbackCases).map((item) => ({
+  const hasCmsCases = Boolean(data.featuredCases?.length);
+  const featuredCases = (hasCmsCases ? data.featuredCases || [] : fallbackCases).map((item) => ({
     ...item,
     title: localizeRequired(item.title, locale, item.slug),
     subtitle: localizeRequired(item.subtitle, locale, ""),
     tags: localizeRequired(item.tags, locale, []),
+    coverImage: item.coverImage || (!hasCmsCases && item.slug === "trillions" ? trillionsCoverImage : undefined),
   }));
 
   const featuredShots = (data.featuredShots?.length ? data.featuredShots : fallbackShots).map((item) => ({

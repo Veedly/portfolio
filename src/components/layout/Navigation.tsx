@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeToggle } from "./ThemeToggle";
 
 type Locale = "ru" | "en";
 
@@ -8,13 +9,27 @@ type NavigationProps = {
   alternateHref?: string;
 };
 
-export function Navigation({
-  availabilityStatus = "OPEN FOR PROJECTS",
-  locale = "ru",
-  alternateHref,
-}: NavigationProps) {
+const navLabels = {
+  ru: {
+    work: "Работы",
+    about: "Обо мне",
+    shots: "Шоты",
+    contacts: "Контакты",
+    availability: "ОТКРЫТ ДЛЯ ПРОЕКТОВ",
+  },
+  en: {
+    work: "Work",
+    about: "About",
+    shots: "Shots",
+    contacts: "Contacts",
+    availability: "OPEN FOR PROJECTS",
+  },
+} satisfies Record<Locale, Record<string, string>>;
+
+export function Navigation({ availabilityStatus, locale = "ru", alternateHref }: NavigationProps) {
   const nextLocale = locale === "ru" ? "en" : "ru";
   const baseHref = `/${locale}`;
+  const labels = navLabels[locale];
 
   return (
     <header className="container" style={{ padding: "18px 0" }}>
@@ -31,23 +46,24 @@ export function Navigation({
           </Link>
           <div style={{ display: "flex", gap: 16 }}>
             <Link className="mono-label" href={`${baseHref}#work`}>
-              Work
+              {labels.work}
             </Link>
             <Link className="mono-label" href={`${baseHref}#about`}>
-              Обо мне
+              {labels.about}
             </Link>
             <Link className="mono-label" href={`${baseHref}/shots`}>
-              Shots
+              {labels.shots}
             </Link>
             <Link className="mono-label" href={`${baseHref}#contacts`}>
-              Контакты
+              {labels.contacts}
             </Link>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <span className="mono-label" style={{ color: "var(--color-accent-success)" }}>
-            {availabilityStatus}
+            {availabilityStatus || labels.availability}
           </span>
+          <ThemeToggle />
           <Link
             className="language-toggle"
             href={alternateHref || `/${nextLocale}`}

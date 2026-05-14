@@ -9,7 +9,7 @@ export function ShotsStrip({ shots, locale }: { shots: Shot[]; locale: "ru" | "e
   const images = shots.map(getImageUrl).filter(Boolean);
 
   return (
-    <section className="shots-strip" style={{ padding: "80px 0", overflow: "hidden" }}>
+    <section className="shots-strip motion-reveal" style={{ padding: "80px 0", overflow: "hidden" }}>
       <div className="container mono-label" style={{ display: "flex", justifyContent: "space-between", marginBottom: 32 }}>
         <span>GALLERY</span>
         <span style={{ display: "flex", gap: 24 }}>

@@ -3,11 +3,16 @@ import { CasePage } from "@/components/case/CasePage";
 import { isLocale, type Locale } from "@/i18n/config";
 import { localizeRequired, type Localized } from "@/i18n/localize";
 import { sanityFetch } from "@/sanity/client";
-import { caseBySlugQuery, caseSlugsQuery } from "@/sanity/queries";
-import type { CaseBlock, CaseDetail, RawLocalizedCase } from "@/types/content";
+import { caseBySlugQuery, caseSlugsQuery, featuredCaseSuggestionsQuery } from "@/sanity/queries";
+import type { CaseBlock, CaseDetail, CaseSummary, RawLocalizedCase, RawLocalizedCaseSummary } from "@/types/content";
 
 type Params = { locale: string; slug: string };
 type RawBlock = Record<string, unknown> & { _type?: string };
+
+const trillionsCoverImage = {
+  alt: "Trillions crypto banking dashboard on a laptop",
+  asset: { url: "/images/trillions-cover.jpg" },
+};
 
 const fallbackCase: CaseDetail = {
   title: "Trillions",
@@ -18,6 +23,7 @@ const fallbackCase: CaseDetail = {
   client: "Trillions",
   scope: "Fintech · Web · Design System",
   tags: ["FINTECH", "WEB", "DESIGN SYSTEM"],
+  coverImage: trillionsCoverImage,
   blocks: [
     {
       _type: "contextGrid",
@@ -120,6 +126,23 @@ const fallbackCase: CaseDetail = {
   ],
 };
 
+const fallbackRelatedCases: CaseSummary[] = [
+  {
+    title: "Nibble Invest",
+    slug: "nibble-invest",
+    subtitle: "Investment product interface and design system",
+    year: "2024",
+    tags: ["FINTECH", "MOBILE", "PRODUCT"],
+  },
+  {
+    title: "CRM List",
+    slug: "crm-list",
+    subtitle: "Operational CRM for internal sales workflows",
+    year: "2023",
+    tags: ["B2B", "CRM", "WEB APP"],
+  },
+];
+
 export async function generateStaticParams() {
   const slugs = await sanityFetch<{ slug: string }[]>(caseSlugsQuery).catch(() => [{ slug: "trillions" }]);
   return ["ru", "en"].flatMap((locale) => slugs.map((item) => ({ locale, slug: item.slug })));
@@ -129,8 +152,12 @@ export default async function WorkCasePage({ params }: { params: Promise<Params>
   const { locale: localeParam, slug } = await params;
   if (!isLocale(localeParam)) notFound();
   const locale: Locale = localeParam;
-  const item = await sanityFetch<RawLocalizedCase | null>(caseBySlugQuery, { slug }).catch(() => null);
+  const [item, relatedItems] = await Promise.all([
+    sanityFetch<RawLocalizedCase | null>(caseBySlugQuery, { slug }).catch(() => null),
+    sanityFetch<RawLocalizedCaseSummary[]>(featuredCaseSuggestionsQuery, { slug }).catch(() => []),
+  ]);
   const source = item || (slug === fallbackCase.slug ? fallbackCase : null);
+  const isFallbackCase = !item;
 
   if (!source) notFound();
 
@@ -142,10 +169,20 @@ export default async function WorkCasePage({ params }: { params: Promise<Params>
     client: localizeRequired(source.client, locale, ""),
     scope: localizeRequired(source.scope, locale, ""),
     tags: localizeRequired(source.tags, locale, []),
+    coverImage: source.coverImage || (isFallbackCase && source.slug === "trillions" ? trillionsCoverImage : undefined),
     blocks: localizeCaseBlocks(source.blocks || [], locale),
   };
 
-  return <CasePage item={localizedItem} locale={locale} />;
+  const relatedCases = (relatedItems.length ? relatedItems : fallbackRelatedCases)
+    .filter((relatedCase) => relatedCase.slug !== slug)
+    .map((relatedCase) => ({
+      ...relatedCase,
+      title: localizeRequired(relatedCase.title, locale, relatedCase.slug),
+      subtitle: localizeRequired(relatedCase.subtitle, locale, ""),
+      tags: localizeRequired(relatedCase.tags, locale, []),
+    }));
+
+  return <CasePage item={localizedItem} locale={locale} relatedCases={relatedCases} />;
 }
 
 function localizeCaseBlocks(blocks: unknown[], locale: Locale): CaseBlock[] {
@@ -200,7 +237,9 @@ function localizeCaseBlock(block: RawBlock, locale: Locale): CaseBlock | null {
       return {
         _type: "resultBullets",
         intro: text(block.intro, locale),
-        bullets: localizeRequired(block.bullets as Localized<string[]> | string[], locale, []),
+        bullets: localizeArray<RawBlock | string>(block.bullets)
+          .map((item) => (typeof item === "string" ? item : text(item.text, locale)))
+          .filter(Boolean),
       };
     case "comparisonCards":
       return {

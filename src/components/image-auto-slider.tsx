@@ -66,7 +66,7 @@ export const Component = ({ images = defaultImages }: ImageAutoSliderProps) => {
           display: flex;
           width: max-content;
           gap: 24px;
-          animation: scroll-right 20s linear infinite;
+          animation: scroll-right 40s linear infinite;
         }
 
         .image-auto-slider-scroll-container:hover .image-auto-slider-infinite-scroll {

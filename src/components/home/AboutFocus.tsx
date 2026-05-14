@@ -13,7 +13,7 @@ export function AboutFocus({ focus, locale }: { focus: FocusItem[]; locale: "ru"
   return (
     <section
       id="about"
-      className="container about-focus"
+      className="container about-focus motion-reveal"
       style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, padding: "120px 0" }}
     >
       <div>

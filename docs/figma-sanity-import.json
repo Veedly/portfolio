@@ -1,0 +1,198 @@
+[
+  {
+    "_id": "siteSettings",
+    "_type": "siteSettings",
+    "name": { "ru": "Данил Деев", "en": "Danil Deev" },
+    "role": { "ru": "ПРОДУКТОВЫЙ ДИЗАЙНЕР", "en": "PRODUCT DESIGNER" },
+    "intro": {
+      "ru": "Проектирую цифровые продукты с нуля — от исследований и флоу до дизайн‑систем и прототипов.",
+      "en": "I design digital products from scratch — from research and flows to design systems and prototypes."
+    },
+    "availabilityStatus": { "ru": "ОТКРЫТ К ПРОЕКТАМ", "en": "OPEN FOR PROJECTS" },
+    "telegram": "@veed_ux",
+    "email": "hello@danildeev.design",
+    "behance": "https://www.behance.net/",
+    "footerNote": { "ru": "© 2026 / Данил Деев", "en": "© 2026 / Danil Deev" }
+  },
+  { "_id": "focus-product-logic", "_type": "focusItem", "order": 1, "title": { "ru": "Продуктовая логика", "en": "Product logic" } },
+  { "_id": "focus-design-systems", "_type": "focusItem", "order": 2, "title": { "ru": "Дизайн‑системы", "en": "Design systems" } },
+  { "_id": "focus-complex-flows", "_type": "focusItem", "order": 3, "title": { "ru": "Сложные пользовательские flow", "en": "Complex user flows" } },
+  { "_id": "focus-fintech-b2b", "_type": "focusItem", "order": 4, "title": { "ru": "Финтех и B2B интерфейсы", "en": "Fintech and B2B interfaces" } },
+  { "_id": "experience-infinox", "_type": "experience", "order": 1, "company": { "ru": "INFINOX", "en": "INFINOX" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2025-now", "en": "2025-now" } },
+  { "_id": "experience-it-smart-finance", "_type": "experience", "order": 2, "company": { "ru": "IT Smart Finance", "en": "IT Smart Finance" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2023-2025", "en": "2023-2025" } },
+  { "_id": "experience-altessa", "_type": "experience", "order": 3, "company": { "ru": "Altessa Solutions", "en": "Altessa Solutions" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2023-2025", "en": "2023-2025" } },
+  { "_id": "experience-nlpc", "_type": "experience", "order": 4, "company": { "ru": "NLPC", "en": "NLPC" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2022-2023", "en": "2022-2023" } },
+  { "_id": "experience-synergy", "_type": "experience", "order": 5, "company": { "ru": "Synergy Web", "en": "Synergy Web" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2021-2022", "en": "2021-2022" } },
+  { "_id": "experience-maslo", "_type": "experience", "order": 6, "company": { "ru": "Maslo Media", "en": "Maslo Media" }, "role": { "ru": "Designer", "en": "Designer" }, "period": { "ru": "2020-2021", "en": "2020-2021" } },
+  {
+    "_id": "case-trillions",
+    "_type": "case",
+    "title": { "ru": "Trillions", "en": "Trillions" },
+    "slug": { "_type": "slug", "current": "trillions" },
+    "subtitle": { "ru": "От мобильного продукта к полноценной веб‑платформе", "en": "From a mobile product to a full web platform" },
+    "year": "2025",
+    "role": { "ru": "Продуктовый дизайнер", "en": "Product designer" },
+    "client": { "ru": "Trillions", "en": "Trillions" },
+    "scope": { "ru": "Веб‑платформа, дизайн‑система", "en": "Web platform, design system" },
+    "tags": { "ru": ["ФИНТЕХ", "WEB", "ДИЗАЙН‑СИСТЕМА"], "en": ["FINTECH", "WEB", "DESIGN SYSTEM"] },
+    "featured": true,
+    "featuredOrder": 1,
+    "blocks": [
+      {
+        "_key": "trillions-context",
+        "_type": "contextGrid",
+        "items": [
+          { "_key": "ctx1", "title": { "ru": "Продукт", "en": "Product" }, "text": { "ru": "Trillions — криптобанк с мобильным приложением. Поддерживает фиат и крипто счета, переводы, обмен валют, инвестиции.", "en": "Trillions is a crypto bank with a mobile app. It supports fiat and crypto accounts, transfers, currency exchange, and investments." } },
+          { "_key": "ctx2", "title": { "ru": "Роль", "en": "Role" }, "text": { "ru": "Проектирование пользовательских флоу и дизайн всей веб‑платформы.", "en": "Designing user flows and the full web platform." } },
+          { "_key": "ctx3", "title": { "ru": "Команда", "en": "Team" }, "text": { "ru": "PM отвечал за постановку задачи и скоуп; разработчики реализовывали продукт на основе дизайн‑системы и токенов.", "en": "The PM owned the brief and scope; developers built the product using the design system and tokens." } },
+          { "_key": "ctx4", "title": { "ru": "Скоуп", "en": "Scope" }, "text": { "ru": "Веб‑платформа и дизайн‑система строились с нуля.", "en": "The web platform and design system were built from scratch." } }
+        ]
+      },
+      {
+        "_key": "trillions-problem",
+        "_type": "richTextSection",
+        "label": { "ru": "ПРОБЛЕМА", "en": "PROBLEM" },
+        "body": {
+          "ru": [
+            { "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Trillions существовал только как мобильное приложение. Бизнес поставил задачу выйти на веб — охватить корпоративных клиентов, пользователей старшего поколения и тех, кто предпочитает работать с финансами на десктопе." }] },
+            { "_key": "p2", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Проблема была не просто в «переносе экранов»: мобильный флоу проектировался под маленький экран — линейно, пошагово. Флоу перевода занимал 3–4 экрана. На вебе такой подход создавал бы лишние переходы и ощущение сырого продукта." }] },
+            { "_key": "p3", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Дополнительная сложность — двойная доменная область: фиатные и криптоактивы с принципиально разной логикой, но единым интерфейсом." }] }
+          ],
+          "en": [
+            { "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Trillions existed only as a mobile app. The business goal was to move to the web: reach corporate clients, older users, and people who prefer managing finances on desktop." }] },
+            { "_key": "p2", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "The problem was not simply “moving screens”: the mobile flow was designed for a small screen, linear and step by step. A transfer flow took 3-4 screens. On the web, this would create unnecessary transitions and make the product feel unfinished." }] },
+            { "_key": "p3", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "An additional challenge was the dual domain: fiat and crypto assets have fundamentally different logic, but need one shared interface." }] }
+          ]
+        }
+      },
+      {
+        "_key": "trillions-goal",
+        "_type": "goalMetrics",
+        "goal": { "ru": "Запустить MVP веб‑версии и проверить востребованность веб‑канала среди B2C и B2B пользователей — тех, кому мобильного приложения недостаточно для сложных операций.", "en": "Launch the web MVP and validate demand for a web channel among B2C and B2B users who need more than a mobile app for complex operations." },
+        "metrics": [
+          { "_key": "m1", "key": { "ru": "Активация веб‑версии", "en": "Web activation" }, "value": { "ru": "Доля пользователей, совершивших первое действие — перевод или просмотр аналитики — в веб‑версии.", "en": "Share of users who complete a first action in the web version: a transfer or analytics view." } },
+          { "_key": "m2", "key": { "ru": "Платформенное распределение", "en": "Platform distribution" }, "value": { "ru": "Какой процент операций пользователи переносят с мобильного приложения на веб.", "en": "What percentage of operations users move from mobile to web." } },
+          { "_key": "m3", "key": { "ru": "Удержание", "en": "Retention" }, "value": { "ru": "Возвращаются ли пользователи в веб или используют его разово.", "en": "Whether users return to the web product or use it only once." } },
+          { "_key": "m4", "key": { "ru": "Успешный перевод", "en": "Transfer success" }, "value": { "ru": "Процент успешно завершённых флоу перевода crypto/fiat без прерывания сценария.", "en": "Percentage of successfully completed crypto/fiat transfer flows without interruption." } },
+          { "_key": "m5", "key": { "ru": "Drop-off форм", "en": "Form drop-off" }, "value": { "ru": "Уходят ли пользователи с формы перевода и обмена валют.", "en": "Whether users drop off from transfer and exchange forms." } }
+        ]
+      },
+      { "_key": "trillions-callout", "_type": "callout", "label": { "ru": "ГИПОТЕЗА", "en": "HYPOTHESIS" }, "text": { "ru": "Пользователи, работающие с крупными суммами или регулярными переводами, будут предпочитать веб‑версию — из‑за большего контекста и меньшего количества шагов. С аналитикой, отчётами и терминалом трейдинга в вебе работать удобнее.", "en": "Users working with large amounts or recurring transfers will prefer the web version because it gives more context and fewer steps. Analytics, reports, and a trading terminal are also easier to use on the web." } },
+      {
+        "_key": "trillions-solutions",
+        "_type": "solutions",
+        "items": [
+          { "_key": "s1", "title": { "ru": "Переработка флоу под веб‑контекст", "en": "Reworking flows for the web context" }, "text": { "ru": "Вместо переноса мобильных шагов «как есть» — переосмыслил логику действий под большой экран. На мобиле перевод на внешний кошелёк — это 3+ последовательных экрана: выбор счёта → адрес → сумма → подтверждение. На вебе всё собрано в один экран: From, Send to, Amount и итоговая сумма видны одновременно.", "en": "Instead of moving mobile steps as-is, I redesigned the action logic for a larger screen. On mobile, a transfer to an external wallet takes 3+ sequential screens: account selection, address, amount, confirmation. On web, everything is combined into one screen: From, Send to, Amount, and the final amount are visible at once." } },
+          { "_key": "s2", "title": { "ru": "Переключение контекста Fiat / Crypto", "en": "Switching the Fiat / Crypto context" }, "text": { "ru": "Спроектировал единый паттерн переключения между фиатным и крипто‑режимом. Таб Fiat/Crypto меняет не просто данные — меняется логика блоков, графики, структура счетов. При этом навигация и общий лейаут остаются стабильными.", "en": "I designed a single switching pattern between fiat and crypto modes. The Fiat/Crypto tab changes not only the data, but also block logic, charts, and account structure, while navigation and overall layout stay stable." } },
+          { "_key": "s3", "title": { "ru": "Дизайн‑система", "en": "Design system" }, "text": { "ru": "Построил единую дизайн‑систему для мобильной и веб‑платформы: компоненты, общие токены — цвет, типографика, отступы. Это обеспечило визуальную консистентность и ускорило разработку: команда получила систему переменных, а не набор статичных макетов.", "en": "I built a unified design system for mobile and web: components and shared tokens for color, typography, and spacing. This ensured visual consistency and accelerated development: the team received a variable system, not a set of static layouts." } }
+        ]
+      },
+      {
+        "_key": "trillions-features",
+        "_type": "featureGrid",
+        "intro": { "ru": "Авторизация через 2FA, управление фиат‑ и крипто‑счетами, история транзакций, аналитика, базовые переводы и обмен валют, раздел отчётов, поддержка, профиль.", "en": "2FA authentication, fiat and crypto account management, transaction history, analytics, basic transfers and currency exchange, reports, support, and profile." },
+        "items": [
+          { "_key": "f1", "title": { "ru": "Авторизация 2FA", "en": "2FA authentication" } },
+          { "_key": "f2", "title": { "ru": "Фиат‑ и крипто‑счета", "en": "Fiat and crypto accounts" } },
+          { "_key": "f3", "title": { "ru": "История транзакций", "en": "Transaction history" } },
+          { "_key": "f4", "title": { "ru": "Аналитика и дашборды", "en": "Analytics and dashboards" } },
+          { "_key": "f5", "title": { "ru": "Переводы и обмен", "en": "Transfers and exchange" } },
+          { "_key": "f6", "title": { "ru": "Отчёты", "en": "Reports" } },
+          { "_key": "f7", "title": { "ru": "Поддержка", "en": "Support" } },
+          { "_key": "f8", "title": { "ru": "Профиль", "en": "Profile" } }
+        ]
+      },
+      {
+        "_key": "trillions-result",
+        "_type": "resultBullets",
+        "intro": { "ru": "MVP находится в разработке. В качестве проектных артефактов:", "en": "The MVP is in development. Project artifacts include:" },
+        "bullets": [
+          { "_key": "b1", "text": { "ru": "Единая дизайн‑система, покрывающая мобильную и веб‑платформу.", "en": "A unified design system covering mobile and web." } },
+          { "_key": "b2", "text": { "ru": "Токены переданы в разработку и используются командой.", "en": "Tokens were handed off to development and are used by the team." } },
+          { "_key": "b3", "text": { "ru": "Все ключевые флоу переработаны под веб: многошаговые мобильные сценарии сжаты до одного экрана.", "en": "All key flows were adapted for web: multi-step mobile scenarios were compressed into one screen." } },
+          { "_key": "b4", "text": { "ru": "Спроектированы 11 разделов веб‑версии — от лендинга до профиля.", "en": "11 web sections were designed, from landing page to profile." } }
+        ]
+      },
+      { "_key": "trillions-takeaways", "_type": "takeaways", "items": [{ "_key": "t1", "title": { "ru": "Что бы сделал иначе", "en": "What I would do differently" }, "body": { "ru": "На старте провёл бы более формальное исследование с потенциальными веб‑пользователями, особенно B2B‑сегментом.", "en": "At the start, I would run more formal research with potential web users, especially the B2B segment." } }] }
+    ]
+  },
+  {
+    "_id": "case-nibble-invest",
+    "_type": "case",
+    "title": { "ru": "Nibble Invest", "en": "Nibble Invest" },
+    "slug": { "_type": "slug", "current": "nibble-invest" },
+    "subtitle": { "ru": "Краудлендинговая платформа для инвесторов и заёмщиков", "en": "Crowdlending platform for investors and borrowers" },
+    "year": "2024",
+    "role": { "ru": "Полный цикл: исследование, UX, UI, 3D", "en": "Full cycle: research, UX, UI, 3D" },
+    "client": { "ru": "Nibble Invest", "en": "Nibble Invest" },
+    "scope": { "ru": "P2B платформа, две воронки, регистрация", "en": "P2B platform, two funnels, registration" },
+    "tags": { "ru": ["P2B", "UX", "WEBSITE REDESIGN"], "en": ["P2B", "UX", "WEBSITE REDESIGN"] },
+    "featured": true,
+    "featuredOrder": 2,
+    "blocks": [
+      { "_key": "nibble-context", "_type": "contextGrid", "items": [
+        { "_key": "ctx1", "title": { "ru": "Продукт", "en": "Product" }, "text": { "ru": "Nibble Invest — P2B платформа, соединяющая частных инвесторов и малый бизнес. Инвесторы получают доход до 35% годовых, бизнес — займы без залога.", "en": "Nibble Invest is a P2B platform connecting private investors and small businesses. Investors earn up to 35% annually, while businesses get unsecured loans." } },
+        { "_key": "ctx2", "title": { "ru": "Команда", "en": "Team" }, "text": { "ru": "Маркетинг, аналитик и владелец продукта.", "en": "Marketing, analyst, and product owner." } },
+        { "_key": "ctx3", "title": { "ru": "Статус", "en": "Status" }, "text": { "ru": "Редизайн выполнен, production пока не запущен.", "en": "Redesign completed, production not launched yet." } }
+      ] },
+      { "_key": "nibble-problem", "_type": "richTextSection", "label": { "ru": "ПРОБЛЕМА", "en": "PROBLEM" }, "body": { "ru": [{ "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Старый сайт пытался говорить с двумя диаметрально разными аудиториями одновременно — инвесторами и заёмщиками — в рамках единой навигации." }] }], "en": [{ "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "The old website tried to speak to two completely different audiences at once: investors and borrowers, within one navigation structure." }] }] } },
+      { "_key": "nibble-goal", "_type": "goalMetrics", "goal": { "ru": "Привлечь больше заёмщиков на платформу — поднять конверсию в регистрацию заёмщика и снизить CAC. Заёмщик — ключевой сегмент для роста: без займов нет предложений для инвесторов.", "en": "Attract more borrowers to the platform: increase borrower registration conversion and reduce CAC. Borrowers are the key growth segment: without loans, there are no offers for investors." }, "metrics": [
+        { "_key": "m1", "key": { "ru": "Conversion Rate", "en": "Conversion Rate" }, "value": { "ru": "Регистрация заёмщика — ключевая бизнес‑метрика.", "en": "Borrower registration is the key business metric." } },
+        { "_key": "m2", "key": { "ru": "CAC заёмщика", "en": "Borrower CAC" }, "value": { "ru": "Органика и таргет после разделения потоков.", "en": "Organic and paid traffic after flow separation." } },
+        { "_key": "m3", "key": { "ru": "Drop-off rate", "en": "Drop-off rate" }, "value": { "ru": "Страница заёмщика и шаги регистрации.", "en": "Borrower page and registration steps." } }
+      ] },
+      { "_key": "nibble-solutions", "_type": "solutions", "items": [
+        { "_key": "s1", "title": { "ru": "Две изолированные воронки вместо одной", "en": "Two isolated funnels instead of one" }, "text": { "ru": "Полностью разделил страницы инвестора и заёмщика. Каждая говорит со своей аудиторией — своим языком, своими болями, своим CTA. Это позволило маркетингу запускать рекламу на конкретные посадочные страницы и снижать CAC.", "en": "I fully separated investor and borrower pages. Each speaks to its audience with its own language, pain points, and CTA. This allowed marketing to run ads to specific landing pages and reduce CAC." } },
+        { "_key": "s2", "title": { "ru": "Дизайн доверия на первом экране", "en": "Trust design on the first screen" }, "text": { "ru": "На обеих страницах лицензия ЦБ РФ и партнёры вынесены в hero. Для инвестора — живая статистика платформы. Для заёмщика — «150 млн ₽ уже выдано бизнесу» и «7 дней средний срок».", "en": "On both pages, the Central Bank license and partners were moved into the hero. For investors: live platform stats. For borrowers: “150M RUB already issued to businesses” and “7 days average term.”" } },
+        { "_key": "s3", "title": { "ru": "Переработка регистрации и входа", "en": "Redesigned registration and login" }, "text": { "ru": "Заменил иконку личного кабинета на явную кнопку «Войти». Добавил переключатель ролей «Я инвестор / Я заёмщик», сократил путь с 4 экранов до 2 и убрал дублирующиеся CTA.", "en": "I replaced the account icon with an explicit “Log in” button. Added the “I am an investor / I am a borrower” role switcher, reduced the path from 4 screens to 2, and removed duplicate CTAs." } }
+      ] },
+      { "_key": "nibble-result", "_type": "resultBullets", "intro": { "ru": "Редизайн в production не запущен — финальные макеты готовы и переданы. Проектные артефакты:", "en": "The redesign has not launched in production; final mockups are complete and handed off. Project artifacts:" }, "bullets": [
+        { "_key": "b1", "text": { "ru": "Две полноценные страницы с изолированными воронками для инвесторов и заёмщиков.", "en": "Two full pages with isolated funnels for investors and borrowers." } },
+        { "_key": "b2", "text": { "ru": "Регистрация сокращена с 4 экранов до 2; task success rate вырос с 60% до 100%, среднее время снизилось с 72 до 51 секунды.", "en": "Registration was reduced from 4 screens to 2; task success rate grew from 60% to 100%, and average time dropped from 72 to 51 seconds." } },
+        { "_key": "b3", "text": { "ru": "Собственный 3D‑иллюстративный пак.", "en": "Custom 3D illustration pack." } },
+        { "_key": "b4", "text": { "ru": "Preference A/B тест подтвердил превосходство нового визуала.", "en": "Preference A/B test confirmed the new visual direction performed better." } }
+      ] },
+      { "_key": "nibble-takeaways", "_type": "takeaways", "items": [{ "_key": "t1", "title": { "ru": "Что бы сделал иначе", "en": "What I would do differently" }, "body": { "ru": "Добился бы запуска в production быстрее — чтобы проверить гипотезы на реальном трафике, а не только на тесте.", "en": "I would push for a faster production launch to test hypotheses on real traffic, not only in tests." } }] }
+    ]
+  },
+  {
+    "_id": "case-crm-list",
+    "_type": "case",
+    "title": { "ru": "CRM List", "en": "CRM List" },
+    "slug": { "_type": "slug", "current": "crm-list" },
+    "subtitle": { "ru": "Система табелирования персонала", "en": "Staff timesheet management system" },
+    "year": "2023",
+    "role": { "ru": "IA, UX, UI, дизайн‑система", "en": "IA, UX, UI, design system" },
+    "client": { "ru": "CRM List", "en": "CRM List" },
+    "scope": { "ru": "Планирование смен, табели, выплаты", "en": "Shift planning, timesheets, payouts" },
+    "tags": { "ru": ["B2B", "CRM", "INTERNAL TOOL"], "en": ["B2B", "CRM", "INTERNAL TOOL"] },
+    "featured": true,
+    "featuredOrder": 3,
+    "blocks": [
+      { "_key": "crm-context", "_type": "contextGrid", "items": [
+        { "_key": "ctx1", "title": { "ru": "Продукт", "en": "Product" }, "text": { "ru": "Веб‑приложение автоматизирует планирование смен, учёт рабочего времени и расчёт выплат. Продукт проектировался с нуля в условиях закрытого рынка, где открытых аналогов фактически не существует.", "en": "The web app automates shift planning, time tracking, and payout calculation. The product was designed from scratch in a closed market where public analogs practically do not exist." } },
+        { "_key": "ctx2", "title": { "ru": "Команда", "en": "Team" }, "text": { "ru": "Стейкхолдеры и разработчики.", "en": "Stakeholders and developers." } },
+        { "_key": "ctx3", "title": { "ru": "Ограничения", "en": "Constraints" }, "text": { "ru": "Нельзя опереться на конкурентный анализ.", "en": "No competitive analysis to rely on." } }
+      ] },
+      { "_key": "crm-problem", "_type": "richTextSection", "label": { "ru": "ПРОБЛЕМА", "en": "PROBLEM" }, "body": { "ru": [{ "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "Компания управляла сменами и табелями сотрудников через Excel‑таблицы. Это создавало системные проблемы в расчётах, синхронизации и обучении менеджеров." }] }], "en": [{ "_key": "p1", "_type": "block", "style": "normal", "markDefs": [], "children": [{ "_key": "s1", "_type": "span", "text": "The company managed shifts and employee timesheets through Excel sheets. This created systemic problems in calculations, synchronization, and manager training." }] }] } },
+      { "_key": "crm-goal", "_type": "goalMetrics", "goal": { "ru": "Перевести операционные процессы из Excel в веб‑интерфейс. Снизить количество ошибок в расчётах и уменьшить время на закрытие табеля по объекту.", "en": "Move operational processes from Excel into a web interface. Reduce calculation errors and shorten the time needed to close a site timesheet." }, "metrics": [
+        { "_key": "m1", "key": { "ru": "Time to Task", "en": "Time to Task" }, "value": { "ru": "Время закрытия табеля до и после внедрения.", "en": "Timesheet closing time before and after implementation." } },
+        { "_key": "m2", "key": { "ru": "Error Rate", "en": "Error Rate" }, "value": { "ru": "Количество ошибок в расчётах зарплат.", "en": "Number of payroll calculation errors." } },
+        { "_key": "m3", "key": { "ru": "Onboarding Time", "en": "Onboarding Time" }, "value": { "ru": "Насколько быстрее обучается новый менеджер.", "en": "How much faster a new manager is trained." } }
+      ] },
+      { "_key": "crm-solutions", "_type": "solutions", "items": [
+        { "_key": "s1", "title": { "ru": "Единая среда для плана и факта", "en": "One environment for plan and actuals" }, "text": { "ru": "Стейкхолдеры держали график смен и табель в разных файлах и вручную сверяли их. Я объединил оба контекста в один интерфейс: менеджер видит план и вносит фактические данные в одном месте.", "en": "Stakeholders kept shift schedules and timesheets in different files and reconciled them manually. I combined both contexts into one interface: the manager sees the plan and enters actual data in one place." } },
+        { "_key": "s2", "title": { "ru": "Side Panel вместо перехода на новую страницу", "en": "Side Panel instead of navigating to a new page" }, "text": { "ru": "Менеджер постоянно переключается между списком сотрудников и карточкой каждого из них. Side Panel сохраняет список слева, а редактирование происходит справа без потери контекста.", "en": "A manager constantly switches between the employee list and each employee card. The Side Panel keeps the list on the left while editing happens on the right without losing context." } },
+        { "_key": "s3", "title": { "ru": "Автоматический пересчёт при изменениях", "en": "Automatic recalculation after changes" }, "text": { "ru": "Внёс изменение — система пересчитывает зарплату автоматически. Бухгалтер получает итоговую выгрузку без ручной проверки каждой строки.", "en": "Make a change and the system recalculates payroll automatically. The accountant receives the final export without manually checking each row." } },
+        { "_key": "s4", "title": { "ru": "Гибкие настройки тарифов", "en": "Flexible tariff settings" }, "text": { "ru": "Каждый объект и клиент могут иметь уникальные ставки и должности. Это вынесено в настройки с простым редактором без необходимости заказывать доработку под каждого клиента.", "en": "Each site and client can have unique rates and roles. This is moved into settings with a simple editor, without custom development for each client." } }
+      ] },
+      { "_key": "crm-result", "_type": "resultBullets", "intro": { "ru": "MVP запущен и внедрён — внутренние процессы компании мигрировали из Excel в веб‑интерфейс. Проектные артефакты:", "en": "The MVP was launched and adopted: internal company processes moved from Excel to the web interface. Project artifacts:" }, "bullets": [
+        { "_key": "b1", "text": { "ru": "Спроектирован продукт с нуля в условиях закрытого рынка без открытых аналогов.", "en": "A product designed from scratch in a closed market with no public analogs." } },
+        { "_key": "b2", "text": { "ru": "Итеративный процесс: вайрфреймы → прототип → несколько раундов валидации со стейкхолдерами → UI.", "en": "Iterative process: wireframes, prototype, several validation rounds with stakeholders, then UI." } },
+        { "_key": "b3", "text": { "ru": "Дизайн‑система покрывает все состояния интерфейса.", "en": "The design system covers all interface states." } },
+        { "_key": "b4", "text": { "ru": "Side Panel как ключевое UX‑решение устранил потерю контекста при работе с табелем.", "en": "The Side Panel as a key UX solution removed context loss while working with timesheets." } }
+      ] },
+      { "_key": "crm-takeaways", "_type": "takeaways", "items": [{ "_key": "t1", "title": { "ru": "Что бы сделал иначе", "en": "What I would do differently" }, "body": { "ru": "Добился бы доступа к реальным менеджерам, которые работают с табелями. Даже одно интервью с конечным пользователем дало бы больше инсайтов, чем три итерации со стейкхолдерами.", "en": "I would get access to real managers who work with timesheets. Even one interview with an end user would provide more insight than three stakeholder iterations." } }] }
+    ]
+  }
+]

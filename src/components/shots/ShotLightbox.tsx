@@ -1,75 +1,77 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { FlipReveal, FlipRevealItem } from "@/components/flip-reveal";
+import { urlFor } from "@/sanity/image";
 import type { Shot } from "@/types/content";
 
 export function ShotLightbox({ shots }: { shots: Shot[] }) {
   const [active, setActive] = useState<Shot | null>(null);
+  const [activeTag, setActiveTag] = useState("all");
+  const tags = useMemo(() => Array.from(new Set(shots.flatMap((shot) => shot.tags || []))), [shots]);
 
   return (
     <>
-      <div className="shots-grid" style={{ columns: "320px", columnGap: 16 }}>
-        {shots.map((shot, index) => (
-          <button
-            key={`${shot.title || "shot"}-${index}`}
-            type="button"
-            onClick={() => setActive(shot)}
-            style={{
-              display: "block",
-              width: "100%",
-              breakInside: "avoid",
-              margin: "0 0 16px",
-              padding: 0,
-              border: 0,
-              background: "transparent",
-              color: "inherit",
-              textAlign: "left",
-              cursor: "zoom-in",
-            }}
-          >
-            <div
-              style={{
-                aspectRatio: index % 3 === 0 ? "4 / 5" : "4 / 3",
-                background: "var(--color-bg-surface-raised)",
-                borderRadius: 4,
-                border: "1px solid var(--color-border-default)",
-              }}
-            />
-            {shot.title ? <p style={{ margin: "10px 0 0", color: "var(--color-text-secondary)" }}>{shot.title}</p> : null}
-          </button>
+      <div className="shots-filter-bar" aria-label="Shot categories">
+        <FilterButton active={activeTag === "all"} onClick={() => setActiveTag("all")}>
+          ALL
+        </FilterButton>
+        {tags.map((tag) => (
+          <FilterButton key={tag} active={activeTag === tag} onClick={() => setActiveTag(tag)}>
+            {tag}
+          </FilterButton>
         ))}
       </div>
+
+      <FlipReveal keys={[activeTag]} className="shots-grid" showClass="shot-card--visible" hideClass="shot-card--hidden">
+        {shots.map((shot, index) => {
+          const imageUrl = getShotImageUrl(shot);
+          const flipKey = shot.tags?.length ? shot.tags.join("|") : "uncategorized";
+
+          return (
+            <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card">
+              <button type="button" onClick={() => setActive(shot)} className="shot-card-button">
+                <div className="shot-card-media">
+                  {imageUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={imageUrl} alt={shot.title || "Shot"} loading="lazy" />
+                  ) : null}
+                </div>
+                <div className="shot-card-meta">
+                  {shot.title ? <p>{shot.title}</p> : <p>Untitled</p>}
+                  {shot.tags?.length ? <span className="mono-label">{shot.tags.join(" · ")}</span> : null}
+                </div>
+              </button>
+            </FlipRevealItem>
+          );
+        })}
+      </FlipReveal>
+
       {active ? (
-        <div
-          role="dialog"
-          aria-modal="true"
-          onClick={() => setActive(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            display: "grid",
-            placeItems: "center",
-            padding: 24,
-            background: "rgba(0,0,0,.82)",
-            zIndex: 50,
-          }}
-        >
-          <div
-            style={{
-              width: "min(960px, 90vw)",
-              minHeight: "60vh",
-              background: "var(--color-bg-surface-raised)",
-              border: "1px solid var(--color-border-default)",
-              borderRadius: 6,
-              display: "grid",
-              placeItems: "center",
-              padding: 24,
-            }}
-          >
+        <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
+          <div className="shot-lightbox-panel">
+            {getShotImageUrl(active) ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={getShotImageUrl(active)} alt={active.title || "Shot"} />
+            ) : null}
             {active.title ? <p className="mono-label">{active.title}</p> : null}
           </div>
         </div>
       ) : null}
     </>
   );
+}
+
+function FilterButton({ active, children, onClick }: { active: boolean; children: string; onClick: () => void }) {
+  return (
+    <button type="button" className={active ? "shots-filter is-active" : "shots-filter"} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+
+function getShotImageUrl(shot: Shot) {
+  if (shot.image?.asset?.url) return shot.image.asset.url;
+  if (!shot.image?.asset?._ref || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return "";
+  return urlFor(shot.image).width(900).height(1100).fit("crop").url();
 }

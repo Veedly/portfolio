@@ -12,6 +12,8 @@ export type SiteSettings = {
   name: string;
   role: string;
   intro: string;
+  heroImageDark?: SanityImage;
+  heroImageLight?: SanityImage;
   availabilityStatus?: string;
   telegram?: string;
   email?: string;
@@ -34,6 +36,7 @@ export type CaseSummary = {
   slug: string;
   subtitle?: string;
   coverImage?: SanityImage;
+  showcasePreviewImage?: SanityImage;
   year?: string;
   tags?: string[];
 };
@@ -71,6 +74,8 @@ export type RawLocalizedSiteSettings = {
   name?: Localized<string>;
   role?: Localized<string>;
   intro?: Localized<string>;
+  heroImageDark?: SanityImage;
+  heroImageLight?: SanityImage;
   availabilityStatus?: Localized<string>;
   telegram?: string;
   email?: string;

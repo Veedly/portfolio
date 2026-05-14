@@ -3,6 +3,14 @@ export const homeQuery = `{
     name,
     role,
     intro,
+    heroImageDark{
+      ...,
+      asset->
+    },
+    heroImageLight{
+      ...,
+      asset->
+    },
     availabilityStatus,
     telegram,
     email,
@@ -15,11 +23,21 @@ export const homeQuery = `{
     subtitle,
     year,
     tags,
-    coverImage
+    coverImage{
+      ...,
+      asset->
+    },
+    showcasePreviewImage{
+      ...,
+      asset->
+    }
   },
   "featuredShots": *[_type == "shot" && published == true && featured == true] | order(order asc) {
     title,
-    image,
+    image{
+      ...,
+      asset->
+    },
     tags,
     year
   },
@@ -39,7 +57,14 @@ export const caseBySlugQuery = `*[_type == "case" && slug.current == $slug][0]{
   title,
   "slug": slug.current,
   subtitle,
-  coverImage,
+  coverImage{
+    ...,
+    asset->
+  },
+  showcasePreviewImage{
+    ...,
+    asset->
+  },
   year,
   role,
   client,
@@ -48,9 +73,28 @@ export const caseBySlugQuery = `*[_type == "case" && slug.current == $slug][0]{
   blocks
 }`;
 
+export const featuredCaseSuggestionsQuery = `*[_type == "case" && featured == true && slug.current != $slug] | order(featuredOrder asc)[0...4] {
+  title,
+  "slug": slug.current,
+  subtitle,
+  year,
+  tags,
+  coverImage{
+    ...,
+    asset->
+  },
+  showcasePreviewImage{
+    ...,
+    asset->
+  }
+}`;
+
 export const shotsQuery = `*[_type == "shot" && published == true] | order(order asc) {
   title,
-  image,
+  image{
+    ...,
+    asset->
+  },
   tags,
   year
 }`;
