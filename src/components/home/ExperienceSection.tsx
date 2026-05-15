@@ -1,4 +1,3 @@
-import ScrollReveal from "@/components/ScrollReveal";
 import type { Experience } from "@/types/content";
 
 export function ExperienceSection({ items }: { items: Experience[] }) {
@@ -8,16 +7,10 @@ export function ExperienceSection({ items }: { items: Experience[] }) {
     <section className="container motion-reveal" style={{ padding: "120px 0" }}>
       <p className="mono-label">EXPERIENCE & IMPACT</p>
       <div className="experience-content" style={{ maxWidth: 750, marginLeft: 260 }}>
-        <ScrollReveal
-          baseOpacity={0}
-          enableBlur
-          baseRotation={2}
-          blurStrength={8}
-          containerClassName="experience-scroll-title"
-        >
+        <h2 className="experience-title motion-reveal">
           2020-2026: product design for complex interfaces
-        </ScrollReveal>
-        <p style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 607, margin: "36px 0 0" }}>
+        </h2>
+        <p className="motion-reveal motion-delay-1" style={{ color: "var(--color-text-secondary)", lineHeight: "24px", maxWidth: 607, margin: "36px 0 0" }}>
           Worked across fintech, B2B, CRM, internal tools, and design systems: from early structure and prototypes to UI,
           tokens, and development handoff.
         </p>
@@ -26,7 +19,7 @@ export function ExperienceSection({ items }: { items: Experience[] }) {
         {items.map((item) => (
           <div
             key={`${item.company}-${item.period}`}
-            className="experience-row"
+            className="experience-row motion-reveal"
             style={{
               display: "grid",
               gridTemplateColumns: "1fr 1fr 120px",

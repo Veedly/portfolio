@@ -9,8 +9,8 @@ export function ShotsPage({ shots, locale }: { shots: Shot[]; locale: "ru" | "en
   return (
     <>
       <Navigation locale={locale} alternateHref={`/${nextLocale}/shots`} />
-      <main className="container shots-page">
-        <p className="mono-label">VISUAL NOTES</p>
+      <main className="container shots-page motion-reveal">
+        <p className="mono-label motion-reveal">VISUAL NOTES</p>
         <ShotLightbox shots={shots} />
       </main>
       <Footer />

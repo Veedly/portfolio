@@ -4,7 +4,7 @@ type ProblemSection = Extract<CaseBlock, { _type: "problemSection" }>;
 
 export function ProblemSectionBlock({ block }: { block: ProblemSection }) {
   return (
-    <section className="container case-section case-problem-section">
+    <section className="container case-section case-problem-section motion-reveal">
       <p className="mono-label">{block.label || "PROBLEM"}</p>
       <div className="case-problem-content">
         <h2>{block.title}</h2>

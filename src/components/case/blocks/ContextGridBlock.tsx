@@ -5,7 +5,7 @@ type ContextGrid = Extract<CaseBlock, { _type: "contextGrid" }>;
 export function ContextGridBlock({ block }: { block: ContextGrid }) {
   return (
     <section
-      className="container case-section case-context"
+      className="container case-section case-context motion-reveal"
       style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 24, padding: "96px 0" }}
     >
       <p className="mono-label">КОНТЕКСТ</p>

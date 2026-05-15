@@ -128,6 +128,58 @@ export function PageTransition({ children }: PageTransitionProps) {
     };
   }, [stack.currentKey, stack.previous]);
 
+  useLayoutEffect(() => {
+    if (isStudio) return;
+
+    const current = currentRef.current;
+    if (!current) return;
+
+    document.documentElement.classList.add("motion-reveal-ready");
+
+    const elements = Array.from(current.querySelectorAll<HTMLElement>(".motion-reveal"));
+
+    if (prefersReducedMotion() || !("IntersectionObserver" in window)) {
+      elements.forEach((element) => element.classList.add("is-visible"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        rootMargin: "0px 0px -8% 0px",
+        threshold: 0.08,
+      },
+    );
+
+    const frame = window.requestAnimationFrame(() => {
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      elements.forEach((element) => {
+        element.classList.remove("is-visible");
+        const rect = element.getBoundingClientRect();
+        const isInRevealRange = rect.top < viewportHeight * 0.92 && rect.bottom > 0;
+
+        if (isInRevealRange) {
+          element.classList.add("is-visible");
+        } else {
+          observer.observe(element);
+        }
+      });
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [isStudio, stack.currentKey]);
+
   const previousStyle = useMemo(
     () => ({
       transform: `translateY(-${stack.previous?.scrollY || 0}px)`,

@@ -5,7 +5,7 @@ type ResultBullets = Extract<CaseBlock, { _type: "resultBullets" }>;
 export function ResultBulletsBlock({ block }: { block: ResultBullets }) {
   return (
     <section
-      className="container case-section"
+      className="container case-section motion-reveal"
       style={{
         display: "grid",
         gridTemplateColumns: "180px 1fr",

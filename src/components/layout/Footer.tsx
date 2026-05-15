@@ -23,16 +23,16 @@ export function Footer({
       />
       <div className="site-footer-vignette" aria-hidden="true" />
       <div className="container site-footer-content">
-        <p className="mono-label">КОНТАКТЫ</p>
-        <h2 className="site-footer-title">
+        <p className="mono-label motion-reveal">КОНТАКТЫ</p>
+        <h2 className="site-footer-title motion-reveal motion-delay-1">
           Let&apos;s discuss
           <br />a project
         </h2>
-        <div className="site-footer-actions" aria-label="Contact actions">
+        <div className="site-footer-actions motion-reveal motion-delay-2" aria-label="Contact actions">
           <ContactAction href={getTelegramHref(telegram)} label="Написать в Telegram" value={telegram} external />
           <ContactAction href={`mailto:${email}`} label="На почту" value={email} />
         </div>
-        <div className="mono-label site-footer-bottom">
+        <div className="mono-label site-footer-bottom motion-reveal motion-delay-3">
           <span>{footerNote}</span>
           <span>Made with care</span>
         </div>

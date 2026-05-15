@@ -12,7 +12,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
 
   return (
     <>
-      <div className="shots-filter-bar" aria-label="Shot categories">
+      <div className="shots-filter-bar motion-reveal motion-delay-1" aria-label="Shot categories">
         <FilterButton active={activeTag === "all"} onClick={() => setActiveTag("all")}>
           ALL
         </FilterButton>
@@ -23,13 +23,13 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
         ))}
       </div>
 
-      <FlipReveal keys={[activeTag]} className="shots-grid" showClass="shot-card--visible" hideClass="shot-card--hidden">
+      <FlipReveal keys={[activeTag]} className="shots-grid motion-reveal motion-delay-2" showClass="shot-card--visible" hideClass="shot-card--hidden">
         {shots.map((shot, index) => {
           const media = getShotMedia(shot);
           const flipKey = shot.tags?.length ? shot.tags.join("|") : "uncategorized";
 
           return (
-            <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card">
+            <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card motion-reveal">
               <button type="button" onClick={() => setActive(shot)} className="shot-card-button">
                 <div className="shot-card-media">
                   {media?.type === "video" ? (

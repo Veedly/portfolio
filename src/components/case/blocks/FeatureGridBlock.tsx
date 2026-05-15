@@ -5,7 +5,7 @@ type FeatureGrid = Extract<CaseBlock, { _type: "featureGrid" }>;
 export function FeatureGridBlock({ block }: { block: FeatureGrid }) {
   return (
     <section
-      className="container case-section"
+      className="container case-section motion-reveal"
       style={{
         display: "grid",
         gridTemplateColumns: "180px 1fr",

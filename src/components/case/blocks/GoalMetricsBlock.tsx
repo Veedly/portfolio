@@ -5,7 +5,7 @@ type GoalMetrics = Extract<CaseBlock, { _type: "goalMetrics" }>;
 export function GoalMetricsBlock({ block }: { block: GoalMetrics }) {
   return (
     <section
-      className="container case-section"
+      className="container case-section motion-reveal"
       style={{
         display: "grid",
         gridTemplateColumns: "180px 1fr",

@@ -7,7 +7,7 @@ type RichTextSection = Extract<CaseBlock, { _type: "richTextSection" }>;
 export function RichTextSectionBlock({ block }: { block: RichTextSection }) {
   return (
     <section
-      className="container case-section"
+      className="container case-section motion-reveal"
       style={{
         display: "grid",
         gridTemplateColumns: "180px 1fr",

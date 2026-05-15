@@ -4,7 +4,7 @@ type ComparisonCards = Extract<CaseBlock, { _type: "comparisonCards" }>;
 
 export function ComparisonCardsBlock({ block }: { block: ComparisonCards }) {
   return (
-    <section className="container" style={{ padding: "0 0 96px", display: "grid", gridTemplateColumns: "180px 1fr", gap: 24 }}>
+    <section className="container motion-reveal" style={{ padding: "0 0 96px", display: "grid", gridTemplateColumns: "180px 1fr", gap: 24 }}>
       <span />
       <div>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>

@@ -28,11 +28,11 @@ export default async function CvPage({ params }: { params: Promise<Params> }) {
   return (
     <>
       <Navigation locale={locale} alternateHref={`/${nextLocale}/cv`} />
-      <main className="container cv-placeholder-page">
+      <main className="container cv-placeholder-page motion-reveal">
         <section className="cv-placeholder">
-          <p className="mono-label">{content.label}</p>
-          <h1 className="cv-placeholder-title">{content.title}</h1>
-          <p className="cv-placeholder-text">{content.text}</p>
+          <p className="mono-label motion-reveal">{content.label}</p>
+          <h1 className="cv-placeholder-title motion-reveal motion-delay-1">{content.title}</h1>
+          <p className="cv-placeholder-text motion-reveal motion-delay-2">{content.text}</p>
         </section>
       </main>
     </>

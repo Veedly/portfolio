@@ -15,7 +15,7 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
     <>
       <Navigation locale={locale} alternateHref={`/${nextLocale}/work/${item.slug}`} />
       <main>
-        <section className="container" style={{ padding: "48px 0 40px" }}>
+        <section className="container motion-reveal" style={{ padding: "48px 0 40px" }}>
           <div className="mono-label motion-reveal" style={{ display: "flex", justifyContent: "space-between" }}>
             <Link href={`/${locale}#work`}>← Назад ко всем работам</Link>
             <span>{item.year}</span>
@@ -64,7 +64,7 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
           )}
         </div>
         <CaseBlockRenderer blocks={item.blocks || []} />
-        <div className="container">
+        <div className="container motion-reveal">
           <ProjectShowcase
             eyebrow={locale === "ru" ? "Другие кейсы" : "More cases"}
             projects={showcaseProjects}

@@ -6,7 +6,7 @@ export function FeaturedWork({ cases, locale }: { cases: CaseSummary[]; locale: 
   if (!cases.length) return null;
 
   return (
-    <section id="work" className="container" style={{ padding: "0 0 80px" }}>
+    <section id="work" className="container motion-reveal" style={{ padding: "0 0 80px" }}>
       <div className="mono-label motion-reveal" style={{ display: "flex", justifyContent: "space-between", marginBottom: 32 }}>
         <span>FEATURED WORK</span>
         <span>2020 - 2026</span>

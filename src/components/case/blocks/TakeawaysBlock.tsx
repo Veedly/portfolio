@@ -4,7 +4,7 @@ type Takeaways = Extract<CaseBlock, { _type: "takeaways" }>;
 
 export function TakeawaysBlock({ block }: { block: Takeaways }) {
   return (
-    <section style={{ borderTop: "1px solid var(--color-border-subtle)", padding: "66px 0 100px" }}>
+    <section className="motion-reveal" style={{ borderTop: "1px solid var(--color-border-subtle)", padding: "66px 0 100px" }}>
       <div className="container case-section" style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 24 }}>
         <p className="mono-label">ВЫВОДЫ</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20 }}>

@@ -4,7 +4,7 @@ type Callout = Extract<CaseBlock, { _type: "callout" }>;
 
 export function CalloutBlock({ block }: { block: Callout }) {
   return (
-    <section className="container" style={{ padding: "40px 0 80px" }}>
+    <section className="container motion-reveal" style={{ padding: "40px 0 80px" }}>
       <div
         style={{
           display: "grid",

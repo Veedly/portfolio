@@ -4,7 +4,7 @@ type Solutions = Extract<CaseBlock, { _type: "solutions" }>;
 
 export function SolutionsBlock({ block }: { block: Solutions }) {
   return (
-    <section className="case-solutions" style={{ padding: "80px 0" }}>
+    <section className="case-solutions motion-reveal" style={{ padding: "80px 0" }}>
       <div
         aria-hidden
         className="mono-label"
