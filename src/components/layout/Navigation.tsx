@@ -16,13 +16,13 @@ const navLabels = {
     work: "Работы",
     about: "Обо мне",
     shots: "Шоты",
-    contacts: "Контакты",
+    cv: "CV",
   },
   en: {
     work: "Work",
     about: "About",
     shots: "Shots",
-    contacts: "Contacts",
+    cv: "CV",
   },
 } satisfies Record<Locale, Record<string, string>>;
 
@@ -34,7 +34,7 @@ export function Navigation({ locale = "ru", alternateHref }: NavigationProps) {
     { label: labels.work, href: `${baseHref}#work` },
     { label: labels.about, href: `${baseHref}#about` },
     { label: labels.shots, href: `${baseHref}/shots` },
-    { label: labels.contacts, href: `${baseHref}#contacts` },
+    { label: labels.cv, href: `${baseHref}/cv` },
   ];
 
   return (

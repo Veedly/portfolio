@@ -26,7 +26,7 @@ const fallbackSettings: SiteSettings = {
   intro: "I design digital products from scratch - from research and flows to design systems and prototypes.",
   availabilityStatus: "OPEN FOR PROJECTS",
   telegram: "@veed_ux",
-  email: "hello@danildeev.design",
+  email: "redogdeev31@gmail.com",
   behance: "portfolio",
   footerNote: "© 2026 / Данил Деев",
 };
@@ -96,7 +96,7 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
     ? {
         ...fallbackSettings,
         telegram: data.settings.telegram || fallbackSettings.telegram,
-        email: data.settings.email || fallbackSettings.email,
+        email: fallbackSettings.email,
         behance: data.settings.behance || fallbackSettings.behance,
         name: localizeRequired(data.settings.name, locale, fallbackSettings.name),
         role: localizeRequired(data.settings.role, locale, fallbackSettings.role),
