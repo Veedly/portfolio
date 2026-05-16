@@ -23,13 +23,13 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
         ))}
       </div>
 
-      <FlipReveal keys={[activeTag]} className="shots-grid motion-reveal motion-delay-2" showClass="shot-card--visible" hideClass="shot-card--hidden">
+      <FlipReveal keys={[activeTag]} className="shots-grid" showClass="shot-card--visible" hideClass="shot-card--hidden">
         {shots.map((shot, index) => {
           const media = getShotMedia(shot);
           const flipKey = shot.tags?.length ? shot.tags.join("|") : "uncategorized";
 
           return (
-            <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card motion-reveal">
+            <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card">
               <button type="button" onClick={() => setActive(shot)} className="shot-card-button">
                 <div className="shot-card-media">
                   {media?.type === "video" ? (
@@ -51,7 +51,18 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
 
       {active ? (
         <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
-          <div className="shot-lightbox-panel">
+          <div
+            className="shot-lightbox-panel"
+            onClick={(event) => {
+              const target = event.target;
+              if (target instanceof Element && target.closest("img, video")) {
+                event.stopPropagation();
+                return;
+              }
+
+              setActive(null);
+            }}
+          >
             {getShotMedia(active)?.type === "video" ? (
               <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
             ) : getShotMedia(active)?.src ? (
