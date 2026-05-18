@@ -561,12 +561,12 @@ button {
 .global-thermodynamic-bg {
   position: fixed;
   z-index: 0;
-  opacity: 0.26;
+  opacity: 0.42;
   pointer-events: none;
 }
 
 :root[data-theme="light"] .global-thermodynamic-bg {
-  opacity: 0.18;
+  opacity: 0.28;
 }
 
 .site-footer-vignette {
