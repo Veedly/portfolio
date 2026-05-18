@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import { Footer } from "./Footer";
 
-test("does not render a duplicate thermodynamic grid inside the footer", () => {
+test("uses the global thermodynamic background instead of a duplicate footer grid", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
   render(<Footer />);
