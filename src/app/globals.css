@@ -71,6 +71,7 @@ button {
 }
 
 .page-shell {
+  position: relative;
   min-height: 100vh;
   background: var(--color-bg-canvas);
   padding-bottom: 88px;
@@ -78,9 +79,10 @@ button {
 
 .page-transition-root {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   isolation: isolate;
-  background: var(--color-bg-canvas);
+  background: color-mix(in srgb, var(--color-bg-canvas) 84%, transparent);
 }
 
 .page-transition-layer {
@@ -556,8 +558,15 @@ button {
   height: 100%;
 }
 
-.site-footer-grid {
-  opacity: 1;
+.global-thermodynamic-bg {
+  position: fixed;
+  z-index: 0;
+  opacity: 0.26;
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .global-thermodynamic-bg {
+  opacity: 0.18;
 }
 
 .site-footer-vignette {

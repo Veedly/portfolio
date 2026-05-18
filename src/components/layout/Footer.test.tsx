@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import { Footer } from "./Footer";
 
-test("renders the interactive grid as footer background", () => {
+test("does not render a duplicate thermodynamic grid inside the footer", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
   render(<Footer />);
 
-  expect(screen.getByTestId("footer-thermodynamic-grid")).toBeTruthy();
+  expect(screen.queryByTestId("footer-thermodynamic-grid")).toBeNull();
 });
 
 test("renders primary footer contact actions", () => {
