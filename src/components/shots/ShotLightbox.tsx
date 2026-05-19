@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { FlipReveal, FlipRevealItem } from "@/components/flip-reveal";
 import { urlFor } from "@/sanity/image";
 import type { Shot } from "@/types/content";
@@ -49,30 +50,22 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
         })}
       </FlipReveal>
 
-      {active ? (
-        <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
-          <div
-            className="shot-lightbox-panel"
-            onClick={(event) => {
-              const target = event.target;
-              if (target instanceof Element && target.closest("img, video")) {
-                event.stopPropagation();
-                return;
-              }
-
-              setActive(null);
-            }}
-          >
-            {getShotMedia(active)?.type === "video" ? (
-              <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
-            ) : getShotMedia(active)?.src ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={getShotMedia(active)?.src} alt={active.title || "Shot"} />
-            ) : null}
-            {active.title ? <p className="mono-label">{active.title}</p> : null}
-          </div>
-        </div>
-      ) : null}
+      {active && typeof document !== "undefined"
+        ? createPortal(
+            <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
+              <div className="shot-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+                {getShotMedia(active)?.type === "video" ? (
+                  <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
+                ) : getShotMedia(active)?.src ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={getShotMedia(active)?.src} alt={active.title || "Shot"} />
+                ) : null}
+                {active.title ? <p className="mono-label">{active.title}</p> : null}
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </>
   );
 }

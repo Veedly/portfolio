@@ -76,20 +76,21 @@ test("keeps scroll reveal off the flip gallery internals", () => {
 });
 
 test("keeps the lightbox open on media click and closes when clicking outside the media", () => {
-  const { container } = render(
-    <ShotLightbox shots={[{ title: "Dashboard", tags: ["CRM"], image: { asset: { url: "/dashboard.jpg" } } }]} />,
-  );
+  render(<ShotLightbox shots={[{ title: "Dashboard", tags: ["CRM"], image: { asset: { url: "/dashboard.jpg" } } }]} />);
 
   fireEvent.click(screen.getByRole("button", { name: /Dashboard/ }));
   expect(screen.getByRole("dialog")).toBeTruthy();
 
-  const image = container.querySelector(".shot-lightbox-panel img");
+  const image = document.querySelector(".shot-lightbox-panel img");
   expect(image).toBeTruthy();
   fireEvent.click(image as HTMLImageElement);
   expect(screen.getByRole("dialog")).toBeTruthy();
 
-  const panel = container.querySelector(".shot-lightbox-panel");
+  const panel = document.querySelector(".shot-lightbox-panel");
   expect(panel).toBeTruthy();
   fireEvent.click(panel as HTMLDivElement);
+  expect(screen.getByRole("dialog")).toBeTruthy();
+
+  fireEvent.click(screen.getByRole("dialog"));
   expect(screen.queryByRole("dialog")).toBeNull();
 });
