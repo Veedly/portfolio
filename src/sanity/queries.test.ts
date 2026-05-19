@@ -25,8 +25,9 @@ describe("Sanity queries", () => {
     expect(shotsQuery).toContain("published == true");
     expect(shotsQuery).toContain("mediaType");
     expect(shotsQuery).toContain("videoFile");
-    expect(shotsQuery).toContain('"tags": tags[]->title');
-    expect(homeQuery).toContain('"tags": tags[]->title');
+    expect(shotsQuery).toContain('"ru": tags[]->title.ru');
+    expect(shotsQuery).toContain('"en": tags[]->title.en');
+    expect(homeQuery).toContain('"ru": tags[]->title.ru');
     expect(homeQuery).toContain("videoFile");
   });
 });

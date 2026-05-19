@@ -43,7 +43,10 @@ export const homeQuery = `{
       ...,
       asset->
     },
-    "tags": tags[]->title,
+    "tags": {
+      "ru": tags[]->title.ru,
+      "en": tags[]->title.en
+    },
     year
   },
   "experience": *[_type == "experience"] | order(order asc) {
@@ -115,6 +118,9 @@ export const shotsQuery = `*[_type == "shot" && published == true] | order(order
     ...,
     asset->
   },
-  "tags": tags[]->title,
+  "tags": {
+    "ru": tags[]->title.ru,
+    "en": tags[]->title.en
+  },
   year
 }`;
