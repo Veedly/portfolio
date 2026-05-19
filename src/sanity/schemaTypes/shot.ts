@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { localizedString, localizedStringArray } from "./localized";
+import { localizedString } from "./localized";
 
 export const shotType = defineType({
   name: "shot",
@@ -50,7 +50,12 @@ export const shotType = defineType({
         }),
     }),
     localizedString("title", "Title"),
-    localizedStringArray("tags", "Tags"),
+    defineField({
+      name: "tags",
+      title: "Tags",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "shotTag" }] }],
+    }),
     defineField({ name: "year", type: "string" }),
     defineField({ name: "relatedCase", type: "reference", to: [{ type: "case" }] }),
     defineField({ name: "featured", type: "boolean", initialValue: false }),

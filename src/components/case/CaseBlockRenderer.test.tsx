@@ -8,6 +8,9 @@ describe("CaseBlockRenderer", () => {
     render(<CaseBlockRenderer blocks={caseFixture.blocks} />);
 
     expect(screen.getByText("Product")).toBeTruthy();
+    const video = document.querySelector(".case-video");
+    expect(video?.getAttribute("src")).toBe("/case-demo.mp4");
+    expect((video as HTMLVideoElement | null)?.muted).toBe(true);
     expect(screen.getByText("Mobile flows did not fit the web context.")).toBeTruthy();
     expect(screen.getByText("Flow length")).toBeTruthy();
     expect(screen.getByText("Гипотеза")).toBeTruthy();

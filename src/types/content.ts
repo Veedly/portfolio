@@ -78,7 +78,14 @@ export type CaseBlock =
       items: { label?: string; title: string; success?: string; giveup?: string; time?: string }[];
       note?: string;
     }
-  | { _type: "takeaways"; items: { title: string; body: string }[] };
+  | { _type: "takeaways"; items: { title: string; body: string }[] }
+  | {
+      _type: "caseVideo";
+      videoFile?: SanityFile;
+      posterImage?: SanityImage;
+      mode?: "inline" | "loop";
+      caption?: string;
+    };
 
 export type CaseDetail = CaseSummary & {
   role?: string;

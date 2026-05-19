@@ -170,3 +170,42 @@ export const takeaways = defineType({
     }),
   ],
 });
+
+export const caseVideo = defineType({
+  name: "caseVideo",
+  title: "Case video",
+  type: "object",
+  fields: [
+    defineField({
+      name: "videoFile",
+      title: "Video file",
+      type: "file",
+      options: {
+        accept: "video/*",
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "posterImage",
+      title: "Poster image",
+      type: "image",
+      options: { hotspot: true },
+      fields: [defineField({ name: "alt", title: "Alt text", type: "string" })],
+    }),
+    defineField({
+      name: "mode",
+      title: "Mode",
+      type: "string",
+      initialValue: "inline",
+      options: {
+        layout: "radio",
+        list: [
+          { title: "Inline with controls", value: "inline" },
+          { title: "Autoplay loop", value: "loop" },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    localizedText("caption", "Caption", 2),
+  ],
+});

@@ -43,7 +43,7 @@ export const homeQuery = `{
       ...,
       asset->
     },
-    tags,
+    "tags": tags[]->title,
     year
   },
   "experience": *[_type == "experience"] | order(order asc) {
@@ -75,7 +75,17 @@ export const caseBySlugQuery = `*[_type == "case" && slug.current == $slug][0]{
   client,
   scope,
   tags,
-  blocks
+  blocks[]{
+    ...,
+    videoFile{
+      ...,
+      asset->
+    },
+    posterImage{
+      ...,
+      asset->
+    }
+  }
 }`;
 
 export const featuredCaseSuggestionsQuery = `*[_type == "case" && featured == true && slug.current != $slug] | order(featuredOrder asc)[0...4] {
@@ -105,6 +115,6 @@ export const shotsQuery = `*[_type == "shot" && published == true] | order(order
     ...,
     asset->
   },
-  tags,
+  "tags": tags[]->title,
   year
 }`;

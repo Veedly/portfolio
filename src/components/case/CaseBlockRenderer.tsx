@@ -1,5 +1,6 @@
 import type { CaseBlock } from "@/types/content";
 import { CalloutBlock } from "./blocks/CalloutBlock";
+import { CaseVideoBlock } from "./blocks/CaseVideoBlock";
 import { ComparisonCardsBlock } from "./blocks/ComparisonCardsBlock";
 import { ContextGridBlock } from "./blocks/ContextGridBlock";
 import { FeatureGridBlock } from "./blocks/FeatureGridBlock";
@@ -35,6 +36,8 @@ export function CaseBlockRenderer({ blocks }: { blocks: CaseBlock[] }) {
             return <ComparisonCardsBlock key={index} block={block} />;
           case "takeaways":
             return <TakeawaysBlock key={index} block={block} />;
+          case "caseVideo":
+            return <CaseVideoBlock key={index} block={block} />;
           default:
             return null;
         }

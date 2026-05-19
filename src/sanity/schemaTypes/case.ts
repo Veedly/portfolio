@@ -39,6 +39,7 @@ export const caseType = defineType({
         defineArrayMember({ type: "resultBullets" }),
         defineArrayMember({ type: "comparisonCards" }),
         defineArrayMember({ type: "takeaways" }),
+        defineArrayMember({ type: "caseVideo" }),
       ],
     }),
   ],

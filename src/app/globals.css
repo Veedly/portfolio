@@ -766,6 +766,24 @@ button {
   line-height: 24px;
 }
 
+.case-video-block {
+  padding: 72px 0;
+}
+
+.case-video {
+  display: block;
+  width: 100%;
+  max-height: 78vh;
+  border-radius: 8px;
+  background: var(--color-bg-surface);
+  object-fit: contain;
+}
+
+.case-video-caption {
+  margin-top: 16px;
+  color: var(--color-text-secondary);
+}
+
 .project-showcase {
   position: relative;
   padding: 112px 0 80px;

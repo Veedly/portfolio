@@ -57,6 +57,11 @@ test("renders video shots as video media", () => {
   expect(video).toBeTruthy();
   expect(video?.getAttribute("src")).toBe("/motion.mp4");
   expect(video?.getAttribute("poster")).toBe("/poster.jpg");
+  expect(video?.muted).toBe(true);
+
+  fireEvent.click(screen.getByRole("button", { name: /Motion shot/ }));
+  const dialogVideo = screen.getByRole("dialog").querySelector("video");
+  expect(dialogVideo?.muted).toBe(true);
 });
 
 test("keeps scroll reveal off the flip gallery internals", () => {

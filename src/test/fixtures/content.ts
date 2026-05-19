@@ -12,6 +12,13 @@ export const caseFixture: CaseDetail = {
   blocks: [
     { _type: "contextGrid", items: [{ title: "Product", text: "Crypto banking interface." }] },
     {
+      _type: "caseVideo",
+      videoFile: { asset: { url: "/case-demo.mp4", mimeType: "video/mp4" } },
+      posterImage: { asset: { url: "/case-poster.jpg" } },
+      mode: "loop",
+      caption: "Interface motion demo",
+    },
+    {
       _type: "problemSection",
       label: "ПРОБЛЕМА",
       title: "Mobile flows did not fit the web context.",

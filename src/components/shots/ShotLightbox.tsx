@@ -140,7 +140,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
                   </>
                 ) : null}
                 {getShotMedia(active)?.type === "video" ? (
-                  <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
+                  <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls muted autoPlay playsInline />
                 ) : getShotMedia(active)?.src ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={getShotMedia(active)?.src} alt={active.title || "Shot"} />

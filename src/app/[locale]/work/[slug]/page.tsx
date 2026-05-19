@@ -4,7 +4,7 @@ import { isLocale, type Locale } from "@/i18n/config";
 import { localizeRequired, type Localized } from "@/i18n/localize";
 import { sanityFetch } from "@/sanity/client";
 import { caseBySlugQuery, caseSlugsQuery, featuredCaseSuggestionsQuery } from "@/sanity/queries";
-import type { CaseBlock, CaseDetail, CaseSummary, RawLocalizedCase, RawLocalizedCaseSummary } from "@/types/content";
+import type { CaseBlock, CaseDetail, CaseSummary, RawLocalizedCase, RawLocalizedCaseSummary, SanityFile, SanityImage } from "@/types/content";
 
 type Params = { locale: string; slug: string };
 type RawBlock = Record<string, unknown> & { _type?: string };
@@ -271,6 +271,14 @@ function localizeCaseBlock(block: RawBlock, locale: Locale): CaseBlock | null {
           title: text(item.title, locale),
           body: text(item.body, locale),
         })),
+      };
+    case "caseVideo":
+      return {
+        _type: "caseVideo",
+        videoFile: block.videoFile as SanityFile | undefined,
+        posterImage: block.posterImage as SanityImage | undefined,
+        mode: block.mode === "loop" ? "loop" : "inline",
+        caption: text(block.caption, locale),
       };
     default:
       return null;

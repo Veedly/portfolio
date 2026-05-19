@@ -1,6 +1,7 @@
 import { caseType } from "./case";
 import {
   callout,
+  caseVideo,
   comparisonCards,
   contextGrid,
   featureGrid,
@@ -14,10 +15,12 @@ import {
 import { experienceType } from "./experience";
 import { focusItemType } from "./focusItem";
 import { shotType } from "./shot";
+import { shotTagType } from "./shotTag";
 import { siteSettingsType } from "./siteSettings";
 
 export const schemaTypes = [
   caseType,
+  shotTagType,
   shotType,
   siteSettingsType,
   experienceType,
@@ -32,4 +35,5 @@ export const schemaTypes = [
   resultBullets,
   comparisonCards,
   takeaways,
+  caseVideo,
 ];

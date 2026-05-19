@@ -76,7 +76,7 @@ export const Component = ({ images = defaultImages, items }: ImageAutoSliderProp
           display: flex;
           width: max-content;
           gap: 24px;
-          animation: scroll-right 40s linear infinite;
+          animation: scroll-right 64s linear infinite;
         }
 
         .image-auto-slider-scroll-container:hover .image-auto-slider-infinite-scroll {
@@ -88,8 +88,8 @@ export const Component = ({ images = defaultImages, items }: ImageAutoSliderProp
           height: 368px;
           flex-shrink: 0;
           overflow: hidden;
-          border: 1px solid var(--color-bg-surface-raised);
-          border-radius: 0;
+          border: 0;
+          border-radius: 6px;
           background: var(--color-bg-surface);
           box-shadow: none;
           transition: transform 0.3s ease, filter 0.3s ease;

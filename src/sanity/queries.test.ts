@@ -13,6 +13,8 @@ describe("Sanity queries", () => {
   it("filters case pages by slug parameter", () => {
     expect(caseBySlugQuery).toContain("slug.current == $slug");
     expect(caseBySlugQuery).toContain("showcasePreviewImage");
+    expect(caseBySlugQuery).toContain("videoFile");
+    expect(caseBySlugQuery).toContain("posterImage");
   });
 
   it("selects showcase preview images for related cases", () => {
@@ -23,6 +25,8 @@ describe("Sanity queries", () => {
     expect(shotsQuery).toContain("published == true");
     expect(shotsQuery).toContain("mediaType");
     expect(shotsQuery).toContain("videoFile");
+    expect(shotsQuery).toContain('"tags": tags[]->title');
+    expect(homeQuery).toContain('"tags": tags[]->title');
     expect(homeQuery).toContain("videoFile");
   });
 });
