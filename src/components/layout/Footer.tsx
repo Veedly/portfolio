@@ -13,7 +13,7 @@ export function Footer({
   footerNote = "© 2026 / Данил Деев",
 }: FooterProps) {
   return (
-    <footer id="contacts" className="site-footer motion-reveal">
+    <footer id="contacts" className="site-footer">
       <ThermodynamicGrid
         data-testid="footer-thermodynamic-grid"
         className="site-footer-grid"
@@ -23,16 +23,16 @@ export function Footer({
       />
       <div className="site-footer-vignette" aria-hidden="true" />
       <div className="container site-footer-content">
-        <p className="mono-label motion-reveal">КОНТАКТЫ</p>
-        <h2 className="site-footer-title motion-reveal motion-delay-1">
+        <p className="mono-label">КОНТАКТЫ</p>
+        <h2 className="site-footer-title">
           Let&apos;s discuss
           <br />a project
         </h2>
-        <div className="site-footer-actions motion-reveal motion-delay-2" aria-label="Contact actions">
+        <div className="site-footer-actions" aria-label="Contact actions">
           <ContactAction href={getTelegramHref(telegram)} label="Написать в Telegram" value={telegram} external />
           <ContactAction href={`mailto:${email}`} label="На почту" value={email} />
         </div>
-        <div className="mono-label site-footer-bottom motion-reveal motion-delay-3">
+        <div className="mono-label site-footer-bottom">
           <span>{footerNote}</span>
           <span>Made with care</span>
         </div>

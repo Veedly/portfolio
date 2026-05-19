@@ -89,8 +89,31 @@ test("keeps the lightbox open on media click and closes when clicking outside th
   const panel = document.querySelector(".shot-lightbox-panel");
   expect(panel).toBeTruthy();
   fireEvent.click(panel as HTMLDivElement);
-  expect(screen.getByRole("dialog")).toBeTruthy();
-
-  fireEvent.click(screen.getByRole("dialog"));
   expect(screen.queryByRole("dialog")).toBeNull();
+});
+
+test("locks page scroll and switches active shot with arrow keys", () => {
+  render(
+    <ShotLightbox
+      shots={[
+        { title: "Dashboard", tags: ["CRM"], image: { asset: { url: "/dashboard.jpg" } } },
+        { title: "Wallet", tags: ["Fintech"], image: { asset: { url: "/wallet.jpg" } } },
+      ]}
+    />,
+  );
+
+  fireEvent.click(screen.getByRole("button", { name: /Dashboard/ }));
+
+  expect(document.body.style.overflow).toBe("hidden");
+  expect(screen.getByRole("dialog").textContent).toContain("Dashboard");
+
+  fireEvent.keyDown(window, { key: "ArrowRight" });
+  expect(screen.getByRole("dialog").textContent).toContain("Wallet");
+
+  fireEvent.keyDown(window, { key: "ArrowLeft" });
+  expect(screen.getByRole("dialog").textContent).toContain("Dashboard");
+
+  fireEvent.keyDown(window, { key: "Escape" });
+  expect(screen.queryByRole("dialog")).toBeNull();
+  expect(document.body.style.overflow).toBe("");
 });

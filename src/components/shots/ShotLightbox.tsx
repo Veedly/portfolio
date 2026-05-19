@@ -1,15 +1,63 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { FlipReveal, FlipRevealItem } from "@/components/flip-reveal";
 import { urlFor } from "@/sanity/image";
 import type { Shot } from "@/types/content";
 
 export function ShotLightbox({ shots }: { shots: Shot[] }) {
-  const [active, setActive] = useState<Shot | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeTag, setActiveTag] = useState("all");
   const tags = useMemo(() => Array.from(new Set(shots.flatMap((shot) => shot.tags || []))), [shots]);
+  const active = activeIndex === null ? null : shots[activeIndex] || null;
+  const hasMultipleShots = shots.length > 1;
+
+  const closeLightbox = useCallback(() => setActiveIndex(null), []);
+
+  const showPrevious = useCallback(() => {
+    setActiveIndex((index) => {
+      if (index === null || !shots.length) return index;
+      return (index - 1 + shots.length) % shots.length;
+    });
+  }, [shots.length]);
+
+  const showNext = useCallback(() => {
+    setActiveIndex((index) => {
+      if (index === null || !shots.length) return index;
+      return (index + 1) % shots.length;
+    });
+  }, [shots.length]);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeLightbox();
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showPrevious();
+      }
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showNext();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [activeIndex, closeLightbox, showNext, showPrevious]);
 
   return (
     <>
@@ -31,7 +79,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
 
           return (
             <FlipRevealItem key={`${shot.title || "shot"}-${index}`} flipKey={flipKey} className="shot-card">
-              <button type="button" onClick={() => setActive(shot)} className="shot-card-button">
+              <button type="button" onClick={() => setActiveIndex(index)} className="shot-card-button">
                 <div className="shot-card-media">
                   {media?.type === "video" ? (
                     <video src={media.src} poster={media.poster} muted loop playsInline autoPlay preload="metadata" />
@@ -52,8 +100,45 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
 
       {active && typeof document !== "undefined"
         ? createPortal(
-            <div role="dialog" aria-modal="true" onClick={() => setActive(null)} className="shot-lightbox">
-              <div className="shot-lightbox-panel" onClick={(event) => event.stopPropagation()}>
+            <div role="dialog" aria-modal="true" onClick={closeLightbox} className="shot-lightbox">
+              <div
+                className="shot-lightbox-panel"
+                onClick={(event) => {
+                  const target = event.target;
+                  if (target instanceof Element && target.closest("img, video")) {
+                    event.stopPropagation();
+                    return;
+                  }
+
+                  closeLightbox();
+                }}
+              >
+                {hasMultipleShots ? (
+                  <>
+                    <button
+                      type="button"
+                      className="shot-lightbox-nav shot-lightbox-nav--prev"
+                      aria-label="Previous shot"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        showPrevious();
+                      }}
+                    >
+                      ←
+                    </button>
+                    <button
+                      type="button"
+                      className="shot-lightbox-nav shot-lightbox-nav--next"
+                      aria-label="Next shot"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        showNext();
+                      }}
+                    >
+                      →
+                    </button>
+                  </>
+                ) : null}
                 {getShotMedia(active)?.type === "video" ? (
                   <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls autoPlay playsInline />
                 ) : getShotMedia(active)?.src ? (

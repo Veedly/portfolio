@@ -5,9 +5,11 @@ import { Footer } from "./Footer";
 test("renders the interactive grid as footer background", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
-  render(<Footer />);
+  const { container } = render(<Footer />);
 
   expect(screen.getByTestId("footer-thermodynamic-grid")).toBeTruthy();
+  expect(container.querySelector(".site-footer")?.classList.contains("motion-reveal")).toBe(false);
+  expect(container.querySelector(".site-footer .motion-reveal")).toBeNull();
 });
 
 test("renders primary footer contact actions", () => {
