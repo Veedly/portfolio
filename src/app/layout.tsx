@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from "next/font/google";
+import { GlobalThermodynamicBackground } from "@/components/layout/GlobalThermodynamicBackground";
 import { PageTransition } from "@/components/layout/PageTransition";
 import "./globals.css";
 
@@ -33,6 +34,7 @@ export default function RootLayout({
     <html lang="ru" data-theme="dark" className={`${interTight.variable} ${instrumentSerif.variable} ${jetBrainsMono.variable}`}>
       <body>
         <div className="page-shell">
+          <GlobalThermodynamicBackground />
           <PageTransition>{children}</PageTransition>
         </div>
       </body>

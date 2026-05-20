@@ -2,12 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { expect, test, vi } from "vitest";
 import { Footer } from "./Footer";
 
-test("renders the interactive grid as footer background", () => {
+test("uses the global thermodynamic background instead of a duplicate footer grid", () => {
   vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(null);
 
   const { container } = render(<Footer />);
 
-  expect(screen.getByTestId("footer-thermodynamic-grid")).toBeTruthy();
+  expect(screen.queryByTestId("footer-thermodynamic-grid")).toBeNull();
   expect(container.querySelector(".site-footer")?.classList.contains("motion-reveal")).toBe(false);
   expect(container.querySelector(".site-footer .motion-reveal")).toBeNull();
 });

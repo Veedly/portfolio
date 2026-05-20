@@ -71,6 +71,7 @@ button {
 }
 
 .page-shell {
+  position: relative;
   min-height: 100vh;
   background: var(--color-bg-canvas);
   padding-bottom: 88px;
@@ -78,14 +79,15 @@ button {
 
 .page-transition-root {
   position: relative;
+  z-index: 1;
   min-height: 100vh;
   isolation: isolate;
-  background: var(--color-bg-canvas);
+  background: transparent;
 }
 
 .page-transition-layer {
   transform-origin: 50% 0%;
-  background: var(--color-bg-canvas);
+  background: color-mix(in srgb, var(--color-bg-canvas) 72%, transparent);
   will-change: inset, transform, opacity, filter, border-radius, box-shadow;
 }
 
@@ -539,7 +541,7 @@ button {
   margin-top: 120px;
   overflow: hidden;
   border-top: 1px solid var(--color-border-subtle);
-  background: var(--color-bg-canvas);
+  background: color-mix(in srgb, var(--color-bg-canvas) 70%, transparent);
 }
 
 .thermodynamic-grid {
@@ -556,8 +558,15 @@ button {
   height: 100%;
 }
 
-.site-footer-grid {
-  opacity: 1;
+.global-thermodynamic-bg {
+  position: fixed;
+  z-index: 0;
+  opacity: 0.62;
+  pointer-events: none;
+}
+
+:root[data-theme="light"] .global-thermodynamic-bg {
+  opacity: 0.42;
 }
 
 .site-footer-vignette {

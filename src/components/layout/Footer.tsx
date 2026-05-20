@@ -1,5 +1,3 @@
-import ThermodynamicGrid from "@/components/interactive-thermodynamic-grid";
-
 type FooterProps = {
   telegram?: string;
   email?: string;
@@ -14,13 +12,6 @@ export function Footer({
 }: FooterProps) {
   return (
     <footer id="contacts" className="site-footer">
-      <ThermodynamicGrid
-        data-testid="footer-thermodynamic-grid"
-        className="site-footer-grid"
-        resolution={12}
-        coolingFactor={0.975}
-        aria-hidden="true"
-      />
       <div className="site-footer-vignette" aria-hidden="true" />
       <div className="container site-footer-content">
         <p className="mono-label">КОНТАКТЫ</p>
