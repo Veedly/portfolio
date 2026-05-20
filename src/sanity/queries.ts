@@ -107,6 +107,38 @@ export const featuredCaseSuggestionsQuery = `*[_type == "case" && featured == tr
   }
 }`;
 
+export const cvPageQuery = `*[_type == "cvPage"][0]{
+  eyebrow,
+  name,
+  role,
+  intro,
+  contact,
+  sectionLabels,
+  experience[] | order(order asc) {
+    period,
+    title,
+    place,
+    text
+  },
+  education[] | order(order asc) {
+    period,
+    title,
+    place,
+    text
+  },
+  sideProjects[] | order(order asc) {
+    period,
+    title,
+    place,
+    text
+  },
+  skills,
+  cvFile{
+    ...,
+    asset->
+  }
+}`;
+
 export const shotsQuery = `*[_type == "shot" && published == true] | order(order asc) {
   title,
   mediaType,

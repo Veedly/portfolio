@@ -82,7 +82,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
               <button type="button" onClick={() => setActiveIndex(index)} className="shot-card-button">
                 <div className="shot-card-media">
                   {media?.type === "video" ? (
-                    <video src={media.src} poster={media.poster} muted loop playsInline autoPlay preload="metadata" />
+                    <video ref={muteVideoElement} src={media.src} poster={media.poster} muted loop playsInline autoPlay preload="metadata" />
                   ) : media?.src ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={media.src} alt={shot.title || "Shot"} loading="lazy" />
@@ -140,7 +140,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
                   </>
                 ) : null}
                 {getShotMedia(active)?.type === "video" ? (
-                  <video src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls muted autoPlay playsInline />
+                  <video ref={muteVideoElement} src={getShotMedia(active)?.src} poster={getShotMedia(active)?.poster} controls muted autoPlay playsInline />
                 ) : getShotMedia(active)?.src ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={getShotMedia(active)?.src} alt={active.title || "Shot"} />
@@ -179,4 +179,11 @@ function getShotImageUrl(shot: Shot) {
   if (shot.image?.asset?.url) return shot.image.asset.url;
   if (!shot.image?.asset?._ref || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return "";
   return urlFor(shot.image).width(900).height(1100).fit("crop").url();
+}
+
+function muteVideoElement(video: HTMLVideoElement | null) {
+  if (!video) return;
+  video.defaultMuted = true;
+  video.muted = true;
+  video.volume = 0;
 }

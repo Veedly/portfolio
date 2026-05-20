@@ -16,6 +16,34 @@ export type SanityFile = {
   };
 };
 
+export type CvEntry = {
+  period: string;
+  title: string;
+  place: string;
+  text: string;
+};
+
+export type CvSectionLabels = {
+  experience: string;
+  education: string;
+  sideProjects: string;
+  skills: string;
+};
+
+export type CvPageContent = {
+  eyebrow: string;
+  name: string;
+  role: string;
+  intro: string;
+  contact: string;
+  sectionLabels: CvSectionLabels;
+  experience: CvEntry[];
+  education: CvEntry[];
+  sideProjects: CvEntry[];
+  skills: string[];
+  cvFile?: SanityFile;
+};
+
 export type SiteSettings = {
   name: string;
   role: string;
@@ -126,6 +154,36 @@ export type RawLocalizedCaseSummary = Omit<CaseSummary, "title" | "subtitle" | "
 export type RawLocalizedShot = Omit<Shot, "title" | "tags"> & {
   title?: Localized<string>;
   tags?: Localized<string[]>;
+};
+
+export type RawLocalizedCvEntry = {
+  period?: Localized<string>;
+  title?: Localized<string>;
+  place?: Localized<string>;
+  text?: Localized<string>;
+};
+
+export type RawLocalizedCvSectionLabels = {
+  experience?: Localized<string>;
+  education?: Localized<string>;
+  sideProjects?: Localized<string>;
+  skills?: Localized<string>;
+};
+
+export type RawLocalizedCvPage = Omit<
+  CvPageContent,
+  "eyebrow" | "name" | "role" | "intro" | "contact" | "sectionLabels" | "experience" | "education" | "sideProjects" | "skills"
+> & {
+  eyebrow?: Localized<string>;
+  name?: Localized<string>;
+  role?: Localized<string>;
+  intro?: Localized<string>;
+  contact?: Localized<string>;
+  sectionLabels?: RawLocalizedCvSectionLabels;
+  experience?: RawLocalizedCvEntry[];
+  education?: RawLocalizedCvEntry[];
+  sideProjects?: RawLocalizedCvEntry[];
+  skills?: Localized<string[]>;
 };
 
 export type RawLocalizedCase = Omit<

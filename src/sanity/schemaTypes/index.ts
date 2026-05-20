@@ -13,6 +13,7 @@ import {
   takeaways,
 } from "./caseBlocks";
 import { experienceType } from "./experience";
+import { cvPageType } from "./cvPage";
 import { focusItemType } from "./focusItem";
 import { shotType } from "./shot";
 import { shotTagType } from "./shotTag";
@@ -23,6 +24,7 @@ export const schemaTypes = [
   shotTagType,
   shotType,
   siteSettingsType,
+  cvPageType,
   experienceType,
   focusItemType,
   contextGrid,

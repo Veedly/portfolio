@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 export type SliderMediaItem =
@@ -134,7 +136,7 @@ export const Component = ({ images = defaultImages, items }: ImageAutoSliderProp
               {duplicatedItems.map((item, index) => (
                 <div key={`${item.src}-${index}`} className="image-auto-slider-item">
                   {item.type === "video" ? (
-                    <video src={item.src} poster={item.poster} muted loop playsInline autoPlay preload="metadata" />
+                    <video ref={muteVideoElement} src={item.src} poster={item.poster} muted loop playsInline autoPlay preload="metadata" />
                   ) : (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={item.src} alt={item.alt || `Gallery image ${(index % sourceItems.length) + 1}`} loading="lazy" />
@@ -153,4 +155,11 @@ function normalizeItems(items: SliderMediaItem[]) {
   return items
     .map((item) => (typeof item === "string" ? { type: "image" as const, src: item } : item))
     .filter((item) => item.src);
+}
+
+function muteVideoElement(video: HTMLVideoElement | null) {
+  if (!video) return;
+  video.defaultMuted = true;
+  video.muted = true;
+  video.volume = 0;
 }

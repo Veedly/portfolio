@@ -219,9 +219,17 @@ function prefersReducedMotion() {
 
 function createSnapshot(key: string, element: HTMLDivElement | null, scrollY: number): PageSnapshot | null {
   if (!element) return null;
+  const clone = element.cloneNode(true) as HTMLDivElement;
+  clone.querySelectorAll("video").forEach((video) => {
+    video.setAttribute("muted", "");
+    video.setAttribute("data-muted-snapshot", "true");
+    video.removeAttribute("autoplay");
+    video.removeAttribute("controls");
+  });
+
   return {
     key,
-    html: element.innerHTML,
+    html: clone.innerHTML,
     scrollY,
   };
 }

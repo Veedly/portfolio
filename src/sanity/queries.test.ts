@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseBySlugQuery, featuredCaseSuggestionsQuery, homeQuery, shotsQuery } from "./queries";
+import { caseBySlugQuery, cvPageQuery, featuredCaseSuggestionsQuery, homeQuery, shotsQuery } from "./queries";
 
 describe("Sanity queries", () => {
   it("selects homepage content groups", () => {
@@ -19,6 +19,12 @@ describe("Sanity queries", () => {
 
   it("selects showcase preview images for related cases", () => {
     expect(featuredCaseSuggestionsQuery).toContain("showcasePreviewImage");
+  });
+
+  it("selects CV page content", () => {
+    expect(cvPageQuery).toContain('*[_type == "cvPage"][0]');
+    expect(cvPageQuery).toContain("sideProjects");
+    expect(cvPageQuery).toContain("cvFile");
   });
 
   it("filters shots to published entries", () => {

@@ -8,6 +8,10 @@ export const structure: StructureResolver = (S) =>
         .title("Site settings")
         .schemaType("siteSettings")
         .child(S.document().schemaType("siteSettings").documentId("siteSettings")),
+      S.listItem()
+        .title("CV page")
+        .schemaType("cvPage")
+        .child(S.document().schemaType("cvPage").documentId("cvPage")),
       S.divider(),
-      ...S.documentTypeListItems().filter((item) => item.getId() !== "siteSettings"),
+      ...S.documentTypeListItems().filter((item) => !["siteSettings", "cvPage"].includes(item.getId() ?? "")),
     ]);
