@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { caseBySlugQuery, cvPageQuery, featuredCaseSuggestionsQuery, homeQuery, shotsQuery } from "./queries";
+import { caseBySlugQuery, cvPageQuery, featuredCaseSuggestionsQuery, homeQuery, shotTagsQuery, shotsPageQuery, shotsQuery } from "./queries";
 
 describe("Sanity queries", () => {
   it("selects homepage content groups", () => {
@@ -35,5 +35,12 @@ describe("Sanity queries", () => {
     expect(shotsQuery).toContain('"en": tags[]->title.en');
     expect(homeQuery).toContain('"ru": tags[]->title.ru');
     expect(homeQuery).toContain("videoFile");
+  });
+
+  it("selects paged shots and shot tags", () => {
+    expect(shotsPageQuery).toContain("[$start...$end]");
+    expect(shotsPageQuery).toContain('"total": count');
+    expect(shotsPageQuery).toContain('$tag == "all"');
+    expect(shotTagsQuery).toContain('_type == "shotTag"');
   });
 });

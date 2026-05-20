@@ -1,15 +1,38 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FlipReveal, FlipRevealItem } from "@/components/flip-reveal";
 import { urlFor } from "@/sanity/image";
 import type { Shot } from "@/types/content";
 
-export function ShotLightbox({ shots }: { shots: Shot[] }) {
+type ShotsApiResponse = {
+  shots: Shot[];
+  nextStart: number;
+  hasMore: boolean;
+};
+
+export function ShotLightbox({
+  shots: initialShots,
+  tags,
+  locale = "en",
+  hasMore: initialHasMore = false,
+  pageSize = 12,
+}: {
+  shots: Shot[];
+  tags?: string[];
+  locale?: "ru" | "en";
+  hasMore?: boolean;
+  pageSize?: number;
+}) {
+  const [shots, setShots] = useState(initialShots);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeTag, setActiveTag] = useState("all");
-  const tags = useMemo(() => Array.from(new Set(shots.flatMap((shot) => shot.tags || []))), [shots]);
+  const [nextStart, setNextStart] = useState(initialShots.length);
+  const [hasMore, setHasMore] = useState(initialHasMore);
+  const [isLoading, setIsLoading] = useState(false);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const filterTags = tags?.length ? tags : Array.from(new Set(initialShots.flatMap((shot) => shot.tags || [])));
   const active = activeIndex === null ? null : shots[activeIndex] || null;
   const hasMultipleShots = shots.length > 1;
 
@@ -21,6 +44,94 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
       return (index - 1 + shots.length) % shots.length;
     });
   }, [shots.length]);
+
+  const fetchShots = useCallback(
+    async (tag: string, start: number, signal?: AbortSignal): Promise<ShotsApiResponse> => {
+      const params = new URLSearchParams({
+        locale,
+        tag,
+        start: String(start),
+        limit: String(pageSize),
+      });
+      const response = await fetch(`/api/shots?${params.toString()}`, { signal });
+
+      if (!response.ok) {
+        throw new Error("Failed to load shots");
+      }
+
+      return response.json();
+    },
+    [locale, pageSize],
+  );
+
+  const loadMore = useCallback(async () => {
+    if (isLoading || !hasMore) return;
+
+    setIsLoading(true);
+
+    try {
+      const data = await fetchShots(activeTag, nextStart);
+      setShots((currentShots) => [...currentShots, ...data.shots]);
+      setNextStart(data.nextStart);
+      setHasMore(data.hasMore);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [activeTag, fetchShots, hasMore, isLoading, nextStart]);
+
+  useEffect(() => {
+    setActiveIndex(null);
+
+    if (activeTag === "all") {
+      setShots(initialShots);
+      setNextStart(initialShots.length);
+      setHasMore(initialHasMore);
+      setIsLoading(false);
+      return;
+    }
+
+    const controller = new AbortController();
+    setIsLoading(true);
+
+    fetchShots(activeTag, 0, controller.signal)
+      .then((data) => {
+        setShots(data.shots);
+        setNextStart(data.nextStart);
+        setHasMore(data.hasMore);
+      })
+      .catch((error) => {
+        if (error.name !== "AbortError") {
+          setShots([]);
+          setNextStart(0);
+          setHasMore(false);
+        }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) {
+          setIsLoading(false);
+        }
+      });
+
+    return () => controller.abort();
+  }, [activeTag, fetchShots, initialHasMore, initialShots]);
+
+  useEffect(() => {
+    const loader = loaderRef.current;
+    if (!loader || !hasMore) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          void loadMore();
+        }
+      },
+      { rootMargin: "640px 0px" },
+    );
+
+    observer.observe(loader);
+
+    return () => observer.disconnect();
+  }, [hasMore, loadMore]);
 
   const showNext = useCallback(() => {
     setActiveIndex((index) => {
@@ -65,7 +176,7 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
         <FilterButton active={activeTag === "all"} onClick={() => setActiveTag("all")}>
           ALL
         </FilterButton>
-        {tags.map((tag) => (
+        {filterTags.map((tag) => (
           <FilterButton key={tag} active={activeTag === tag} onClick={() => setActiveTag(tag)}>
             {tag}
           </FilterButton>
@@ -97,6 +208,10 @@ export function ShotLightbox({ shots }: { shots: Shot[] }) {
           );
         })}
       </FlipReveal>
+
+      <div ref={loaderRef} className="shots-load-more" aria-live="polite">
+        {isLoading ? "Loading..." : hasMore ? "Scroll to load more" : shots.length ? "All shots loaded" : "No shots"}
+      </div>
 
       {active && typeof document !== "undefined"
         ? createPortal(

@@ -156,6 +156,15 @@ export type RawLocalizedShot = Omit<Shot, "title" | "tags"> & {
   tags?: Localized<string[]>;
 };
 
+export type RawLocalizedShotTag = {
+  title?: Localized<string>;
+};
+
+export type RawLocalizedShotsPage = {
+  items?: RawLocalizedShot[];
+  total?: number;
+};
+
 export type RawLocalizedCvEntry = {
   period?: Localized<string>;
   title?: Localized<string>;

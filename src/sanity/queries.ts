@@ -139,6 +139,39 @@ export const cvPageQuery = `*[_type == "cvPage"][0]{
   }
 }`;
 
+export const shotTagsQuery = `*[_type == "shotTag"] | order(order asc) {
+  title
+}`;
+
+export const shotsPageQuery = `{
+  "items": *[
+    _type == "shot" &&
+    published == true &&
+    ($tag == "all" || $tag in select($locale == "ru" => tags[]->title.ru, tags[]->title.en))
+  ] | order(order asc) [$start...$end] {
+    title,
+    mediaType,
+    image{
+      ...,
+      asset->
+    },
+    videoFile{
+      ...,
+      asset->
+    },
+    "tags": {
+      "ru": tags[]->title.ru,
+      "en": tags[]->title.en
+    },
+    year
+  },
+  "total": count(*[
+    _type == "shot" &&
+    published == true &&
+    ($tag == "all" || $tag in select($locale == "ru" => tags[]->title.ru, tags[]->title.en))
+  ])
+}`;
+
 export const shotsQuery = `*[_type == "shot" && published == true] | order(order asc) {
   title,
   mediaType,
