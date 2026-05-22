@@ -92,6 +92,13 @@ export const solutions = defineType({
             localizedString("title", "Title"),
             localizedText("text", "Text", 4),
             defineField({ name: "images", type: "array", of: [{ type: "image", options: { hotspot: true } }] }),
+            defineField({
+              name: "videoFile",
+              title: "Video file",
+              type: "file",
+              options: { accept: "video/*" },
+              description: "Optional video rendered after images for this solution item.",
+            }),
           ],
         }),
       ],

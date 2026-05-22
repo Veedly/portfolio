@@ -236,6 +236,7 @@ function localizeCaseBlock(block: RawBlock, locale: Locale): CaseBlock | null {
           title: text(item.title, locale),
           text: text(item.text, locale),
           images: localizeArray(item.images),
+          videoFile: item.videoFile as SanityFile | undefined,
         })),
       };
     case "featureGrid":

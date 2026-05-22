@@ -98,7 +98,7 @@ export type CaseBlock =
   | { _type: "richTextSection"; label: string; body: unknown[] }
   | { _type: "goalMetrics"; goal: string; metrics: { key: string; value: string }[] }
   | { _type: "callout"; label: string; text: string }
-  | { _type: "solutions"; items: { title: string; text: string; images?: SanityImage[] }[] }
+  | { _type: "solutions"; items: { title: string; text: string; images?: SanityImage[]; videoFile?: SanityFile }[] }
   | { _type: "featureGrid"; intro?: string; items: { title: string }[] }
   | { _type: "resultBullets"; intro?: string; bullets: string[] }
   | {

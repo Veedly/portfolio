@@ -806,6 +806,31 @@ button {
   line-height: 1.1;
 }
 
+.solution-media-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.solution-media-grid img,
+.solution-media-grid video {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--color-bg-surface-raised);
+  object-fit: cover;
+}
+
+.solution-media-grid video {
+  min-height: 462px;
+}
+
+.solution-media-placeholder {
+  min-height: 462px;
+  border-radius: 4px;
+  background: var(--color-bg-surface-raised);
+}
+
 .case-problem-section {
   display: grid;
   grid-template-columns: 180px 1fr;

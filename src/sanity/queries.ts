@@ -80,6 +80,17 @@ export const caseBySlugQuery = `*[_type == "case" && slug.current == $slug][0]{
   tags,
   blocks[]{
     ...,
+    items[]{
+      ...,
+      images[]{
+        ...,
+        asset->
+      },
+      videoFile{
+        ...,
+        asset->
+      }
+    },
     videoFile{
       ...,
       asset->
