@@ -91,6 +91,19 @@ export const solutions = defineType({
           fields: [
             localizedString("title", "Title"),
             localizedText("text", "Text", 4),
+            defineField({
+              name: "mediaLayout",
+              title: "Media layout",
+              type: "string",
+              initialValue: "grid",
+              options: {
+                layout: "radio",
+                list: [
+                  { title: "Grid / in row", value: "grid" },
+                  { title: "Stack / one by one", value: "stack" },
+                ],
+              },
+            }),
             defineField({ name: "images", type: "array", of: [{ type: "image", options: { hotspot: true } }] }),
             defineField({
               name: "videoFile",

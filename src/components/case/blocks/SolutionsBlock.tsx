@@ -1,4 +1,4 @@
-import { urlFor } from "@/sanity/image";
+﻿import { urlFor } from "@/sanity/image";
 import type { CaseBlock, SanityImage } from "@/types/content";
 
 type Solutions = Extract<CaseBlock, { _type: "solutions" }>;
@@ -48,6 +48,7 @@ function SolutionMedia({ item }: { item: SolutionItem }) {
   const images = item.images || [];
   const videoUrl = item.videoFile?.asset?.url || "";
   const hasMedia = images.length > 0 || videoUrl;
+  const isStack = item.mediaLayout === "stack";
 
   if (!hasMedia) {
     return <div className="solution-media-placeholder" />;
@@ -55,9 +56,9 @@ function SolutionMedia({ item }: { item: SolutionItem }) {
 
   return (
     <div
-      className="solution-media-grid"
+      className={isStack ? "solution-media-grid solution-media-grid--stack" : "solution-media-grid"}
       style={{
-        gridTemplateColumns: images.length > 1 && !videoUrl ? "1fr 1fr" : "1fr",
+        gridTemplateColumns: !isStack && images.length > 1 && !videoUrl ? "1fr 1fr" : "1fr",
       }}
     >
       {images.map((image, imageIndex) => {
@@ -81,3 +82,4 @@ function getImageUrl(image: SanityImage) {
   if (!image.asset?._ref || !process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) return "";
   return urlFor(image).width(1400).fit("max").url();
 }
+

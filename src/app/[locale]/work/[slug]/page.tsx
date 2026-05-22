@@ -237,6 +237,7 @@ function localizeCaseBlock(block: RawBlock, locale: Locale): CaseBlock | null {
           text: text(item.text, locale),
           images: localizeArray(item.images),
           videoFile: item.videoFile as SanityFile | undefined,
+          mediaLayout: item.mediaLayout === "stack" ? "stack" : "grid",
         })),
       };
     case "featureGrid":

@@ -811,6 +811,10 @@ button {
   gap: 16px;
 }
 
+.solution-media-grid--stack {
+  grid-template-columns: 1fr;
+}
+
 .solution-media-grid img,
 .solution-media-grid video {
   display: block;
