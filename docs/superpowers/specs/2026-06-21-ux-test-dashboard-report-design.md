@@ -8,7 +8,7 @@ Create a standalone English client report at `/en/reports/ux-test-dashboard` tha
 
 - Research overview: unmoderated usability study run on Wynde.
 - Five-second test sample: 7 participants per variant.
-- Scenario UX test sample: 11 valid sessions for the current product and 7 valid sessions for the new concept after excluding 4 invalid Wynde sessions.
+- Scenario UX test sample: 11 valid sessions for the current product and 11 valid sessions for the new concept after excluding 4 invalid Wynde sessions from 15 collected sessions.
 - Participant task: find the specified market, choose “Yes”, enter $50, and place the bet.
 - Stage 1: five-second test stimuli, the four questions asked, product recognition, first-click intent, and trust score.
 - Stage 2: scenario-based usability test with success, drop-off, time, and CES metrics.

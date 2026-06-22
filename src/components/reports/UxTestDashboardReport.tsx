@@ -6,7 +6,7 @@ const comparisonRows = [
     oldValue: "45.4%",
     oldNote: "5 of 11 completed",
     newValue: "100%",
-    newNote: "7 of 7 completed",
+    newNote: "11 of 11 completed",
     effect: "2.2× conversion",
   },
   {
@@ -21,17 +21,17 @@ const comparisonRows = [
     label: "Median time",
     oldValue: "68.2 sec",
     oldNote: "Observed task time",
-    newValue: "44.4 sec",
+    newValue: "48.3 sec",
     newNote: "Observed task time",
-    effect: "35% faster",
+    effect: "29% faster",
   },
   {
     label: "Average time",
     oldValue: "103.9 sec",
     oldNote: "All valid sessions",
-    newValue: "67.9 sec",
+    newValue: "86.3 sec",
     newNote: "All valid sessions",
-    effect: "35% faster",
+    effect: "17% faster",
   },
   {
     label: "Ease score",
@@ -74,6 +74,7 @@ const failureModes = [
 ];
 
 const positiveQuotes = [
+  "It was very easy and intuitive. No concerns doing the task.",
   "Easy to find by scrolling on the page. A number of bet options were already shown on the screen to just press and bet.",
   "It was easy to find the market on the main page. There were easy options once clicking on the bet.",
   "The process was quick and easy.",
@@ -129,7 +130,7 @@ export function UxTestDashboardReport() {
             </div>
             <div>
               <dt>Scenario UX test</dt>
-              <dd>11 current / 7 new valid participants</dd>
+              <dd>11 current / 11 new valid participants</dd>
             </div>
           </dl>
         </div>
@@ -220,8 +221,8 @@ export function UxTestDashboardReport() {
           </p>
         </div>
         <p className="ux-report-sample-note">
-          The new-flow scenario test initially included 11 sessions. Four were excluded as invalid because of Wynde
-          platform failures, leaving 7 valid sessions for analysis.
+          The new-flow scenario test included 15 collected sessions. Four were excluded as invalid because of Wynde
+          platform failures, leaving 11 valid sessions for analysis.
         </p>
         <div className="ux-report-metric-summary">
           <div>
@@ -233,14 +234,14 @@ export function UxTestDashboardReport() {
           <div>
             <Timer aria-hidden="true" />
             <span className="mono-label">FLOW SPEED</span>
-            <strong>−35%</strong>
-            <p>Observed median task time dropped from 68.2 to 44.4 seconds.</p>
+            <strong>−29%</strong>
+            <p>Observed median task time dropped from 68.2 to 48.3 seconds.</p>
           </div>
           <div>
             <ShieldCheck aria-hidden="true" />
             <span className="mono-label">EASE</span>
             <strong>4.3 / 5</strong>
-            <p>Clean UX score reaches 4.66/5 after removing one display issue.</p>
+            <p>9 of 11 participants rated task ease at 4 or 5.</p>
           </div>
         </div>
 
@@ -360,7 +361,7 @@ export function UxTestDashboardReport() {
             <blockquote>“It is confusing. I would like it to be straightforward.”</blockquote>
           </div>
           <div className="is-new">
-            <span className="mono-label">NEW CONCEPT / 5 OF 5</span>
+            <span className="mono-label">NEW CONCEPT / SELECTED FEEDBACK</span>
             {positiveQuotes.map((quote) => (
               <blockquote key={quote}>“{quote}”</blockquote>
             ))}
