@@ -19,6 +19,8 @@ export const caseType = defineType({
       fields: [defineField({ name: "alt", title: "Alt text", type: "string" })],
     }),
     defineField({ name: "year", type: "string" }),
+    localizedString("status", "Card status"),
+    localizedText("statusDetails", "Status details", 2),
     localizedString("role", "Role"),
     localizedString("client", "Client"),
     localizedString("scope", "Scope"),

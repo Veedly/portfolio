@@ -2,7 +2,7 @@ import type { CaseBlock } from "@/types/content";
 
 type FeatureGrid = Extract<CaseBlock, { _type: "featureGrid" }>;
 
-export function FeatureGridBlock({ block }: { block: FeatureGrid }) {
+export function FeatureGridBlock({ block, locale }: { block: FeatureGrid; locale: "ru" | "en" }) {
   return (
     <section
       className="container case-section motion-reveal"
@@ -14,7 +14,7 @@ export function FeatureGridBlock({ block }: { block: FeatureGrid }) {
         padding: "40px 0 96px",
       }}
     >
-      <p className="mono-label">ФУНКЦИОНАЛ</p>
+      <p className="mono-label">{locale === "ru" ? "ФУНКЦИОНАЛ" : "FEATURES"}</p>
       <div>
         {block.intro ? <p style={{ fontSize: 18, lineHeight: "28px", margin: 0, maxWidth: 720 }}>{block.intro}</p> : null}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", marginTop: 60 }}>

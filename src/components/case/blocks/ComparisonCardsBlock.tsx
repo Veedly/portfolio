@@ -2,7 +2,7 @@ import type { CaseBlock } from "@/types/content";
 
 type ComparisonCards = Extract<CaseBlock, { _type: "comparisonCards" }>;
 
-export function ComparisonCardsBlock({ block }: { block: ComparisonCards }) {
+export function ComparisonCardsBlock({ block, locale }: { block: ComparisonCards; locale: "ru" | "en" }) {
   return (
     <section className="container motion-reveal" style={{ padding: "0 0 96px", display: "grid", gridTemplateColumns: "180px 1fr", gap: 24 }}>
       <span />
@@ -13,9 +13,9 @@ export function ComparisonCardsBlock({ block }: { block: ComparisonCards }) {
               <p className="mono-label">{item.label}</p>
               <h3 style={{ fontSize: 24, lineHeight: "28px", fontWeight: 400 }}>{item.title}</h3>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12, borderTop: "1px solid var(--color-border-default)", paddingTop: 20 }}>
-                <Metric value={item.success} label="успешно" />
-                <Metric value={item.giveup} label="сдались" />
-                <Metric value={item.time} label="среднее" />
+                <Metric value={item.success} label={locale === "ru" ? "успешно" : "success"} />
+                <Metric value={item.giveup} label={locale === "ru" ? "сдались" : "gave up"} />
+                <Metric value={item.time} label={locale === "ru" ? "среднее" : "average"} />
               </div>
             </article>
           ))}

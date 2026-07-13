@@ -48,12 +48,14 @@ export type SiteSettings = {
   name: string;
   role: string;
   intro: string;
+  heroMeta?: string;
   heroImageDark?: SanityImage;
   heroImageLight?: SanityImage;
   availabilityStatus?: string;
   telegram?: string;
   email?: string;
   behance?: string;
+  cvFile?: SanityFile;
   footerNote?: string;
 };
 
@@ -61,6 +63,7 @@ export type Experience = {
   company: string;
   role: string;
   period: string;
+  summary?: string;
 };
 
 export type FocusItem = {
@@ -74,6 +77,7 @@ export type CaseSummary = {
   coverImage?: SanityImage;
   showcasePreviewImage?: SanityImage;
   year?: string;
+  status?: string;
   tags?: string[];
 };
 
@@ -122,6 +126,7 @@ export type CaseDetail = CaseSummary & {
   role?: string;
   client?: string;
   scope?: string;
+  statusDetails?: string;
   blocks: CaseBlock[];
 };
 
@@ -129,12 +134,14 @@ export type RawLocalizedSiteSettings = {
   name?: Localized<string>;
   role?: Localized<string>;
   intro?: Localized<string>;
+  heroMeta?: Localized<string>;
   heroImageDark?: SanityImage;
   heroImageLight?: SanityImage;
   availabilityStatus?: Localized<string>;
   telegram?: string;
   email?: string;
   behance?: string;
+  cvFile?: SanityFile;
   footerNote?: Localized<string>;
 };
 
@@ -142,16 +149,18 @@ export type RawLocalizedExperience = {
   company?: Localized<string>;
   role?: Localized<string>;
   period?: Localized<string>;
+  summary?: Localized<string>;
 };
 
 export type RawLocalizedFocusItem = {
   title?: Localized<string>;
 };
 
-export type RawLocalizedCaseSummary = Omit<CaseSummary, "title" | "subtitle" | "tags"> & {
+export type RawLocalizedCaseSummary = Omit<CaseSummary, "title" | "subtitle" | "status" | "tags"> & {
   title?: Localized<string>;
   subtitle?: Localized<string>;
   tags?: Localized<string[]>;
+  status?: Localized<string>;
 };
 
 export type RawLocalizedShot = Omit<Shot, "title" | "tags"> & {
@@ -191,13 +200,15 @@ export type RawLocalizedCvPage = Omit<
 
 export type RawLocalizedCase = Omit<
   CaseDetail,
-  "title" | "subtitle" | "role" | "client" | "scope" | "tags" | "blocks"
+  "title" | "subtitle" | "role" | "client" | "scope" | "status" | "statusDetails" | "tags" | "blocks"
 > & {
   title?: Localized<string>;
   subtitle?: Localized<string>;
   role?: Localized<string>;
   client?: Localized<string>;
   scope?: Localized<string>;
+  status?: Localized<string>;
+  statusDetails?: Localized<string>;
   tags?: Localized<string[]>;
   blocks?: unknown[];
 };

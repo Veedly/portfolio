@@ -10,6 +10,9 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
   const nextLocale = locale === "ru" ? "en" : "ru";
   const coverUrl = getCaseCoverUrl(item);
   const showcaseProjects = relatedCases.map((relatedCase) => toShowcaseProject(relatedCase, locale));
+  const labels = locale === "ru"
+    ? { back: "← Назад ко всем работам", year: "Год", status: "Статус", role: "Роль", client: "Клиент", scope: "Скоуп" }
+    : { back: "← Back to all work", year: "Year", status: "Status", role: "Role", client: "Client", scope: "Scope" };
 
   return (
     <>
@@ -17,7 +20,7 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
       <main>
         <section className="container motion-reveal" style={{ padding: "48px 0 40px" }}>
           <div className="mono-label motion-reveal" style={{ display: "flex", justifyContent: "space-between" }}>
-            <Link href={`/${locale}#work`}>← Назад ко всем работам</Link>
+            <Link href={`/${locale}#work`}>{labels.back}</Link>
             <span>{item.year}</span>
           </div>
           <div style={{ textAlign: "center", marginTop: 38 }}>
@@ -42,13 +45,15 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
           </div>
           <div
             className="case-meta-grid motion-reveal motion-delay-3"
-            style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: 20, marginTop: 52 }}
+            style={{ display: "grid", gridTemplateColumns: "repeat(5, minmax(0, 1fr))", gap: 20, marginTop: 52 }}
           >
-            <Meta label="Год" value={item.year} />
-            <Meta label="Роль" value={item.role} />
-            <Meta label="Клиент" value={item.client} />
-            <Meta label="Скоуп" value={item.scope} />
+            <Meta label={labels.year} value={item.year} />
+            <Meta label={labels.status} value={item.status} />
+            <Meta label={labels.role} value={item.role} />
+            <Meta label={labels.client} value={item.client} />
+            <Meta label={labels.scope} value={item.scope} />
           </div>
+          {item.statusDetails ? <p className="case-status-details motion-reveal motion-delay-4">{item.statusDetails}</p> : null}
         </section>
         <div className="container motion-reveal motion-delay-4">
           {coverUrl ? (
@@ -63,15 +68,12 @@ export function CasePage({ item, locale, relatedCases = [] }: { item: CaseDetail
             </div>
           )}
         </div>
-        <CaseBlockRenderer blocks={item.blocks || []} />
+        <CaseBlockRenderer blocks={item.blocks || []} locale={locale} />
         <div className="container motion-reveal">
-          <ProjectShowcase
-            eyebrow={locale === "ru" ? "Другие кейсы" : "More cases"}
-            projects={showcaseProjects}
-          />
+          <ProjectShowcase eyebrow={locale === "ru" ? "Другие кейсы" : "More cases"} projects={showcaseProjects} />
         </div>
       </main>
-      <Footer />
+      <Footer locale={locale} />
     </>
   );
 }

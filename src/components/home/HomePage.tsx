@@ -1,9 +1,8 @@
-import type { CaseSummary, Experience, FocusItem, Shot, SiteSettings } from "@/types/content";
+import type { CaseSummary, Experience, Shot, SiteSettings } from "@/types/content";
 import { urlFor } from "@/sanity/image";
 import { BGPattern } from "@/components/bg-pattern";
 import { Footer } from "@/components/layout/Footer";
 import { Navigation } from "@/components/layout/Navigation";
-import { AboutFocus } from "./AboutFocus";
 import { ExperienceSection } from "./ExperienceSection";
 import { FeaturedWork } from "./FeaturedWork";
 import { ShotsStrip } from "./ShotsStrip";
@@ -14,10 +13,9 @@ type HomePageProps = {
   featuredCases: CaseSummary[];
   featuredShots: Shot[];
   experience: Experience[];
-  focus: FocusItem[];
 };
 
-export function HomePage({ locale, settings, featuredCases, featuredShots, experience, focus }: HomePageProps) {
+export function HomePage({ locale, settings, featuredCases, featuredShots, experience }: HomePageProps) {
   const darkHeroImageUrl = getHeroImageUrl(settings.heroImageDark);
   const lightHeroImageUrl = getHeroImageUrl(settings.heroImageLight);
   const hasHeroImage = darkHeroImageUrl || lightHeroImageUrl;
@@ -66,18 +64,22 @@ export function HomePage({ locale, settings, featuredCases, featuredShots, exper
             >
               {settings.intro}
             </p>
+            {settings.heroMeta ? (
+              <p className="mono-label hero-meta motion-reveal motion-delay-4">{settings.heroMeta}</p>
+            ) : null}
           </div>
         </section>
         <FeaturedWork cases={featuredCases} locale={locale} />
         <ShotsStrip shots={featuredShots} locale={locale} />
-        <ExperienceSection items={experience} />
-        <AboutFocus focus={focus} locale={locale} />
+        <ExperienceSection items={experience} locale={locale} />
       </main>
       <Footer
         telegram={settings.telegram}
         email={settings.email}
         behance={settings.behance}
         footerNote={settings.footerNote}
+        locale={locale}
+        cvHref={settings.cvFile?.asset?.url}
       />
     </>
   );

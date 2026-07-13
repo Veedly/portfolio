@@ -9,6 +9,7 @@ export const siteSettingsType = defineType({
     localizedString("name", "Name"),
     localizedString("role", "Role"),
     localizedText("intro", "Intro"),
+    localizedString("heroMeta", "Hero experience line"),
     defineField({
       name: "heroImageDark",
       title: "Hero image - dark theme",

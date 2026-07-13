@@ -8,7 +8,7 @@ export function FeaturedWork({ cases, locale }: { cases: CaseSummary[]; locale: 
   return (
     <section id="work" className="container motion-reveal" style={{ padding: "0 0 80px" }}>
       <div className="mono-label motion-reveal" style={{ display: "flex", justifyContent: "space-between", marginBottom: 32 }}>
-        <span>FEATURED WORK</span>
+        <span>{locale === "ru" ? "ИЗБРАННЫЕ ПРОЕКТЫ" : "FEATURED WORK"}</span>
         <span>2020 - 2026</span>
       </div>
       <div style={{ display: "grid", gap: 16 }}>
@@ -47,7 +47,10 @@ export function FeaturedWork({ cases, locale }: { cases: CaseSummary[]; locale: 
                     {item.tags?.join(" · ")}
                   </p>
                 </div>
-                <p style={{ margin: 0, lineHeight: "24px" }}>{item.subtitle}</p>
+                <div>
+                  {item.status ? <p className="mono-label project-status">{item.status}</p> : null}
+                  <p style={{ margin: item.status ? "12px 0 0" : 0, lineHeight: "24px" }}>{item.subtitle}</p>
+                </div>
               </div>
             </Link>
           );

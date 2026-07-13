@@ -17,7 +17,7 @@ export function AboutFocus({ focus, locale }: { focus: FocusItem[]; locale: "ru"
       style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, padding: "120px 0" }}
     >
       <div>
-        <p className="mono-label motion-reveal">ABOUT</p>
+        <p className="mono-label motion-reveal">{locale === "ru" ? "ОБО МНЕ" : "ABOUT"}</p>
         <h2 className="motion-reveal motion-delay-1" style={{ fontFamily: "var(--font-hero)", fontSize: 42, lineHeight: "44px", fontWeight: 400 }}>
           {aboutTitle}
         </h2>
@@ -26,7 +26,7 @@ export function AboutFocus({ focus, locale }: { focus: FocusItem[]; locale: "ru"
         </p>
       </div>
       <div>
-        <p className="mono-label motion-reveal">FOCUS</p>
+        <p className="mono-label motion-reveal">{locale === "ru" ? "ЭКСПЕРТИЗА" : "EXPERTISE"}</p>
         <div className="motion-reveal motion-delay-1" style={{ marginTop: 56 }}>
           {focus.map((item, index) => (
             <div

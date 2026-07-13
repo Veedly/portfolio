@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { localizedString } from "./localized";
+import { localizedString, localizedText } from "./localized";
 
 export const experienceType = defineType({
   name: "experience",
@@ -9,6 +9,7 @@ export const experienceType = defineType({
     localizedString("company", "Company"),
     localizedString("role", "Role"),
     localizedString("period", "Period"),
+    localizedText("summary", "Scale and product context", 2),
     defineField({ name: "order", type: "number", initialValue: 0 }),
   ],
   preview: {

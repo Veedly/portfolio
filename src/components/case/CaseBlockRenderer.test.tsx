@@ -5,7 +5,7 @@ import { CaseBlockRenderer } from "./CaseBlockRenderer";
 
 describe("CaseBlockRenderer", () => {
   it("renders supported case blocks", () => {
-    render(<CaseBlockRenderer blocks={caseFixture.blocks} />);
+    render(<CaseBlockRenderer blocks={caseFixture.blocks} locale="en" />);
 
     expect(screen.getByText("Product")).toBeTruthy();
     const video = document.querySelector(".case-video");

@@ -19,6 +19,8 @@ const fallbackCase: CaseDetail = {
   slug: "trillions",
   subtitle: "Web version of a crypto bank",
   year: "2025",
+  status: "In development · Launching Fall 2026",
+  statusDetails: "The MVP is in active development. The public launch of the mobile and web product is planned for Fall 2026.",
   role: "Product Designer",
   client: "Trillions",
   scope: "Fintech · Web · Design System",
@@ -168,6 +170,8 @@ export default async function WorkCasePage({ params }: { params: Promise<Params>
     role: localizeRequired(source.role, locale, ""),
     client: localizeRequired(source.client, locale, ""),
     scope: localizeRequired(source.scope, locale, ""),
+    status: localizeRequired(source.status, locale, ""),
+    statusDetails: localizeRequired(source.statusDetails, locale, ""),
     tags: localizeRequired(source.tags, locale, []),
     coverImage: source.coverImage || (isFallbackCase && source.slug === "trillions" ? trillionsCoverImage : undefined),
     blocks: localizeCaseBlocks(source.blocks || [], locale),
@@ -180,6 +184,7 @@ export default async function WorkCasePage({ params }: { params: Promise<Params>
       title: localizeRequired(relatedCase.title, locale, relatedCase.slug),
       subtitle: localizeRequired(relatedCase.subtitle, locale, ""),
       tags: localizeRequired(relatedCase.tags, locale, []),
+      status: localizeRequired(relatedCase.status, locale, ""),
     }));
 
   return <CasePage item={localizedItem} locale={locale} relatedCases={relatedCases} />;

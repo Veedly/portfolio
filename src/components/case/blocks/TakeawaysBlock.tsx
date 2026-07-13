@@ -2,11 +2,11 @@ import type { CaseBlock } from "@/types/content";
 
 type Takeaways = Extract<CaseBlock, { _type: "takeaways" }>;
 
-export function TakeawaysBlock({ block }: { block: Takeaways }) {
+export function TakeawaysBlock({ block, locale }: { block: Takeaways; locale: "ru" | "en" }) {
   return (
     <section className="motion-reveal" style={{ borderTop: "1px solid var(--color-border-subtle)", padding: "66px 0 100px" }}>
       <div className="container case-section" style={{ display: "grid", gridTemplateColumns: "180px 1fr", gap: 24 }}>
-        <p className="mono-label">ВЫВОДЫ</p>
+        <p className="mono-label">{locale === "ru" ? "ВЫВОДЫ" : "TAKEAWAYS"}</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 20 }}>
           {block.items.map((item) => (
             <article key={item.title} style={{ minHeight: 334, background: "var(--color-bg-surface)", border: "1px solid var(--color-border-default)", padding: 28 }}>

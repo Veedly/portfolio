@@ -3,6 +3,7 @@ export const homeQuery = `{
     name,
     role,
     intro,
+    heroMeta,
     heroImageDark{
       ...,
       asset->
@@ -15,12 +16,17 @@ export const homeQuery = `{
     telegram,
     email,
     behance,
+    cvFile{
+      ...,
+      asset->
+    },
     footerNote
   },
   "featuredCases": *[_type == "case" && featured == true] | order(featuredOrder asc) {
     title,
     "slug": slug.current,
     subtitle,
+    status,
     year,
     tags,
     coverImage{
@@ -52,7 +58,8 @@ export const homeQuery = `{
   "experience": *[_type == "experience"] | order(order asc) {
     company,
     role,
-    period
+    period,
+    summary
   },
   "focus": *[_type == "focusItem"] | order(order asc) {
     title
@@ -74,6 +81,8 @@ export const caseBySlugQuery = `*[_type == "case" && slug.current == $slug][0]{
     asset->
   },
   year,
+  status,
+  statusDetails,
   role,
   client,
   scope,
@@ -106,6 +115,7 @@ export const featuredCaseSuggestionsQuery = `*[_type == "case" && featured == tr
   title,
   "slug": slug.current,
   subtitle,
+  status,
   year,
   tags,
   coverImage{

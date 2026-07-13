@@ -2,7 +2,7 @@ import type { CaseBlock } from "@/types/content";
 
 type ResultBullets = Extract<CaseBlock, { _type: "resultBullets" }>;
 
-export function ResultBulletsBlock({ block }: { block: ResultBullets }) {
+export function ResultBulletsBlock({ block, locale }: { block: ResultBullets; locale: "ru" | "en" }) {
   return (
     <section
       className="container case-section motion-reveal"
@@ -14,7 +14,7 @@ export function ResultBulletsBlock({ block }: { block: ResultBullets }) {
         padding: "48px 0 96px",
       }}
     >
-      <p className="mono-label">РЕЗУЛЬТАТ</p>
+      <p className="mono-label">{locale === "ru" ? "РЕЗУЛЬТАТЫ ДИЗАЙН-ЭТАПА" : "DESIGN STAGE OUTCOMES"}</p>
       <div>
         {block.intro ? <p style={{ fontSize: 18, lineHeight: "28px", margin: 0 }}>{block.intro}</p> : null}
         <div style={{ marginTop: 52 }}>

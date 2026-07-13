@@ -4,7 +4,7 @@ import type { CaseBlock, SanityImage } from "@/types/content";
 type Solutions = Extract<CaseBlock, { _type: "solutions" }>;
 type SolutionItem = Solutions["items"][number];
 
-export function SolutionsBlock({ block }: { block: Solutions }) {
+export function SolutionsBlock({ block, locale }: { block: Solutions; locale: "ru" | "en" }) {
   return (
     <section className="case-solutions motion-reveal" style={{ padding: "80px 0" }}>
       <div
@@ -22,7 +22,7 @@ export function SolutionsBlock({ block }: { block: Solutions }) {
         }}
       >
         {Array.from({ length: 6 }).map((_, index) => (
-          <span key={index}>КЛЮЧЕВЫЕ РЕШЕНИЯ</span>
+          <span key={index}>{locale === "ru" ? "КЛЮЧЕВЫЕ РЕШЕНИЯ" : "KEY SOLUTIONS"}</span>
         ))}
       </div>
       <div className="container" style={{ display: "grid", gap: 80, paddingTop: 80 }}>

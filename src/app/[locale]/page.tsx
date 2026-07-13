@@ -7,7 +7,6 @@ import { homeQuery } from "@/sanity/queries";
 import type {
   CaseSummary,
   Experience,
-  FocusItem,
   RawHomePayload,
   Shot,
   SiteSettings,
@@ -22,8 +21,9 @@ const trillionsCoverImage = {
 
 const fallbackSettings: SiteSettings = {
   name: "Danil Deev",
-  role: "PRODUCT DESIGNER",
-  intro: "I design digital products from scratch - from research and flows to design systems and prototypes.",
+  role: "Senior Product Designer",
+  intro: "I design fintech, crypto, and B2B products: from architecture and complex user flows to design systems and launch.",
+  heroMeta: "7+ years of experience · Mobile & Web · Fintech · Design Systems · Motion & 3D",
   availabilityStatus: "OPEN FOR PROJECTS",
   telegram: "@veed_ux",
   email: "redogdeev31@gmail.com",
@@ -38,6 +38,7 @@ const fallbackCases: CaseSummary[] = [
     subtitle: "Web version of a crypto bank",
     year: "2025",
     tags: ["FINTECH", "WEB", "DESIGN SYSTEM"],
+    status: "In development · Launching Fall 2026",
     coverImage: trillionsCoverImage,
   },
   {
@@ -46,6 +47,7 @@ const fallbackCases: CaseSummary[] = [
     subtitle: "Investment product interface and design system",
     year: "2024",
     tags: ["FINTECH", "MOBILE", "PRODUCT"],
+    status: "Design delivered",
   },
   {
     title: "CRM List",
@@ -53,6 +55,7 @@ const fallbackCases: CaseSummary[] = [
     subtitle: "Operational CRM for internal sales workflows",
     year: "2023",
     tags: ["B2B", "CRM", "WEB APP"],
+    status: "Launched",
   },
 ];
 
@@ -64,19 +67,12 @@ const fallbackShots: Shot[] = [
 ];
 
 const fallbackExperience: Experience[] = [
-  { company: "INFINOX", role: "Designer", period: "2025-now" },
-  { company: "IT Smart Finance", role: "Designer", period: "2023-2025" },
-  { company: "Altessa Solutions", role: "Designer", period: "2023-2025" },
-  { company: "NLPC", role: "Designer", period: "2022-2023" },
-  { company: "Synergy Web", role: "Designer", period: "2021-2022" },
-  { company: "Maslo Media", role: "Designer", period: "2020-2021" },
-];
-
-const fallbackFocus: FocusItem[] = [
-  { title: "Product logic" },
-  { title: "Design systems" },
-  { title: "Modern UI" },
-  { title: "Fintech and B2B interfaces" },
+  { company: "INFINOX", role: "Product Designer · Contract", period: "2025 — н.в.", summary: "Crypto banking, trading platforms, design systems" },
+  { company: "NLPC", role: "Lead Product Designer", period: "2021 — н.в.", summary: "International client products for healthcare, EdTech and fintech" },
+  { company: "IT Smart Finance", role: "Product Designer", period: "2023-2025", summary: "Personal account, internal systems, investment products" },
+  { company: "Altessa Solution", role: "Senior UX/UI Designer", period: "2022-2023" },
+  { company: "Synergy Web", role: "Lead Designer", period: "2020-2021" },
+  { company: "Maslo Media", role: "Web Designer", period: "2019-2020" },
 ];
 
 export default async function LocaleHomePage({ params }: { params: Promise<Params> }) {
@@ -101,6 +97,7 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
         name: localizeRequired(data.settings.name, locale, fallbackSettings.name),
         role: localizeRequired(data.settings.role, locale, fallbackSettings.role),
         intro: localizeRequired(data.settings.intro, locale, fallbackSettings.intro),
+        heroMeta: localizeRequired(data.settings.heroMeta, locale, fallbackSettings.heroMeta || ""),
         heroImageDark: data.settings.heroImageDark,
         heroImageLight: data.settings.heroImageLight,
         availabilityStatus: localizeRequired(
@@ -109,6 +106,7 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
           fallbackSettings.availabilityStatus || "",
         ),
         footerNote: localizeRequired(data.settings.footerNote, locale, fallbackSettings.footerNote || ""),
+        cvFile: data.settings.cvFile,
       }
     : fallbackSettings;
 
@@ -118,6 +116,7 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
     title: localizeRequired(item.title, locale, item.slug),
     subtitle: localizeRequired(item.subtitle, locale, ""),
     tags: localizeRequired(item.tags, locale, []),
+    status: localizeRequired(item.status, locale, ""),
     coverImage: item.coverImage || (!hasCmsCases && item.slug === "trillions" ? trillionsCoverImage : undefined),
   }));
 
@@ -131,10 +130,7 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
     company: localizeRequired(item.company, locale, ""),
     role: localizeRequired(item.role, locale, ""),
     period: localizeRequired(item.period, locale, ""),
-  }));
-
-  const focus = (data.focus?.length ? data.focus : fallbackFocus).map((item) => ({
-    title: localizeRequired(item.title, locale, ""),
+    summary: localizeRequired(item.summary, locale, ""),
   }));
 
   return (
@@ -144,7 +140,6 @@ export default async function LocaleHomePage({ params }: { params: Promise<Param
       featuredCases={featuredCases}
       featuredShots={featuredShots}
       experience={experience}
-      focus={focus}
     />
   );
 }

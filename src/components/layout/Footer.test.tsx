@@ -20,9 +20,9 @@ test("renders primary footer contact actions", () => {
   expect(screen.getByRole("link", { name: /Написать в Telegram@veed_ux/i }).getAttribute("href")).toBe(
     "https://t.me/veed_ux",
   );
-  expect(screen.getByRole("link", { name: /На почтуredogdeev31@gmail.com/i }).getAttribute("href")).toBe(
+  expect(screen.getByRole("link", { name: /Написать на emailredogdeev31@gmail.com/i }).getAttribute("href")).toBe(
     "mailto:redogdeev31@gmail.com",
   );
+  expect(screen.getByRole("link", { name: /Открыть CVPDF/i }).getAttribute("href")).toBe("/ru/cv");
   expect(screen.queryByRole("link", { name: "Behance" })).toBeNull();
-  expect(screen.queryByRole("link", { name: "Download CV" })).toBeNull();
 });

@@ -2,7 +2,7 @@ import type { CaseBlock } from "@/types/content";
 
 type GoalMetrics = Extract<CaseBlock, { _type: "goalMetrics" }>;
 
-export function GoalMetricsBlock({ block }: { block: GoalMetrics }) {
+export function GoalMetricsBlock({ block, locale }: { block: GoalMetrics; locale: "ru" | "en" }) {
   return (
     <section
       className="container case-section motion-reveal"
@@ -14,10 +14,13 @@ export function GoalMetricsBlock({ block }: { block: GoalMetrics }) {
         padding: "76px 0",
       }}
     >
-      <p className="mono-label">ЦЕЛЬ И МЕТРИКИ</p>
+      <p className="mono-label">{locale === "ru" ? "ЦЕЛИ ПРОДУКТА И КРИТЕРИИ УСПЕХА" : "PRODUCT GOALS AND SUCCESS CRITERIA"}</p>
       <div>
         <p style={{ fontSize: 28, lineHeight: "36px", margin: 0, maxWidth: 760 }}>{block.goal}</p>
-        <div style={{ marginTop: 64 }}>
+        <p className="mono-label" style={{ marginTop: 64 }}>
+          {locale === "ru" ? "МЕТРИКИ ПОСЛЕ ЗАПУСКА" : "POST-LAUNCH METRICS"}
+        </p>
+        <div style={{ marginTop: 20 }}>
           {block.metrics.map((metric, index) => (
             <div
               key={`${metric.key}-${index}`}
