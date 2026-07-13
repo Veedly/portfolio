@@ -28,8 +28,8 @@ export function Footer({
       }
     : {
         eyebrow: "LET'S WORK TOGETHER",
-        title: "Open to Senior Product Designer opportunities",
-        description: "I am considering remote roles and international product teams.",
+        title: "Open to opportunities",
+        description: "Interested in remote roles with international product teams.",
         telegram: "Message on Telegram",
         email: "Send an email",
         cv: cvHref ? "Download CV PDF" : "View CV",
